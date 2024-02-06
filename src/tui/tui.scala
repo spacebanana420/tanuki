@@ -1,4 +1,4 @@
-package tui
+package tanuki.tui
 
 import java.io.File
 import scala.sys.process.*
@@ -11,7 +11,7 @@ def readUserInput(message: String = ""): String =
     println(message)
   readLine()
 
-def readUserInputSpawn(message: String = ""): String =
+def spawnAndRead(message: String = ""): String =
   if message != "" then
     print(s"\u001B[3J\u001B[1J\u001B[H$message")
   readLine()

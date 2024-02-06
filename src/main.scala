@@ -1,4 +1,6 @@
 package tanuki
 
+import tanuki.tui.*
+
 @main def main() =
-  println("It's empty here")
+  val ans = tui_title()
