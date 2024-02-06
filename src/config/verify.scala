@@ -9,7 +9,7 @@ def isConfigOK(cfg: List[String], games: List[String], datas: List[String]): Boo
   else
     false
 
-def check_paths(entries: List[String], isGame: Boolean, i: Int = 0): Boolean =
+private def check_paths(entries: List[String], isGame: Boolean, i: Int = 0): Boolean =
   def isPathCorrect(path: String): Boolean =
     if (isGame && File(path).isFile()) || (isGame == false && File(path).isDirectory()) then
       true

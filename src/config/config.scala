@@ -11,7 +11,7 @@ def readConfig(): List[String] =
     .getLines().toList
     .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=")) && x(0) != '#')
 
-def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
+private def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
   if i >= l.length || (i >= setting.length && setting != tmp) then
     value
   else if tmp == setting then
@@ -19,7 +19,7 @@ def getValue(l: String, setting: String, tmp: String = "", value: String = "", i
   else
     getValue(l, setting, tmp + l(i), value, i+1)
 
-def getValues(cfg: List[String], setting: String, vals: List[String] = List(), i: Int = 0): List[String] =
+private def getValues(cfg: List[String], setting: String, vals: List[String] = List(), i: Int = 0): List[String] =
   if i >= cfg.length then
     vals
   else
@@ -53,14 +53,3 @@ def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, firs
     parseEntry(entry, e1 + entry(i), e2, i+1, first)
   else
     parseEntry(entry, e1, e2 + entry(i), i+1, first)
-
-// def guessNames(paths: List[String]): List[String] =
-//   def getRelativePath(p: String, name: String = "", i: Int = 0): String =
-//     if i >= p.length then
-//       name
-//     else if p(i) == '/' || p(i) == '\\' then
-//       getRelativePath(p, "", i+1)
-//     else
-//       getRelativePath()
-//   val supported = (6 to 19).toList
-//   val supported_misc = List[Float](7.5)
