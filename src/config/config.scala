@@ -7,14 +7,9 @@ import scala.io.Source
 def configExists(): Boolean = File("config.txt").exists()
 
 def readConfig(): List[String] =
-  Source.fromFile("ideas.txt")
+  Source.fromFile("config.txt")
     .getLines().toList
-    .filter(x => x.length > 0 && x(0) != '#')
-
-def getGameEntries(): List[String] =
-  def filter(l: List[String], nl: List[String] = List(), i: Int = 0): List[String] =
-    if i >= l.length || l(i).contains("//DATA//") then
-  val cfg = readConfig()
+    .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=")) && x(0) != '#')
 
 def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
   if i >= l.length || (i >= setting.length && setting != tmp) then
@@ -36,8 +31,8 @@ def getValues(cfg: List[String], setting: String, vals: List[String] = List(), i
 
 
 
-def getEntries(cfg: List[String]): List[String] = getValues(cfg, "entry=")
-def getPaths(cfg: List[String]): List[String] = getValues(cfg, "path=")
+def getGames(cfg: List[String]): List[String] = getValues(cfg, "game=")
+def getDatas(cfg: List[String]): List[String] = getValues(cfg, "data=")
 def getCommand(cfg: List[String], i: Int = 0): String =
   if i >= cfg.length then
     ""
@@ -48,6 +43,16 @@ def getCommand(cfg: List[String], i: Int = 0): String =
     else
       getCommand(cfg, i+1)
 
+
+def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, first: Boolean = true): List[String] =
+  if i >= entry.length then
+    List(e1, e2)
+  else if entry(i) == ':' && first then
+    parseEntry(entry, e1, e2, i+1, false)
+  else if first then
+    parseEntry(entry, e1 + entry(i), e2, i+1, first)
+  else
+    parseEntry(entry, e1, e2 + entry(i), i+1, first)
 
 // def guessNames(paths: List[String]): List[String] =
 //   def getRelativePath(p: String, name: String = "", i: Int = 0): String =
