@@ -39,31 +39,52 @@ def tui_title() =
 
 
 def tui_noentries() =
-  val text = "No entries have been found!\nWould you like to configure Tanuki now? (y/n)"
-
+  val text = s"No entries have been found!\nWould you like to configure Tanuki now? $yellow(y/n)$default"
   val answer = spawnAndRead(text)
 
 def tui_configerror() =
-  val text = "There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file? (y/n)"
+  val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file? $yellow(y/n)$default"
   val answer = spawnAndRead(text)
   if answer != "yes" && answer != "y" then
     println("Quitting Tanuki...")
     exit()
   else
-    println("temp stuff")
-    //stuff here
+    tui_configure()
 
+def tui_configure(l: List[String] = List()): List[String] =
+  def addGame(): String =
+    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
+    val path = readUserInput("Type the full path to your game's executable")
+    s"game=$name:$path"
+  def addData(): String =
+    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10 replays)")
+    val path = readUserInput("Type the full path to your game's executable")
+    s"data=$name:$path"
+
+  val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
+  val answer = spawnAndRead(text)
+  if answer == "0" then
+    l
+  else if answer == "1" then
+    tui_configure(l :+ addGame())
+  else if answer == "2" then
+    tui_configure(l :+ addData())
+  else
+    tui_configure(l)
 
 def tui_play() =
   val games = getGames(readConfig())
-  val names = games.map(x => parseEntry(x)(0))
-  val paths = games.map(x => parseEntry(x)(1))
-  val text = getList(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
+  if games.length == 0 then
+    tui_noentries()
+  else
+    val names = games.map(x => parseEntry(x)(0))
+    val paths = games.map(x => parseEntry(x)(1))
+    val text = getList(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
 
-  val answer = readLoop(text, names.length)
-  if answer != 0 then
-    println(s"Launching ${names(answer-1)}\nGirls are now praying, please wait warmly...")
-    launchGame(paths(answer-1))
+    val answer = readLoop(text, names.length)
+    if answer != 0 then
+      println(s"Launching ${names(answer-1)}\nGirls are now praying, please wait warmly...")
+      launchGame(paths(answer-1))
 
 def tui_screenshots() =
   def chooseDir(path: String) =
@@ -85,13 +106,16 @@ def tui_screenshots() =
       screenshot_view(s"$path/${images(answer-1)}")
 
   val data = getDatas(readConfig())
-  val names = data.map(x => parseEntry(x)(0))
-  val paths = data.map(x => parseEntry(x)(1))
-  val text = getList(names)
+  if data.length == 0 then
+    tui_noentries()
+  else
+    val names = data.map(x => parseEntry(x)(0))
+    val paths = data.map(x => parseEntry(x)(1))
+    val text = getList(names)
 
-  val answer = readLoop(text, names.length)
-  if answer != 0 then
-    chooseDir(paths(answer-1))
+    val answer = readLoop(text, names.length)
+    if answer != 0 then
+      chooseDir(paths(answer-1))
 
 // def tui_data() =
 //   val data = getDatas(readConfig())

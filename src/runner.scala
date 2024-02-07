@@ -1,6 +1,7 @@
 package tanuki.runner
 
 import tanuki.config.*
+import tanuki.tui.*
 import java.io.File
 import scala.sys.process.*
 
@@ -18,8 +19,10 @@ def launchGame(path: String) =
     else
       Seq(cmd, path)
 
-  Process(cmdexec, File(parentpath)).!(ProcessLogger(line => ()))
-
+  val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
+  Thread.sleep(5000)
+  readUserInput("Press enter to close the game and return to the main menu")
+  game.destroy()
 
 //temporary solution
 def screenshot_view(path: String) =

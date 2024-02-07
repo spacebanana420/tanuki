@@ -12,9 +12,10 @@ def getTHData(path: String): List[String] =
 
 
 def getScreenshotDirs(path: String): List[String] =
-  val raw = File(path).list().toList.filter(x => File(s"$path/$x").isDirectory())
-  val dirs = raw.filter(x => isScreenshotDir(s"$path/$x"))
-  dirs
+  File(path)
+    .list()
+    .toList
+    .filter(x => File(s"$path/$x").isDirectory() && isScreenshotDir(s"$path/$x"))
 
 private def isScreenshotDir(path: String): Boolean =
   def hasImageFiles(l: Array[String], i: Int = 0): Boolean =

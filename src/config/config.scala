@@ -9,9 +9,12 @@ def configExists(): Boolean = File("config.txt").exists()
 def createConfig() = File("config.txt")
 
 def readConfig(): List[String] =
-  Source.fromFile("config.txt")
+  val src = Source.fromFile("config.txt")
+  val cfg = src
     .getLines().toList
     .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=") || x.contains("use_steam-run=")) && x(0) != '#')
+  src.close()
+  cfg
 
 private def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
   if i >= l.length || (i >= setting.length && setting != tmp) then
