@@ -3,7 +3,11 @@ package tanuki.config
 import java.io.File
 import scala.io.Source
 
-def isConfigOK(cfg: List[String], games: List[String], datas: List[String]): Boolean =
+def isConfigOk(): Boolean =
+  val cfg = readConfig()
+  val games = getGames(cfg)
+  val datas = getDatas(cfg)
+
   if check_paths(games, true) && check_paths(datas, false) then
     true
   else

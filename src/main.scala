@@ -5,5 +5,8 @@ import tanuki.config.*
 
 @main def main() =
   createConfig()
-  val ans = tui_title()
+  if isConfigOk() then
+    tui_title()
+  else
+    tui_configerror()
 

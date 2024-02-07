@@ -41,7 +41,17 @@ def tui_title() =
 def tui_noentries() =
   val text = "No entries have been found!\nWould you like to configure Tanuki now? (y/n)"
 
-  val answer = spawnAndRead()
+  val answer = spawnAndRead(text)
+
+def tui_configerror() =
+  val text = "There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file? (y/n)"
+  val answer = spawnAndRead(text)
+  if answer != "yes" && answer != "y" then
+    println("Quitting Tanuki...")
+    exit()
+  else
+    println("temp stuff")
+    //stuff here
 
 
 def tui_play() =
