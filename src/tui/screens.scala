@@ -12,14 +12,13 @@ def tui_title() =
   val text = s"$yellow[Tanuki Launcher]$default\nVersion 0.1\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Manage data\n${green}3:$default Configure launcher\n\n"
   while true do
     val answer = answerToNumber(spawnAndRead(text))
-    if answer == 0 then
-      exit()
-    else
-      answer match
-        case 1 =>
-          tui_play()
-        case 2 =>
-        case 3 =>
+    answer match
+      case 0 =>
+        exit()
+      case 1 =>
+        tui_play()
+      case 2 =>
+      case 3 =>
 
 
 def tui_noentries() =
