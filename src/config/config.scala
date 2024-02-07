@@ -6,10 +6,12 @@ import scala.io.Source
 
 def configExists(): Boolean = File("config.txt").exists()
 
+def createConfig() = File("config.txt")
+
 def readConfig(): List[String] =
   Source.fromFile("config.txt")
     .getLines().toList
-    .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=")) && x(0) != '#')
+    .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=") || x.contains("use_steam-run=")) && x(0) != '#')
 
 private def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
   if i >= l.length || (i >= setting.length && setting != tmp) then
@@ -29,20 +31,26 @@ private def getValues(cfg: List[String], setting: String, vals: List[String] = L
     else
       getValues(cfg, setting, vals, i+1)
 
+private def getFirstValue(cfg: List[String], setting: String, i: Int = 0): String =
+  if i >= cfg.length then
+    ""
+  else
+    val value = getValue(cfg(i), setting)
+    if value != "" then
+      value
+    else
+      getFirstValue(cfg, setting, i+1)
 
 
 def getGames(cfg: List[String]): List[String] = getValues(cfg, "game=")
 def getDatas(cfg: List[String]): List[String] = getValues(cfg, "data=")
-def getCommand(cfg: List[String], i: Int = 0): String =
-  if i >= cfg.length then
-    ""
-  else
-    val value = getValue(cfg(i), "command=")
-    if value != "" then
-      value
-    else
-      getCommand(cfg, i+1)
+def getCommand(cfg: List[String]): String = getFirstValue(cfg, "command=")
 
+def steamRunEnabled(cfg: List[String]): Boolean =
+  if getFirstValue(cfg, "use_steam-run=") == "true" then
+    true
+  else
+    false
 
 def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, first: Boolean = true): List[String] =
   if i >= entry.length then
