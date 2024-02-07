@@ -19,3 +19,10 @@ def launchGame(path: String) =
       Seq(cmd, path)
 
   Process(cmdexec, File(parentpath)).!(ProcessLogger(line => ()))
+
+
+//temporary solution
+def screenshot_view(path: String) =
+  val cmdexec = Seq("ffplay", path)
+  val parentpath = File(path).getParent()
+  Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
