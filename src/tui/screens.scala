@@ -41,6 +41,9 @@ def tui_title() =
 def tui_noentries() =
   val text = s"No entries have been found!\nWould you like to configure Tanuki now? $yellow(y/n)$default"
   val answer = spawnAndRead(text)
+  if answer == "y" || answer == "yes" then
+    val cfg = tui_configure()
+    writeConfig(cfg, true)
 
 def tui_configerror() =
   val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file? $yellow(y/n)$default"
@@ -49,28 +52,50 @@ def tui_configerror() =
     println("Quitting Tanuki...")
     exit()
   else
-    tui_configure()
+    val cfg = tui_configure()
+    writeConfig(cfg, false)
 
-def tui_configure(l: List[String] = List()): List[String] =
+def tui_configure(): List[String] =
   def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
     val path = readUserInput("Type the full path to your game's executable")
     s"game=$name:$path"
+
   def addData(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10 replays)")
     val path = readUserInput("Type the full path to your game's executable")
     s"data=$name:$path"
 
-  val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
-  val answer = spawnAndRead(text)
-  if answer == "0" then
-    l
-  else if answer == "1" then
-    tui_configure(l :+ addGame())
-  else if answer == "2" then
-    tui_configure(l :+ addData())
+  def menu(l: List[String] = List()): List[String] =
+    val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
+    spawnAndRead(text) match
+      case "0" =>
+        l
+      case "1" =>
+        menu(l :+ addGame())
+      case "2" =>
+        menu(l :+ addData())
+      case _ =>
+        menu(l)
+
+  val cfg = menu()
+  val command =
+    val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
+    if ans != "" then
+      s"command=$ans"
+    else
+      ""
+  val usesteamrun =
+    val yn = readUserInput(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command? $yellow(y/n)$default")
+    if yn == "yes" || yn == "y" then
+      true
+    else
+      false
+  if usesteamrun then
+    List(command, "use_steam-run=true") ++ cfg
   else
-    tui_configure(l)
+    command :: cfg
+
 
 def tui_play() =
   val games = getGames(readConfig())

@@ -18,7 +18,7 @@ Tanuki requires the following to work:
 * Scala 3 or Java 19
 * FFmpeg (optional, for screenshot functionality)
 
-Launcher's support extends to all operating systems with WINE support.
+Launcher's support extends to all operating systems with WINE support + Windows.
 
 Documentation here is unfinished for now.
 
@@ -32,7 +32,7 @@ command=wine
 ```
 I personally recommend you use Wine-GE, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
 
-If you download a custom WINE build, you can use it to launch your games with its absolute path:
+If you download a custom WINE build, you can use it to launch your games with its absolute path. Assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
 command=/path/to/custom-wine/bin/wine
 ```
@@ -51,25 +51,28 @@ use_steam-run=true
 
 You need Scala 3 to build Tanuki from source. You can use the scalac compiler or scala-cli
 
-### Using scalac
+## Using scalac
 
 ```
 scalac src/*.scala src/*/*.scala -d tanuki.jar
 ```
 You can now run this JAR with Scala or scala-cli
 
-### Using scala-cli
+## Using scala-cli
 
+### Option 1
 ```
 scala-cli --power package src --library -o tanuki.jar
 ```
 Only scala-cli can run this JAR
 
+### Option 2
 ```
 scala-cli --power package src --assembly --preamble=false -o tanuki-fat.jar
 ```
 You can run this JAR with Java.
 
+### Option 3
 ```
 scala-cli compile src
 ```
