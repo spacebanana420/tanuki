@@ -5,6 +5,7 @@ import tanuki.config.*
 import tanuki.data.*
 import tanuki.quotes.*
 
+import ffscala.*
 import java.io.File
 import scala.sys.exit
 
@@ -46,6 +47,10 @@ def tui_title() =
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
+
+def tui_noffmpeg() =
+  val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
+  readUserInput(text)
 
 def tui_noentries() =
   val text = s"No entries have been found!\nWould you like to configure Tanuki now?"
@@ -143,17 +148,20 @@ def tui_chooseScreenshot(datapath: String): String =
     ""
 
 def tui_ssview() =
-  val data = getDatas(readConfig())
-  if data.length == 0 then
-    tui_noentries()
-  else
-    val names = data.map(x => parseEntry(x)(0))
-    val paths = data.map(x => parseEntry(x)(1))
+  if checkFFmpeg() then
+    val data = getDatas(readConfig())
+    if data.length == 0 then
+      tui_noentries()
+    else
+      val names = data.map(x => parseEntry(x)(0))
+      val paths = data.map(x => parseEntry(x)(1))
 
-    val answer = readLoop_list(names)
-    if answer != 0 then
-      val ssimage = tui_chooseScreenshot(paths(answer-1))
-      if ssimage != "" then screenshot_view(ssimage)
+      val answer = readLoop_list(names)
+      if answer != 0 then
+        val ssimage = tui_chooseScreenshot(paths(answer-1))
+        if ssimage != "" then screenshot_view(ssimage)
+  else
+    tui_noffmpeg()
 
 def tui_ssoptions(image: String) =
   val answer = readLoop_list(List("View", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")

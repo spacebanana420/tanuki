@@ -6,11 +6,15 @@ The launcher uses a TUI interface, and is very simple to use and configure. You 
 
 You can also view screenshots.
 
-#### This project is very newborn and the base functionality is unfinished.
+I plan to add screenshot conversion and cropping, data backup, screen recording and more to Tanuki!
 
 # Download
 
-There are no releases yet to download.
+Download the latest instance of Tanuki in the [releases page](https://github.com/spacebanana420/tanuki/releases)
+
+If you have Scala 3 in your system, download ```tanuki.jar```
+
+If you just have Java in your system, download ```tanuki-java.jar```
 
 # Requirements & how to use
 
@@ -20,7 +24,35 @@ Tanuki requires the following to work:
 
 Launcher's support extends to all operating systems with WINE support + Windows.
 
-Documentation here is unfinished for now.
+Depending on the version of Tanuki you downloaded, you can launch it with the commands ```scala``` or ```java -jar```
+
+To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
+
+You can configure this file from within the launcher, or you can manually write your config text file.
+
+Lines in the config file that start with "#" or don't start with an entry option are ignored.
+
+### Supported options:
+
+* ```game``` - Add a game entry, in the format of this style: ```game=name:/path/to/game.exe```
+  * The path must lead to a file
+* ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are: ```data=name:/path/to/data/```
+  * The path must lead to a directory
+* ```command``` - Add a command entry to launch the games with: ```command=programname``` or ```command=/path/to/program```
+  * The command does not support CLI arguments, it's just the program's name or the path to it.
+  * Only 1 command is supported and is used for all game entries.
+  * This is especially useful for **people running operating systems that are not Windows**, you can use WINE to launch Touhou.
+* ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
+  * The package "steam-run" must be installed in your system.
+
+### Config example:
+
+```
+command=wine
+
+game=Touhou 7:/path/to/touhou 7/th7.exe
+data=Touhou 7 Data:/path/to/touhou 7
+```
 
 ## Running on Linux, MacOS, FreeBSD, etc
 
@@ -54,7 +86,7 @@ You need Scala 3 to build Tanuki from source. You can use the scalac compiler or
 ## Using scalac
 
 ```
-scalac src/*.scala src/*/*.scala -d tanuki.jar
+scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
 ```
 You can now run this JAR with Scala or scala-cli
 
