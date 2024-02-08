@@ -1,12 +1,13 @@
 package tanuki.config
 
 import java.io.File
+import java.io.FileOutputStream
 import scala.io.Source
 
 
 def configExists(): Boolean = File("config.txt").exists()
 
-def createConfig() = File("config.txt")
+def createConfig() = FileOutputStream("config.txt")
 
 def readConfig(): List[String] =
   val src = Source.fromFile("config.txt")

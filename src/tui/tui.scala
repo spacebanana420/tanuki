@@ -26,7 +26,14 @@ def spawnAndRead(message: String = ""): String =
 def spawnScreen(ui: String) =
   print(s"\u001B[3J\u001B[1J\u001B[H$ui")
 
-// def clear() = print("\u001B[H\u001B[2J")
+def askPrompt(ui: String): Boolean =
+  val yellow = foreground("yellow")
+  val default = foreground("default")
+  val answer = spawnAndRead(s"$ui ${yellow}(y/n)$default\n")
+  if answer == "yes" || answer == "y" then
+    true
+  else
+    false
 
 def clear() = print("\u001B[3J\u001B[1J\u001B[H")
 

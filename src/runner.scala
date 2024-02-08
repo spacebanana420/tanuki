@@ -20,8 +20,8 @@ def launchGame(path: String) =
       Seq(cmd, path)
 
   val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
-  Thread.sleep(5000)
-  readUserInput("Press enter to close the game and return to the main menu")
+  Thread.sleep(4000)
+  readUserInput("\nPress enter to return to the main menu")
   game.destroy()
 
 //temporary solution

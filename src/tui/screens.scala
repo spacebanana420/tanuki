@@ -25,7 +25,7 @@ private def readLoop(txt: String, maxval: Int): Int =
     readLoop(txt, maxval)
 
 def tui_title() =
-  val text = s"$yellow[Tanuki Launcher]$default\nVersion 0.1\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Manage screenshotsa\n${green}3:$default Configure launcher\n\n"
+  val text = s"$yellow[Tanuki Launcher]$default\nVersion 0.1\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Manage screenshots\n${green}3:$default Configure launcher\n\n"
   while true do
     val answer = readLoop(text, 3)
     answer match
@@ -36,19 +36,21 @@ def tui_title() =
       case 2 =>
         tui_screenshots()
       case 3 =>
-
+        val cfg = tui_configure()
+        val overwrite = askPrompt("Would you like to overwrite the old configuration?")
+        writeConfig(cfg, overwrite)
 
 def tui_noentries() =
-  val text = s"No entries have been found!\nWould you like to configure Tanuki now? $yellow(y/n)$default"
-  val answer = spawnAndRead(text)
-  if answer == "y" || answer == "yes" then
+  val text = s"No entries have been found!\nWould you like to configure Tanuki now?"
+  val answer = askPrompt(text)
+  if answer then
     val cfg = tui_configure()
     writeConfig(cfg, true)
 
 def tui_configerror() =
-  val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file? $yellow(y/n)$default"
-  val answer = spawnAndRead(text)
-  if answer != "yes" && answer != "y" then
+  val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
+  val answer = askPrompt(text)
+  if answer then
     println("Quitting Tanuki...")
     exit()
   else
@@ -78,6 +80,16 @@ def tui_configure(): List[String] =
       case _ =>
         menu(l)
 
+  def askSteamRun(): Boolean =
+    if File("/nix/store").isDirectory() then
+      val yn = askPrompt(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command?")
+      if yn then
+        true
+      else
+        false
+    else
+      false
+
   val cfg = menu()
   val command =
     val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
@@ -85,13 +97,7 @@ def tui_configure(): List[String] =
       s"command=$ans"
     else
       ""
-  val usesteamrun =
-    val yn = readUserInput(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command? $yellow(y/n)$default")
-    if yn == "yes" || yn == "y" then
-      true
-    else
-      false
-  if usesteamrun then
+  if askSteamRun() then
     List(command, "use_steam-run=true") ++ cfg
   else
     command :: cfg
@@ -108,7 +114,7 @@ def tui_play() =
 
     val answer = readLoop(text, names.length)
     if answer != 0 then
-      println(s"Launching ${names(answer-1)}\nGirls are now praying, please wait warmly...")
+      println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
       launchGame(paths(answer-1))
 
 def tui_screenshots() =
