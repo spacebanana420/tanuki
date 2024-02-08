@@ -34,7 +34,7 @@ private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default, version 0.1\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
+    val text = s"$yellow[Tanuki Launcher]$default version 0.1.1\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
     val answer = readLoop(text, 3)
     answer match
       case 0 =>
