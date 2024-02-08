@@ -3,6 +3,8 @@ package tanuki.tui
 import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
+import tanuki.quotes.*
+
 import java.io.File
 import scala.sys.exit
 
@@ -24,9 +26,14 @@ private def readLoop(txt: String, maxval: Int): Int =
   else
     readLoop(txt, maxval)
 
+private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
+  val txt_list = getList(l, title)
+  readLoop(txt_list, l.length)
+
 def tui_title() =
-  val text = s"$yellow[Tanuki Launcher]$default\nVersion 0.1\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Manage screenshots\n${green}3:$default Configure launcher\n\n"
   while true do
+    val quote = getRandomQuote()
+    val text = s"$yellow[Tanuki Launcher]$default, version 0.1\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
     val answer = readLoop(text, 3)
     answer match
       case 0 =>
@@ -34,7 +41,7 @@ def tui_title() =
       case 1 =>
         tui_play()
       case 2 =>
-        tui_screenshots()
+        tui_ssview()
       case 3 =>
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
@@ -110,43 +117,54 @@ def tui_play() =
   else
     val names = games.map(x => parseEntry(x)(0))
     val paths = games.map(x => parseEntry(x)(1))
-    val text = getList(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
 
-    val answer = readLoop(text, names.length)
+    val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
       launchGame(paths(answer-1))
 
-def tui_screenshots() =
-  def chooseDir(path: String) =
-    val dirs = getScreenshotDirs(path)
-    val text = getList(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
-
-    val answer = readLoop(text, dirs.length)
-    if answer != 0 then
-      chooseScreenshot(s"$path/${dirs(answer-1)}")
-
-  def chooseScreenshot(path: String) =
+def tui_chooseScreenshot(datapath: String): String =
+  def file(path: String) =
     val images = File(path)
       .list()
       .toList
       .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
-    val text = getList(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
-    val answer = readLoop(text, images.length)
+    val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
-      screenshot_view(s"$path/${images(answer-1)}")
+      s"$path/${images(answer-1)}"
+    else
+      ""
 
+  val dirs = getScreenshotDirs(datapath)
+  val answer = readLoop_list(dirs, s"The following screenshot folders in $datapath were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
+  if answer != 0 then
+    file(s"$datapath/${dirs(answer-1)}")
+  else
+    ""
+
+def tui_ssview() =
   val data = getDatas(readConfig())
   if data.length == 0 then
     tui_noentries()
   else
     val names = data.map(x => parseEntry(x)(0))
     val paths = data.map(x => parseEntry(x)(1))
-    val text = getList(names)
 
-    val answer = readLoop(text, names.length)
+    val answer = readLoop_list(names)
     if answer != 0 then
-      chooseDir(paths(answer-1))
+      val ssimage = tui_chooseScreenshot(paths(answer-1))
+      if ssimage != "" then screenshot_view(ssimage)
+
+def tui_ssoptions(image: String) =
+  val answer = readLoop_list(List("View", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
+  if answer == 1 then
+    screenshot_view(image)
+  else if answer == 2 then
+    println("a") //temp
+    //tui_sscrop(image)
+    //finish
+
+// def tui_sscrop(image: String) =
 
 // def tui_data() =
 //   val data = getDatas(readConfig())
