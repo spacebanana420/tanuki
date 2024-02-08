@@ -4,7 +4,8 @@ import tanuki.tui.*
 import tanuki.config.*
 
 @main def main() =
-  createConfig()
+  if !configExists() then
+    createConfig()
   if isConfigOk() then
     tui_title()
   else
