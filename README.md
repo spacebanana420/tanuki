@@ -24,6 +24,8 @@ Tanuki requires the following to work:
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.
 
+[More information on platform support here](doc/platforms.md)
+
 # Configuration
 
 [Full configuration information here](doc/config.md)
@@ -74,7 +76,7 @@ use_steam-run=true
 
 # Compile from source
 
-You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can use the scalac compiler or scala-cli
+You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can use the scalac compiler or scala-cli.
 
 You can compile Tanuki directly with scalac this way:
 
@@ -88,5 +90,5 @@ For more information and alternatives on compiling Tanuki, check the link below.
 [Compiling Tanuki from source](doc/compile.md)
 
 <p align="center">
-<img src="images/youmu.png" width="250"/>
+<img src="images/youmu.png" width="270"/>
 </p>
