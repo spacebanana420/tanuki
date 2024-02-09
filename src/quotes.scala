@@ -34,7 +34,16 @@ def getRandomQuote(): String =
     "\"'Twas a rousing hurlyburly. Thou hast mine gratitude!\" ~ Mononobe no Futo, Touhou 13",
     "\"Didn't you sense that the dream is becoming real?\" ~ Doremy Sweet, Touhou 15",
     "\"Oh, I'm so sorry. I forgot.\" ~ Chimata Tenkyuu, Touhou 18",
-    "\"Sorry, but I'm afraid that I'm already half-dead\" ~ Youmu Konpaku, Touhou 13"
+    "\"Sorry, but I'm afraid that I'm already half-dead.\" ~ Youmu Konpaku, Touhou 13",
+    "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
+    "\"Well... maybe I'm still a little crazy.\" ~ Reisen Udongein Inaba, Touhou 15",
+    "\"If I had to say, I think I'd be the one making people cry, y'know~?\" ~ Clownpiece, Touhou 15",
+    "\"Anyways, have you seen a cat around these parts, by any chance?\" ~ Ran Yakumo, Touhou 7",
+    "\"Th-the shrine maiden!? Oh, how did I run into this menace.\" ~ Nazrin, Touhou 19",
+    "\"Well, I'm not so rusty that I'd lose to a mouse.\" ~ Marisa Kirisame, Touhou 19",
+    "\"Why are all shrine maidens so violent?\" ~ Aunn Komano, Touhou 19",
+    "\"But from now on, I'll be following miss Suika's advice and get you to scold me.\" ~ Hisami Yomotsu, Touhou 19",
+    "\"Dying's no good. Anything but that.\" ~ Yoshika Miyako, Touhou 13"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)
