@@ -59,15 +59,17 @@ The ```game``` and ```data``` entries require a name and a path, separated by ``
 
 ## Running on Linux, MacOS, FreeBSD, etc
 
-Tanuki is cross-platform, although the Touhou games are distributed for the Windows operating system. If you are not running Windows, you can run Touhou with WINE.
+Tanuki is cross-platform, but the Touhou games are only distributed for Windows. If you are not running Windows, you can run Touhou with WINE.
 
 To run your Touhou games with WINE, add the following setting to your config.txt:
 ```
 command=wine
 ```
-I personally recommend you download and use Wine-GE, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
+This setting will make Tanuki run your games with your system's wine. Note that it must then be installed. You can also add a custom wine fork that you downloaded by specifying the path to it.
 
-If you download a custom WINE build, you can use it to launch your games with its absolute path. Assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
+I personally recommend you download and use Wine-GE instead, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
+
+If you download a custom WINE build,assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
 command=/path/to/custom-wine/bin/wine
 ```
