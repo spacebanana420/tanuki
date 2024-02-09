@@ -18,6 +18,10 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
 
+The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
+
+Tanuki only assumes the first instances of ```command``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+
 ### Config example:
 
 ```
@@ -41,7 +45,7 @@ This setting will make Tanuki run your games with your system's wine. Note that 
 
 I personally recommend you download and use Wine-GE instead, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
 
-If you download a custom WINE build,assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
+If you download a custom WINE build, assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
 command=/path/to/custom-wine/bin/wine
 ```

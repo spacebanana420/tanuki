@@ -44,7 +44,8 @@ def getRandomQuote(): String =
     "\"Why are all shrine maidens so violent?\" ~ Aunn Komano, Touhou 19",
     "\"But from now on, I'll be following miss Suika's advice and get you to scold me.\" ~ Hisami Yomotsu, Touhou 19",
     "\"Dying's no good. Anything but that.\" ~ Yoshika Miyako, Touhou 13",
-    "\"Do you hate hell? If so, then losing to me would be a bit...\" ~ Hisami Yomotsu, Touhou 19"
+    "\"Do you hate hell? If so, then losing to me would be a bit...\" ~ Hisami Yomotsu, Touhou 19",
+    "\"Everywhere I go, flowers, flowers, and more flowers.\" ~ Yuuka Kazami, Touhou 9"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)
