@@ -26,7 +26,7 @@ Tanuki's OS support extends to all operating systems with WINE support + Windows
 
 # Configuration
 
-[Full configuration description here](config-doc.md)
+[Full configuration information here](doc/config.md)
 
 To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
 
@@ -66,11 +66,7 @@ If you download a custom WINE build, assuming the path to your custom wine build
 command=/path/to/custom-wine/bin/wine
 ```
 
-## Running on NixOS
-
-Custom WINE builds are linked against glibc and other libraries that are located in common Linux paths. NixOS, however, does not use these traditional paths, making these binaries incompatible by default.
-
-To run a custom WINE build on NixOS, install ```steam-run``` on your system and add the following setting to your config.txt:
+Due to typical dynamic-linking, to run a custom WINE build on NixOS, install ```steam-run``` on your system and add the following setting to your config.txt:
 ```
 use_steam-run=true
 ```
@@ -89,23 +85,7 @@ You can now run this JAR with Scala or scala-cli
 
 ## Using scala-cli
 
-### Option 1
-```
-scala-cli --power package src --library -o tanuki.jar
-```
-Only scala-cli can run this JAR
-
-### Option 2
-```
-scala-cli --power package src --assembly --preamble=false -o tanuki-fat.jar
-```
-You can run this JAR with Java.
-
-### Option 3
-```
-scala-cli compile src
-```
-The compiled software will be in a hidden folder inside "src". Run ```scala-cli src``` to run Tanuki.
+[Compiling Tanuki from source](doc/compile.md)
 
 <p align="center">
 <img src="images/youmu.png" width="250"/>
