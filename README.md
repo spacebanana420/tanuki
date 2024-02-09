@@ -1,12 +1,12 @@
 # Tanuki Launcher
 
-Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports the games from Touhou 6 onwards.
+Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards.
 
 The launcher uses a TUI interface, and is very simple to use and configure. You can add your games and game data (screenshots, etc) to your configuration list. It's very convenient to launch a game once your configuration is done.
 
-You can also view screenshots.
+You can also view screenshots and compress them into PNG copies.
 
-I plan to add screenshot conversion and cropping, data backup, screen recording and more to Tanuki!
+I plan to add screenshot cropping, data backup, screen recording and more to Tanuki!
 
 # Download
 
@@ -36,10 +36,10 @@ Lines in the config file that start with "#" or don't start with an entry option
 
 ### Supported options:
 
-* ```game``` - Add a game entry, in the format of this style: ```game=name:/path/to/game.exe```
-  * The path must lead to a file
-* ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are: ```data=name:/path/to/data/```
-  * The path must lead to a directory
+* ```game``` - Add a Touhou game entry.
+  * The path must lead to a file.
+* ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
+  * The path must lead to a directory.
 * ```command``` - Add a command entry to use a program to launch the games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
@@ -55,6 +55,8 @@ game=Touhou 7:/path/to/touhou 7/th7.exe
 data=Touhou 7 Data:/path/to/touhou 7
 ```
 
+The ```game``` and ```data``` entries require a name and a path, separated by ```:```.
+
 ## Running on Linux, MacOS, FreeBSD, etc
 
 Tanuki is cross-platform, although the Touhou games are distributed for the Windows operating system. If you are not running Windows, you can run Touhou with WINE.
@@ -63,7 +65,7 @@ To run your Touhou games with WINE, add the following setting to your config.txt
 ```
 command=wine
 ```
-I personally recommend you use Wine-GE, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
+I personally recommend you download and use Wine-GE, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
 
 If you download a custom WINE build, you can use it to launch your games with its absolute path. Assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
@@ -72,7 +74,7 @@ command=/path/to/custom-wine/bin/wine
 
 ## Running on NixOS
 
-Custom WINE builds are linked against glibc and other libraries that are located in common Linux paths. NixOS, however, does not use these traditional paths, making these binaries incompatible by default
+Custom WINE builds are linked against glibc and other libraries that are located in common Linux paths. NixOS, however, does not use these traditional paths, making these binaries incompatible by default.
 
 To run a custom WINE build on NixOS, install ```steam-run``` on your system and add the following setting to your config.txt:
 ```
