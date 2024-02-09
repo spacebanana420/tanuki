@@ -34,7 +34,7 @@ private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.1.1\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
+    val text = s"$yellow[Tanuki Launcher]$default version 0.2\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
     val answer = readLoop(text, 3)
     answer match
       case 0 =>
@@ -48,16 +48,24 @@ def tui_title() =
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
 
-def tui_noffmpeg() =
-  val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
-  readUserInput(text)
+def tui_noffmpeg(): Boolean =
+  if !checkFFmpeg() then
+    val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
+    pressToContinue(text)
+    true
+  else
+    false
 
-def tui_noentries() =
-  val text = s"No entries have been found!\nWould you like to configure Tanuki now?"
-  val answer = askPrompt(text)
-  if answer then
-    val cfg = tui_configure()
-    writeConfig(cfg, true)
+def tui_noentries(entries: List[String]): Boolean =
+  if entries.length == 0 then
+    val text = s"No entries have been found!\nWould you like to configure Tanuki now?"
+    val answer = askPrompt(text)
+    if answer then
+      val cfg = tui_configure()
+      writeConfig(cfg, true)
+    true
+  else
+    false
 
 def tui_configerror() =
   val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
@@ -117,9 +125,7 @@ def tui_configure(): List[String] =
 
 def tui_play() =
   val games = getGames(readConfig())
-  if games.length == 0 then
-    tui_noentries()
-  else
+  if !tui_noentries(games) then
     val names = games.map(x => parseEntry(x)(0))
     val paths = games.map(x => parseEntry(x)(1))
 
@@ -128,51 +134,111 @@ def tui_play() =
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
       launchGame(paths(answer-1))
 
-def tui_chooseScreenshot(datapath: String): String =
-  def file(path: String) =
-    val images = File(path)
-      .list()
-      .toList
-      .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
-    val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
-    if answer != 0 then
-      s"$path/${images(answer-1)}"
-    else
-      ""
+// def tui_chooseScreenshot(datapath: String): String =
+//   def file(path: String) =
+//     val images = File(path)
+//       .list()
+//       .toList
+//       .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
+//     val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
+//     if answer != 0 then
+//       s"$path/${images(answer-1)}"
+//     else
+//       ""
+//
+//   val dirs = getScreenshotDirs(datapath)
+//   val answer = readLoop_list(dirs, s"The following screenshot folders in $datapath were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
+//   if answer != 0 then
+//     file(s"$datapath/${dirs(answer-1)}")
+//   else
+//     ""
 
-  val dirs = getScreenshotDirs(datapath)
-  val answer = readLoop_list(dirs, s"The following screenshot folders in $datapath were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
+def tui_ssentry(manualdata: List[String] = List()): String =
+  val datas =
+    if manualdata == List() then
+      getDatas(readConfig())
+    else
+      manualdata
+  val names = datas.map(x => parseEntry(x)(0))
+  val paths = datas.map(x => parseEntry(x)(1))
+
+  val answer = readLoop_list(names)
   if answer != 0 then
-    file(s"$datapath/${dirs(answer-1)}")
+    paths(answer-1)
   else
     ""
 
-def tui_ssview() =
-  if checkFFmpeg() then
-    val data = getDatas(readConfig())
-    if data.length == 0 then
-      tui_noentries()
-    else
-      val names = data.map(x => parseEntry(x)(0))
-      val paths = data.map(x => parseEntry(x)(1))
 
-      val answer = readLoop_list(names)
-      if answer != 0 then
-        val ssimage = tui_chooseScreenshot(paths(answer-1))
-        if ssimage != "" then screenshot_view(ssimage)
+def tui_ssdir(path: String): String =
+  val dirs = getScreenshotDirs(path)
+  val answer = readLoop_list(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
+  if answer != 0 then
+    s"$path/${dirs(answer-1)}"
   else
-    tui_noffmpeg()
+    ""
 
-def tui_ssoptions(image: String) =
-  val answer = readLoop_list(List("View", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
+def tui_ssimage(path: String): String =
+  val dir = tui_ssdir(path)
+  if dir != "" then
+    val images = listScreenshots(dir)
+    val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
+    if answer != 0 then
+      s"$dir/${images(answer-1)}"
+    else
+      ""
+  else
+    ""
+
+//wrap
+def tui_ssview() =
+  val datas = getDatas(readConfig())
+  val entry = tui_ssentry(datas)
+
+  if !tui_noffmpeg() && !tui_noentries(datas) then
+    if entry != "" then
+      val ssimage = tui_ssimage(entry)
+      if ssimage != "" then screenshot_view(ssimage)
+
+//incompatible with the other functions, not using for now
+def tui_ssoptions(path: String, image: String) =
+  val answer = readLoop_list(List("Convert", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
   if answer == 1 then
-    screenshot_view(image)
+    println("a") //finish
+    //tui_ssconv(path, image)
   else if answer == 2 then
     println("a") //temp
     //tui_sscrop(image)
     //finish
 
-// def tui_sscrop(image: String) =
+//test
+def tui_ssconv(path: String) =
+  def reverse(s: String, i: Int, ns: String = ""): String =
+    if i <= 0 then
+      ns
+    else
+      reverse(s, i+1, ns + s(i))
+  def changeExtension(name: String, i: Int, s: String = "", copy: Boolean = false): String =
+    if i <= 0 then
+      reverse(s, s.length-1) + ".png"
+    else if name(i) == '.' then
+      changeExtension(name, i-1, s, true)
+    else if copy then
+      changeExtension(name, i-1, s + name(i), copy)
+    else
+      changeExtension(name, i-1, s, copy)
+
+  println("Converting all BMP screenshots into PNG copies")
+  val pngdir = File(s"$path/PNG")
+  if !pngdir.isDirectory() then pngdir.mkdir()
+
+  val imgs = listScreenshots(path, false)
+  for x <- imgs do
+    val newname = changeExtension(x, x.length-1)
+    encode(s"$path/$x", s"$path/PNG/$newname")
+  pressToContinue("All screenshots have been converted and moved into a directory named \"PNG\"!")
+
+//def tui_sscrop(image: String) =
+
 
 // def tui_data() =
 //   val data = getDatas(readConfig())

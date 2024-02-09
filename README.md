@@ -1,6 +1,6 @@
 # Tanuki Launcher
 
-Tanuki Launcher is a cross-platform launcher for the Touhou Project games.
+Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports the games from Touhou 6 onwards.
 
 The launcher uses a TUI interface, and is very simple to use and configure. You can add your games and game data (screenshots, etc) to your configuration list. It's very convenient to launch a game once your configuration is done.
 
@@ -38,10 +38,9 @@ Lines in the config file that start with "#" or don't start with an entry option
   * The path must lead to a file
 * ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are: ```data=name:/path/to/data/```
   * The path must lead to a directory
-* ```command``` - Add a command entry to launch the games with: ```command=programname``` or ```command=/path/to/program```
-  * The command does not support CLI arguments, it's just the program's name or the path to it.
+* ```command``` - Add a command entry to use a program to launch the games with.
+  * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
-  * This is especially useful for **people running operating systems that are not Windows**, you can use WINE to launch Touhou.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
 
@@ -81,7 +80,7 @@ use_steam-run=true
 
 # Compile from source
 
-You need Scala 3 to build Tanuki from source. You can use the scalac compiler or scala-cli
+You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can use the scalac compiler or scala-cli
 
 ## Using scalac
 
@@ -109,3 +108,7 @@ You can run this JAR with Java.
 scala-cli compile src
 ```
 The compiled software will be in a hidden folder inside "src". Run ```scala-cli src``` to run Tanuki.
+
+<p align="center">
+<img src="images/youmu.png" width="150" />
+</p>

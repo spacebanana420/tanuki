@@ -11,10 +11,9 @@ def readUserInput(message: String = ""): String =
     println(message)
   readLine()
 
-def spawnAndRead(message: String = ""): String =
-  if message != "" then
-    print(s"\u001B[3J\u001B[1J\u001B[H$message")
-  readLine()
+def spawnAndRead(message: String): String = readUserInput(s"\u001B[3J\u001B[1J\u001B[H$message")
+
+def pressToContinue(message: String = ""): String = readUserInput(message + "\n\nPress enter to continue")
 
 // def clear() = { //test windows support
 //   if File("C:").isDirectory == false then

@@ -9,6 +9,18 @@ def getScreenshotDirs(path: String): List[String] =
     .toList
     .filter(x => File(s"$path/$x").isDirectory() && isScreenshotDir(s"$path/$x"))
 
+def listScreenshots(path: String, include_png: Boolean = true): List[String] =
+  if include_png then
+    File(path)
+      .list()
+      .toList
+      .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
+  else
+    File(path)
+      .list()
+      .toList
+      .filter(x => File(s"$path/$x").isFile && x.contains(".bmp"))
+
 private def isScreenshotDir(path: String): Boolean =
   def hasImageFiles(l: Array[String], i: Int = 0): Boolean =
     if i >= l.length then
@@ -23,13 +35,15 @@ private def isScreenshotDir(path: String): Boolean =
 //unfinished and unused for now
 def ssTemplate(game: String): List[Int] =
   game match
-    case "classic" =>
+    case "6-8" =>
       List(36, 132, 377, 304)
-    case "classic9" =>
+    case "9" =>
       List(49, 158, 545, 275)
-    case "classic12" =>
+    case "10-12" =>
       List(33, 150, 380, 271)
-    case "modern" => List()
+    case "13" => List()
     case "modernbubble" => List()
     case "highres1" => List()
     case "highres2" => List()
+
+//def guessThGame(): List[Int] =
