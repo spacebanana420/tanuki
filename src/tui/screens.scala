@@ -34,8 +34,8 @@ private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.2\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Configure launcher\n\n"
-    val answer = readLoop(text, 3)
+    val text = s"$yellow[Tanuki Launcher]$default version 0.2\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Compress screenshots\n${green}4:$default Configure launcher\n\n"
+    val answer = readLoop(text, 4)
     answer match
       case 0 =>
         exit()
@@ -44,6 +44,8 @@ def tui_title() =
       case 2 =>
         tui_ssview()
       case 3 =>
+        tui_ssconv()
+      case 4 =>
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
@@ -189,12 +191,10 @@ def tui_ssimage(path: String): String =
   else
     ""
 
-//wrap
 def tui_ssview() =
   val datas = getDatas(readConfig())
-  val entry = tui_ssentry(datas)
-
   if !tui_noffmpeg() && !tui_noentries(datas) then
+    val entry = tui_ssentry(datas)
     if entry != "" then
       val ssimage = tui_ssimage(entry)
       if ssimage != "" then screenshot_view(ssimage)
@@ -211,14 +211,15 @@ def tui_ssoptions(path: String, image: String) =
     //finish
 
 //test
-def tui_ssconv(path: String) =
+def tui_ssconv() =
   def reverse(s: String, i: Int, ns: String = ""): String =
-    if i <= 0 then
+    if i < 0 then
       ns
     else
-      reverse(s, i+1, ns + s(i))
+      reverse(s, i-1, ns + s(i))
+
   def changeExtension(name: String, i: Int, s: String = "", copy: Boolean = false): String =
-    if i <= 0 then
+    if i < 0 then
       reverse(s, s.length-1) + ".png"
     else if name(i) == '.' then
       changeExtension(name, i-1, s, true)
@@ -227,15 +228,22 @@ def tui_ssconv(path: String) =
     else
       changeExtension(name, i-1, s, copy)
 
-  println("Converting all BMP screenshots into PNG copies")
-  val pngdir = File(s"$path/PNG")
-  if !pngdir.isDirectory() then pngdir.mkdir()
+  val datas = getDatas(readConfig())
+  if !tui_noffmpeg() && !tui_noentries(datas) then
+    val entry = tui_ssentry(datas)
+    if entry != "" then
+      val ssdir = tui_ssdir(entry)
+      if ssdir != "" then
+        println("Converting all BMP screenshots into PNG copies")
+        val pngdir = File(s"$ssdir/PNG")
+        if !pngdir.isDirectory() then pngdir.mkdir()
 
-  val imgs = listScreenshots(path, false)
-  for x <- imgs do
-    val newname = changeExtension(x, x.length-1)
-    encode(s"$path/$x", s"$path/PNG/$newname")
-  pressToContinue("All screenshots have been converted and moved into a directory named \"PNG\"!")
+        val imgs = listScreenshots(ssdir, false)
+        for x <- imgs do
+          val newname = changeExtension(x, x.length-1)
+          println(s"Compressing image \"$x\"")
+          encode(s"$ssdir/$x", s"$ssdir/PNG/$newname")
+        pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
 
 //def tui_sscrop(image: String) =
 

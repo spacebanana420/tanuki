@@ -6,26 +6,27 @@ import java.io.File
 def getScreenshotDirs(path: String): List[String] =
   File(path)
     .list()
-    .toList
     .filter(x => File(s"$path/$x").isDirectory() && isScreenshotDir(s"$path/$x"))
+    .toList
 
 def listScreenshots(path: String, include_png: Boolean = true): List[String] =
+  File(path)
+    .list()
+    .filter(x => isScreenshot(x, path, include_png))
+    .toList
+
+private def isScreenshot(name: String, path: String, include_png: Boolean = true): Boolean =
   if include_png then
-    File(path)
-      .list()
-      .toList
-      .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
+    File(s"$path/$name").isFile() && (name.contains(".png") || name.contains(".bmp"))
   else
-    File(path)
-      .list()
-      .toList
-      .filter(x => File(s"$path/$x").isFile && x.contains(".bmp"))
+    File(s"$path/$name").isFile() && name.contains(".bmp")
+
 
 private def isScreenshotDir(path: String): Boolean =
   def hasImageFiles(l: Array[String], i: Int = 0): Boolean =
     if i >= l.length then
       false
-    else if l(i).contains(".png") || l(i).contains(".bmp") then
+    else if isScreenshot(l(i), path) then
       true
     else
       hasImageFiles(l, i+1)
