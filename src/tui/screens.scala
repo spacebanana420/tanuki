@@ -210,24 +210,7 @@ def tui_ssoptions(path: String, image: String) =
     //tui_sscrop(image)
     //finish
 
-//test
 def tui_ssconv() =
-  def reverse(s: String, i: Int, ns: String = ""): String =
-    if i < 0 then
-      ns
-    else
-      reverse(s, i-1, ns + s(i))
-
-  def changeExtension(name: String, i: Int, s: String = "", copy: Boolean = false): String =
-    if i < 0 then
-      reverse(s, s.length-1) + ".png"
-    else if name(i) == '.' then
-      changeExtension(name, i-1, s, true)
-    else if copy then
-      changeExtension(name, i-1, s + name(i), copy)
-    else
-      changeExtension(name, i-1, s, copy)
-
   val datas = getDatas(readConfig())
   if !tui_noffmpeg() && !tui_noentries(datas) then
     val entry = tui_ssentry(datas)
@@ -240,9 +223,8 @@ def tui_ssconv() =
 
         val imgs = listScreenshots(ssdir, false)
         for x <- imgs do
-          val newname = changeExtension(x, x.length-1)
           println(s"Compressing image \"$x\"")
-          encode(s"$ssdir/$x", s"$ssdir/PNG/$newname")
+          screenshot_convert(x, ssdir)
         pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
 
 //def tui_sscrop(image: String) =

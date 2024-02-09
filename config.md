@@ -1,30 +1,4 @@
-# Tanuki Launcher
-
-Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards.
-
-The launcher uses a TUI interface and is very simple to use and configure. You can add your games and game data (screenshots, etc) to your configuration list. It's very convenient to launch a game once your configuration is done.
-
-You can also view screenshots and compress them into PNG copies.
-
-I plan to add screenshot cropping, data backup, screen recording and more to Tanuki!
-
-# Download
-
-Download the latest instance of Tanuki in the [releases page](https://github.com/spacebanana420/tanuki/releases)
-
-If you have Scala 3 in your system, download ```tanuki.jar```
-
-If you just have Java in your system, download ```tanuki-java.jar```
-
-# Requirements & how to use
-
-Tanuki requires the following to work:
-* Scala 3 or Java 19
-* FFmpeg (optional, for screenshot functionality)
-
-Tanuki's OS support extends to all operating systems with WINE support + Windows.
-
-# Configuration
+# Tanuki Configuration
 
 To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
 
@@ -80,39 +54,3 @@ To run a custom WINE build on NixOS, install ```steam-run``` on your system and 
 ```
 use_steam-run=true
 ```
-
-
-# Compile from source
-
-You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can use the scalac compiler or scala-cli
-
-## Using scalac
-
-```
-scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
-```
-You can now run this JAR with Scala or scala-cli
-
-## Using scala-cli
-
-### Option 1
-```
-scala-cli --power package src --library -o tanuki.jar
-```
-Only scala-cli can run this JAR
-
-### Option 2
-```
-scala-cli --power package src --assembly --preamble=false -o tanuki-fat.jar
-```
-You can run this JAR with Java.
-
-### Option 3
-```
-scala-cli compile src
-```
-The compiled software will be in a hidden folder inside "src". Run ```scala-cli src``` to run Tanuki.
-
-<p align="center">
-<img src="images/youmu.png" width="230"/>
-</p>
