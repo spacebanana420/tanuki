@@ -76,14 +76,14 @@ use_steam-run=true
 
 You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can use the scalac compiler or scala-cli
 
-## Using scalac
+You can compile Tanuki directly with scalac this way:
 
 ```
 scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
 ```
-You can now run this JAR with Scala or scala-cli
+This JAR can be launched with scala or scala-cli
 
-## Using scala-cli
+For more information and alternatives on compiling Tanuki, check the link below.
 
 [Compiling Tanuki from source](doc/compile.md)
 
