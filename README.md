@@ -26,6 +26,8 @@ Launcher's support extends to all operating systems with WINE support + Windows.
 
 Depending on the version of Tanuki you downloaded, you can launch it with the commands ```scala``` or ```java -jar```
 
+# Configuration
+
 To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
 
 You can configure this file from within the launcher, or you can manually write your config text file.
@@ -110,5 +112,5 @@ scala-cli compile src
 The compiled software will be in a hidden folder inside "src". Run ```scala-cli src``` to run Tanuki.
 
 <p align="center">
-<img src="images/youmu.png" width="150" />
+<img src="images/youmu.png"/>
 </p>
