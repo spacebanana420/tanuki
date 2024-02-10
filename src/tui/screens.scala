@@ -60,7 +60,7 @@ def tui_noffmpeg(): Boolean =
 
 def tui_noentries(entries: List[String]): Boolean =
   if entries.length == 0 then
-    val text = s"No entries have been found!\nWould you like to configure Tanuki now?"
+    val text = "No entries have been found!\nWould you like to configure Tanuki now?"
     val answer = askPrompt(text)
     if answer then
       val cfg = tui_configure()
@@ -70,9 +70,9 @@ def tui_noentries(entries: List[String]): Boolean =
     false
 
 def tui_configerror() =
-  val text = s"There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
+  val text = "There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
   val answer = askPrompt(text)
-  if answer then
+  if !answer then
     println("Quitting Tanuki...")
     exit()
   else
@@ -104,8 +104,8 @@ def tui_configure(): List[String] =
 
   def askSteamRun(): Boolean =
     if File("/nix/store").isDirectory() then
-      val yn = askPrompt(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command?")
-      if yn then
+      val usesteamrun = askPrompt(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command?")
+      if usesteamrun then
         true
       else
         false
