@@ -25,5 +25,5 @@ These operating systems are officially supported by me. If there's something wro
 I don't explicitly support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
 
 <p align="center">
-<img src="images/futo.png" width="290"/>
+<img src="../images/futo.png" width="290"/>
 </p>
