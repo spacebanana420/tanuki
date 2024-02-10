@@ -13,21 +13,8 @@ You can now run this JAR with Scala or scala-cli.
 
 ## Using scala-cli
 
-### Option 1
-```
-scala-cli --power package src --library -o tanuki.jar
-```
-Lightweight JAR, but only scala-cli can run this JAR.
+### Option 1 - Straightforward way
 
-### Option 2
-```
-scala-cli --power package src --assembly --preamble=false -o tanuki-fat.jar
-```
-This is an assembly JAR, containing all code dependencies. Yyu can run this JAR with Java directly.
-
-You can specify the target JVM version with the ```--jvm``` argument (example: ```--jvm 8```).
-
-### Option 3
 ```
 scala-cli src
 ```
@@ -40,3 +27,38 @@ If you just want to compile but not run, you can run the command:
 ```
 scala-cli compile src
 ```
+
+### Option 2 - Lightweight JAR
+
+```
+scala-cli --power package src --library -o tanuki.jar
+```
+Lightweight JAR, but only scala-cli can run this JAR.
+
+### Option 3 - Assembly JAR
+
+```
+scala-cli --power package src --assembly --preamble=false -o tanuki-fat.jar
+```
+This is an assembly JAR, containing all code dependencies. You can run this JAR with Java directly.
+
+You can specify the target JVM version with the ```--jvm``` argument (example: ```--jvm 8```).
+
+### Option 4 - Native binary
+
+The following requires that you install Clang/LLVM in your system:
+```
+scala-cli --power package src --native -o tanuki
+```
+This compiles Tanuki into a native binary executable for your OS and CPU, resulting in instant startup times, faster speed and lower memory use.
+
+If you do not want to install Clang/LLVM, you can use the alternative method:
+
+```
+scala-cli --power package src --native-image -o tanuki
+```
+This method only depends on GraalVM, which is automatically downloaded by scala-cli.
+
+<p align="center">
+<img src="images/congratulations.png" width="290"/>
+</p>
