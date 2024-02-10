@@ -4,12 +4,12 @@ Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic 
 
 ### Tanuki's software requirements
 
-* Scala 3 or Java 19
+* Scala 3 or Java 8 or later
 * FFmpeg (optional, for screenshot functionality)
 * WINE (for running Touhou on non-Windows systems)
 * steam-run (for NixOS only and only if you run third-party wine binaries)
 
-Depending on the JAR you download, you either require Scala 3 to be in your system or just Java. As for the Java-only requirement, for now Java 19 or later is required. Due to a bug with my tooling, I can't yet target an older JVM version without a few extra steps. I'll do that as soon as I can.
+Depending on the JAR you download, you either require Scala 3 to be in your system or just Java.
 
 ### Officially supported systems
 * Linux-based systems

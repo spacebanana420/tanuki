@@ -19,7 +19,7 @@ If you just have Java in your system, download ```tanuki-java.jar```
 # Requirements & how to use
 
 Tanuki requires the following to work:
-* Scala 3 or Java 19
+* Scala 3 or Java 8 or later
 * FFmpeg (optional, for screenshot functionality)
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.

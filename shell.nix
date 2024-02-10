@@ -8,5 +8,6 @@ pkgs.mkShell {
     p7zip
     ffmpeg
     wineWowPackages.stable
+    steam-run
   ];
 }

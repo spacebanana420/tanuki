@@ -7,11 +7,13 @@ You need [Scala 3](https://scala-lang.org/) to build Tanuki from source. You can
 ```
 scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
 ```
-This builds a lightweight JAR that can be run with the scala command or scala-cli.
+This builds a lightweight JAR that can be run with the scala command or scala-cli. You do not need an internet connection.
 
 You can now run this JAR with Scala or scala-cli.
 
 ## Using scala-cli
+
+scala-cli is a powerful tool that opens potential for much more than using the scalac compiler directly. Note that you need an internet connection the first time you compile with scala-cli.
 
 ### Option 1 - Straightforward way
 
