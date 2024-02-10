@@ -7,8 +7,6 @@ import scala.io.Source
 
 def configExists(): Boolean = File("config.txt").exists()
 
-def createConfig() = FileOutputStream("config.txt")
-
 def readConfig(): List[String] =
   val src = Source.fromFile("config.txt")
   val cfg = src

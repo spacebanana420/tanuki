@@ -3,6 +3,7 @@ package tanuki.config
 import java.io.File
 import java.io.FileOutputStream
 
+def createConfig() = FileOutputStream("config.txt")
 
 def writeConfig(cfg: List[String], append: Boolean = true) =
   def createStr(str: String = "", i: Int = 0): String =

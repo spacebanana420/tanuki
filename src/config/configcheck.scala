@@ -1,5 +1,6 @@
 package tanuki.config
 
+import tanuki.tui.printStatus
 import java.io.File
 import scala.io.Source
 
@@ -20,11 +21,25 @@ private def check_paths(entries: List[String], isGame: Boolean, i: Int = 0): Boo
     else
       false
 
+  val etype = if isGame then "game" else "data"
   if i >= entries.length then
     true
   else
     val entry = parseEntry(entries(i))
-    if entry(0) != "" && entry(1) != "" && isPathCorrect(entry(1)) then
+    val check_name =
+      if entry(0) != "" then
+        true
+      else
+        printStatus(s"You have a $etype entry that is missing a name!\n")
+        false
+    val check_path =
+      if entry(1) != ""  && isPathCorrect(entry(1)) then
+        true
+      else
+        printStatus(s"You have a $etype entry has an incorrect path assigned!\n")
+        false
+
+    if check_name && check_path then
       check_paths(entries, isGame, i+1)
     else
       false

@@ -34,7 +34,7 @@ private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.2\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Compress screenshots\n${green}4:$default Configure launcher\n\n"
+    val text = s"$yellow[Tanuki Launcher]$default version 0.3\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Compress screenshots\n${green}4:$default Configure launcher\n"
     val answer = readLoop(text, 4)
     answer match
       case 0 =>
@@ -71,7 +71,7 @@ def tui_noentries(entries: List[String]): Boolean =
 
 def tui_configerror() =
   val text = "There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
-  val answer = askPrompt(text)
+  val answer = askPrompt(text, false)
   if !answer then
     println("Quitting Tanuki...")
     exit()

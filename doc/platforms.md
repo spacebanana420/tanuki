@@ -17,12 +17,14 @@ Depending on the JAR you download, you either require Scala 3 to be in your syst
 
 These operating systems are officially supported by me. If there's something wrong with them, please let me know, I'll look into the problem ASAP.
 
+On Windows, it's not recommended that you run Tanuki with the default terminal that comes with powershell, because it does not support ANSI escape codes, and so colors don't work and you will see a lot of gibberish instead.
+
 ### Theoretically supported systems
 * FreeBSD
 * MacOS
 * NetBSD
 
-I don't explicitly support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
+I don't guarantee support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
 
 <p align="center">
 <img src="../images/futo.png" width="290"/>

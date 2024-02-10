@@ -25,10 +25,14 @@ def pressToContinue(message: String = ""): String = readUserInput(message + "\n\
 def spawnScreen(ui: String) =
   print(s"\u001B[3J\u001B[1J\u001B[H$ui")
 
-def askPrompt(ui: String): Boolean =
-  val yellow = foreground("yellow")
-  val default = foreground("default")
-  val answer = spawnAndRead(s"$ui ${yellow}(y/n)$default\n")
+def askPrompt(ui: String, clear: Boolean = true): Boolean =
+//   val yellow = foreground("yellow")
+//   val default = foreground("default")
+  val answer =
+    if clear then
+      spawnAndRead(s"$ui ${yellow}(y/n)$default\n").toLowerCase
+    else
+      readUserInput(s"$ui ${yellow}(y/n)$default\n").toLowerCase
   if answer == "yes" || answer == "y" then
     true
   else
@@ -48,9 +52,9 @@ def moveCursor(mode: String, lines: Int) =
 
 def clearBelowCursor(lines: Int) = print(s"\u001B[${lines}A\u001B[0K")
 
-def printStatus(msg: String, iserror: Boolean) =
+def printStatus(msg: String, isError: Boolean = true) =
   val default = foreground("default")
-  if iserror == true then
+  if isError then
     val red = foreground("red")
     println(s"[${red}Error$default] $msg")
   else
