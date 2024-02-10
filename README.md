@@ -28,7 +28,7 @@ Tanuki's OS support extends to all operating systems with WINE support + Windows
 
 # Configuration
 
-[Full configuration information here](doc/config.md)
+[Full configuration information](doc/config.md)
 
 To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
 
