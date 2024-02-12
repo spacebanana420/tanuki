@@ -1,5 +1,6 @@
 package tanuki.config
 
+import tanuki.misc.similarInList
 import java.io.File
 import java.io.FileOutputStream
 import scala.io.Source
@@ -8,10 +9,15 @@ import scala.io.Source
 def configExists(): Boolean = File("config.txt").exists()
 
 def readConfig(): List[String] =
+  val settings =
+    List(
+    "game=", "data=", "command=", "use_steam-run=",
+    "sidecommand_start=", "sidecommand_close="
+    )
   val src = Source.fromFile("config.txt")
   val cfg = src
     .getLines().toList
-    .filter(x => x.length > 0 && (x.contains("game=") || x.contains("data=") || x.contains("command=") || x.contains("use_steam-run=")) && x(0) != '#')
+    .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
   src.close()
   cfg
 
@@ -47,6 +53,17 @@ private def getFirstValue(cfg: List[String], setting: String, i: Int = 0): Strin
 def getGames(cfg: List[String]): List[String] = getValues(cfg, "game=")
 def getDatas(cfg: List[String]): List[String] = getValues(cfg, "data=")
 def getCommand(cfg: List[String]): String = getFirstValue(cfg, "command=")
+
+def getStartCmd(cfg: List[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
+def getCloseCmd(cfg: List[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
+
+private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = List(), i: Int = 0): List[String] =
+  if i >= cmd.length then
+    if arg == "" then cmdl else cmdl :+ arg
+  else if cmd(i) == ' ' then
+    parseCommand(cmd, "", cmdl :+ arg, i+1)
+  else
+    parseCommand(cmd, arg + cmd(i), cmdl, i+1)
 
 def steamRunEnabled(cfg: List[String]): Boolean =
   if getFirstValue(cfg, "use_steam-run=") == "true" then

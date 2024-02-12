@@ -48,7 +48,9 @@ def getRandomQuote(): String =
     "\"Everywhere I go, flowers, flowers, and more flowers.\" ~ Yuuka Kazami, Touhou 9",
     "\"A first warning for a human hurrying to their death.\" ~ Komachi Onozuka, Touhou 9",
     "\"Er, um, I'll just pretend I didn't see that.\" ~ Komachi Onozuka, Touhou 9",
-    "\"Hah! What exactly was I doing?\" ~ Youmu Konpaku, Touhou 9"
+    "\"Hah! What exactly was I doing?\" ~ Youmu Konpaku, Touhou 9",
+    "\"I'll ferry you over with my Titanic. 50% off.\" ~ Komachi Onozuka, Touhou 9",
+    "\"Who's the one making that annoying sound in my territory?\" ~ Mystia Lorelei, Touhou 9"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)

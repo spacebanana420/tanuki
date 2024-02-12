@@ -15,12 +15,16 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```command``` - Add a command entry to use a program to launch the games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
+* ```sidecommand_start``` - Command that runs before launching a game.
+* ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
 
-Tanuki only assumes the first instances of ```command``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+Tanuki only assumes the first instances of ```command```, ```sidecommand_start```, ```sidecommand_close``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+
+```sidecommand_start``` and ```sidecommand_close``` run in parallel to game execution and closure and are not whitespace-safe, but you can pass CLI arguments to them and so build a full command.
 
 ### Config example:
 
@@ -57,4 +61,15 @@ Custom WINE builds are linked against glibc and other libraries that are located
 To run a custom WINE build on NixOS, install ```steam-run``` on your system and add the following setting to your config.txt:
 ```
 use_steam-run=true
+```
+
+## Bad input delay with Xfce and other desktops
+
+It seems that the Xfce desktop does not disable or bypass its compositor and desktop vsync when a fullscreen game is launched. It lets you, however, manually disable it, either through the GUI settings or through a command.
+
+With this following configuration, Xfce's compositor will disable when you start a Touhou game and re-enable once you come back to the main menu:
+
+```
+sidecommand_start=xfconf-query -c xfwm4 -p /general/use_compositing -s false
+sidecommand_close=xfconf-query -c xfwm4 -p /general/use_compositing -s true
 ```

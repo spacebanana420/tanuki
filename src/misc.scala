@@ -6,7 +6,7 @@ private def findMatch(find: String, supported: List[String], exact_match: Boolea
   else if (find == supported(i) && exact_match) || (find.contains(supported(i)) && !exact_match) then
     true
   else
-    findMatch(find, supported, exact_match, +1)
+    findMatch(find, supported, exact_match, i+1)
 
 
 def belongsToList(find: String, supported: List[String]): Boolean = findMatch(find, supported, true)

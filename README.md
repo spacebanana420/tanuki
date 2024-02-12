@@ -41,6 +41,8 @@ You can configure this file from within the launcher, or you can manually write 
 * ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
   * The path must lead to a directory.
 * ```command``` - Add a command entry to use a program to launch the games with.
+* ```sidecommand_start``` - Command that runs before launching a game.
+* ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
 
 ### Config example:
