@@ -69,10 +69,10 @@ def tui_noffmpeg(): Boolean =
 
 def tui_noentries(entries: List[String]): Boolean =
   if entries.length == 0 then
-    val text = "No entries have been found!\nWould you like to configure Tanuki now?"
+    val text = "No entries have been found!\nWould you like to add some to your configuration?"
     val answer = askPrompt(text)
     if answer then
-      val cfg = tui_configure()
+      val cfg = tui_configure(false)
       writeConfig(cfg, true)
     true
   else
@@ -88,7 +88,7 @@ def tui_configerror() =
     val cfg = tui_configure()
     writeConfig(cfg, false)
 
-def tui_configure(): List[String] =
+def tui_configure(fullconfig: Boolean = true): List[String] =
   def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
     val path = readUserInput("Type the full path to your game's executable")
@@ -109,7 +109,6 @@ def tui_configure(): List[String] =
     else
       false
 
-
   def menu(l: List[String] = List()): List[String] =
     val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
     spawnAndRead(text) match
@@ -123,29 +122,32 @@ def tui_configure(): List[String] =
         menu(l)
 
   val cfg = menu()
-  val command =
-    val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
-    if ans != "" then
-      s"command=$ans"
-    else
-      ""
-  val startcmd =
-    val ans = readUserInput(s"Type the command to run before launching Touhou or leave it blank to disable")
-    if ans != "" then
-      s"sidecommand_start=$ans"
-    else
-      ""
-  val closecmd =
-    val ans = readUserInput(s"Type the command to run after closing Touhou or leave it blank to disable")
-    if ans != "" then
-      s"sidecommand_close=$ans"
-    else
-      ""
+  if fullconfig then
+    val command =
+      val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
+      if ans != "" then
+        s"command=$ans"
+      else
+        ""
+    val startcmd =
+      val ans = readUserInput(s"Type the command to run before launching Touhou or leave it blank to disable")
+      if ans != "" then
+        s"sidecommand_start=$ans"
+      else
+        ""
+    val closecmd =
+      val ans = readUserInput(s"Type the command to run after closing Touhou or leave it blank to disable")
+      if ans != "" then
+        s"sidecommand_close=$ans"
+      else
+        ""
 
-  if askSteamRun() then
-    List(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
+    if askSteamRun() then
+      List(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
+    else
+      List(command, startcmd, closecmd) ++ cfg
   else
-    List(command, startcmd, closecmd) ++ cfg
+    cfg
 
 
 def tui_play() =
