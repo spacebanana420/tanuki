@@ -6,6 +6,9 @@ def getRandomQuote(): String =
     List(
     "\"Heaven knows, Earth knows. I know, you know.\" ~ Shikieiki's spellcard message, Touhou 9",
     "\"Go with the flow.\" ~ Reimu's spellcard message, Touhou 9",
+    "\"Sing your heart out.\" ~ Mystia Lorelei's spellcard message, Touhou 9",
+    "\"Happiness and misfortune come together. \" ~ Yuuka's spellcard message, Touhou 9",
+
     "\"Boo!\" ~ Kogasa Tatara, Touhou 12",
     "\"The dead do not speak.\" ~ Sakuya Izayoi, Touhou 7",
     "\"Well, I'm alive.\" ~ Marisa Kirisame, Touhou 9",
@@ -50,7 +53,11 @@ def getRandomQuote(): String =
     "\"Er, um, I'll just pretend I didn't see that.\" ~ Komachi Onozuka, Touhou 9",
     "\"Hah! What exactly was I doing?\" ~ Youmu Konpaku, Touhou 9",
     "\"I'll ferry you over with my Titanic. 50% off.\" ~ Komachi Onozuka, Touhou 9",
-    "\"Who's the one making that annoying sound in my territory?\" ~ Mystia Lorelei, Touhou 9"
+    "\"Who's the one making that annoying sound in my territory?\" ~ Mystia Lorelei, Touhou 9",
+    "\"You're so loud in the morning.\" ~ Cirno, Touhou 9",
+    "\"Go do your work! Stop slacking off all the time!\" ~ Reimu Hakurei, Touhou 9",
+    "\"I've got some nice cards! Buy something for the road?\" ~ Mike Goutokuji, Touhou 18",
+    "\"I have helped myself to your delicious nightmares.\" ~ Doremy Sweet, Touhou 15"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)

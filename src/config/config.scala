@@ -16,8 +16,9 @@ def readConfig(): List[String] =
     )
   val src = Source.fromFile("config.txt")
   val cfg = src
-    .getLines().toList
+    .getLines()
     .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
+    .toList
   src.close()
   cfg
 

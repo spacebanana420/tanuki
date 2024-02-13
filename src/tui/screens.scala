@@ -1,5 +1,6 @@
 package tanuki.tui
 
+import tanuki.ffmpeg_installed
 import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
@@ -51,12 +52,20 @@ def tui_title() =
         writeConfig(cfg, overwrite)
 
 def tui_noffmpeg(): Boolean =
-  if !checkFFmpeg() then
+  if !ffmpeg_installed then
     val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
     pressToContinue(text)
     true
   else
     false
+
+// def tui_noffmpeg(): Boolean =
+//   if !checkFFmpeg() then
+//     val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
+//     pressToContinue(text)
+//     true
+//   else
+//     false
 
 def tui_noentries(entries: List[String]): Boolean =
   if entries.length == 0 then
@@ -90,6 +99,17 @@ def tui_configure(): List[String] =
     val path = readUserInput("Type the full path to your game's executable")
     s"data=$name:$path"
 
+  def askSteamRun(): Boolean =
+    if File("/nix/store").isDirectory() then
+      val usesteamrun = askPrompt(s"It seems you are using NixOS\nIf you are running a custom third party wine build, it might not work out of the box\nWould you like to enable the use of steam-run to fix this?")
+      if usesteamrun then
+        true
+      else
+        false
+    else
+      false
+
+
   def menu(l: List[String] = List()): List[String] =
     val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
     spawnAndRead(text) match
@@ -102,16 +122,6 @@ def tui_configure(): List[String] =
       case _ =>
         menu(l)
 
-  def askSteamRun(): Boolean =
-    if File("/nix/store").isDirectory() then
-      val usesteamrun = askPrompt(s"It seems you are using NixOS\nRunning a custom wine build might not work out of the box\nWould you like to enable the use of steam-run to launch your command?")
-      if usesteamrun then
-        true
-      else
-        false
-    else
-      false
-
   val cfg = menu()
   val command =
     val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
@@ -119,10 +129,23 @@ def tui_configure(): List[String] =
       s"command=$ans"
     else
       ""
+  val startcmd =
+    val ans = readUserInput(s"Type the command to run before launching Touhou or leave it blank to disable")
+    if ans != "" then
+      s"sidecommand_start=$ans"
+    else
+      ""
+  val closecmd =
+    val ans = readUserInput(s"Type the command to run after closing Touhou or leave it blank to disable")
+    if ans != "" then
+      s"sidecommand_close=$ans"
+    else
+      ""
+
   if askSteamRun() then
-    List(command, "use_steam-run=true") ++ cfg
+    List(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
   else
-    command :: cfg
+    List(command, startcmd, closecmd) ++ cfg
 
 
 def tui_play() =
