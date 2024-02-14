@@ -73,3 +73,7 @@ With this following configuration, Xfce's compositor will disable when you start
 sidecommand_start=xfconf-query -c xfwm4 -p /general/use_compositing -s false
 sidecommand_close=xfconf-query -c xfwm4 -p /general/use_compositing -s true
 ```
+
+<p align="center">
+<img src="../images/mamizou.png" width="290"/>
+</p>
