@@ -3,6 +3,9 @@
 *.txt
 *.class
 *.jar
+.metals
+metals.*
+scala-cli.json
 .scala-build
 .dsp
 
