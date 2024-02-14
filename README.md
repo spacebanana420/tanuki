@@ -96,5 +96,5 @@ For more information and alternatives on compiling Tanuki, check the link below.
 [Compiling Tanuki from source](doc/compile.md)
 
 <p align="center">
-<img src="images/youmu.png" width="290"/>
+<img src="images/youmu.png" height="200"/>
 </p>
