@@ -75,5 +75,5 @@ sidecommand_close=xfconf-query -c xfwm4 -p /general/use_compositing -s true
 ```
 
 <p align="center">
-<img src="../images/mamizou.png" height="200"/>
+<img src="../images/mamizou.png" height="220"/>
 </p>

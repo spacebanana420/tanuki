@@ -60,5 +60,5 @@ scala-cli --power package src --native-image -o tanuki
 This method only depends on GraalVM, which is automatically downloaded by scala-cli.
 
 <p align="center">
-<img src="../images/congratulations.png" height="200"/>
+<img src="../images/congratulations.png" height="220"/>
 </p>

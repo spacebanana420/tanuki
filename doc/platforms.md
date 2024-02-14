@@ -27,5 +27,5 @@ On Windows, it's not recommended that you run Tanuki with the default terminal t
 I don't guarantee support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
 
 <p align="center">
-<img src="../images/futo.png" height="200"/>
+<img src="../images/futo.png" height="220"/>
 </p>
