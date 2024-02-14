@@ -1,5 +1,9 @@
 # Tanuki Launcher
 
+<p align="center">
+<img src="images/leaf.png" width="100"/>
+</p>
+
 Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards.
 
 The launcher uses a TUI interface and is very simple to use and configure. You can add your games and game data (screenshots, etc) to your configuration list. It's very convenient to launch a game once your configuration is done.
