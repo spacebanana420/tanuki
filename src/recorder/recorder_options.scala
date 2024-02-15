@@ -3,22 +3,25 @@ package tanuki.recorder
 import ffscala.*
 import ffscala.capture.*
 
-def supportedCodecs(): List[String] =
-  List
-    (
-    "x264", "utvideo", "cfhd", "mjpeg"
-    )
-
-def supportedColor(): List[String] =
-  List
-    (
-    "rgb24", "yuv420p", "yuv422p", "yuv444p"
-    )
+// def supportedCodecs(): List[String] =
+//   List
+//     (
+//     "x264", "utvideo", "cfhd", "mjpeg"
+//     )
+//
+// def supportedColor(): List[String] =
+//   List
+//     (
+//     "rgb24", "yuv420p", "yuv422p", "yuv444p"
+//     )
 
 /////VIDEO/////
 
 def video_setx264(preset: String, crf: Byte, keyInt: Short, pixfmt: String): List[String] =
   x264_setPreset(preset) ++ setCRF(crf) ++ setKeyframeInterval(keyInt) ++ setPixFmt(pixfmt)
+
+def video_setx264rgb(preset: String, crf: Byte, keyInt: Short): List[String] =
+  x264_setPreset(preset) ++ setCRF(crf) ++ setKeyframeInterval(keyInt) //++ setPixFmt("rgb24")
 
 /////VIDEO CAPTURE/////
 
@@ -35,6 +38,9 @@ def audio_setPCM(depth: Byte): List[String] =
 
 def audio_setOpus(bitrate: Int): List[String] =
   setAudioEncoder("opus") ++ setAudioBitrate(bitrate)
+
+def audio_setmp3(bitrate: Int): List[String] =
+  setAudioEncoder("mp3") ++ setAudioBitrate(bitrate)
 
 /////AUDIO CAPTURE/////
 

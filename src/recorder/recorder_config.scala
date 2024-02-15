@@ -104,6 +104,8 @@ def rec_getEncodeArgs(config: List[String] = List()): List[String] =
     vcodec(0) match
     case "x264" =>
       video_setx264(vcodec(1), vcodec(2).toByte, vcodec(3).toShort, vcodec(4))
+    case "x264rgb" =>
+      video_setx264rgb(vcodec(1), vcodec(2).toByte, vcodec(3).toShort)
     case _ => List[String]()
   val a_args =
     acodec(0) match
@@ -111,6 +113,8 @@ def rec_getEncodeArgs(config: List[String] = List()): List[String] =
         audio_setPCM(acodec(1).toByte)
       case "opus" =>
         audio_setOpus(acodec(1).toInt)
+      case "mp3" =>
+        audio_setmp3(acodec(1).toInt)
       case _ => List[String]()
 
   v_args ++ a_args

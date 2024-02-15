@@ -19,8 +19,8 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264")
-  val acodecs = List("pcm", "opus")
+  val vcodecs = List("x264", "x264rgb")
+  val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
   val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
@@ -29,6 +29,7 @@ def tui_configureRecording() =
     if ans_vc != 0 then
       vcodecs(ans_vc-1) match //only x264 for now
         case "x264" => tui_x264Setup()
+        case "x264rgb" => tui_x264rgbSetup()
     else
       tui_x264Setup()
   val acodec =
@@ -36,6 +37,7 @@ def tui_configureRecording() =
       acodecs(ans_ac-1) match
         case "pcm" => tui_pcmSetup()
         case "opus" => tui_opusSetup()
+        case "mp3" => tui_mp3Setup()
     else
       tui_pcmSetup()
   val vcapture = tui_x11Setup()
@@ -63,6 +65,19 @@ def tui_x264Setup(): List[String] =
 
   List("x264", final_preset, crf.toString, keyint.toString, final_pixfmt)
 
+def tui_x264rgbSetup(): List[String] =
+  val presets = List("ultrafast", "superfast", "veryfast", "medium")
+
+  val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
+  val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
+  val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
+
+  val final_preset =
+    if preset == 0 then presets(1)
+    else presets(preset-1)
+
+  List("x264rgb", final_preset, crf.toString, keyint.toString)
+
 def tui_pcmSetup(): List[String] =
   val depths = List("16bit", "24bit")
   val d = readLoop_list(depths, s"Choose the audio bit depth\n\n${green}${0}:${default} Default (16bit)\n\n")
@@ -74,6 +89,10 @@ def tui_pcmSetup(): List[String] =
 def tui_opusSetup(): List[String] =
   val bitrate = readLoop_int("Input the audio bitrate (in kilobits per second)")
   List("opus", bitrate.toString)
+
+def tui_mp3Setup(): List[String] =
+  val bitrate = readLoop_int("Input the audio bitrate (in kilobits per second)")
+  List("mp3", bitrate.toString)
 
 def tui_x11Setup(): List[String] =
   val w = readLoop_int("Input the capture resolution's width")
