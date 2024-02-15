@@ -8,14 +8,35 @@ import ffscala.*
 import ffscala.capture.*
 import java.io.File
 
-def tui_recPlay() =
-  val cfg = rec_readConfig()
-  val args = rec_getFullArgs(cfg)
-  val output = rec_getOutput(cfg)
-  val d = rec_getDelay(cfg)
-  val delay = if d > 60 then 60 else d
+def tui_recconfigerror() =
+  val text = "There's an error in your video_config.txt!\nYou might have a setting that isn't configured properly!\n\nWould you like to configure the video recorder now and delete the old configuration file?"
+  val answer = askPrompt(text)
+  if answer then tui_configureRecording()
 
-  recordVideo(output, args, delay)
+def tui_recmissingconfig() =
+  val text = "No recorder configuration has been found!\nWould you like to configure?"
+  val answer = askPrompt(text)
+  if answer then tui_configureRecording()
+
+// def tui_record(cfg: List[String]) =
+//   //val cfg = rec_readConfig()
+//   val args = rec_getFullArgs(cfg)
+//   val output = rec_getOutput(cfg)
+//   val d = rec_getDelay(cfg)
+//   val delay = if d > 60 then 60 else d
+//   println(s"$args\n$output\n$delay")
+//   recordVideo(s"$output/video.mov", args, delay)
+
+// def tui_recPlay_check(cfg: List[String]): Boolean =
+//   if !rec_configExists() then
+//     tui_recmissingconfig()
+//     false
+//   else if !rec_isConfigOk(cfg) then
+//     tui_recconfigerror()
+//     false
+//   else
+//     true
+
 
 def tui_configureRecording() =
   val vcodecs = List("x264")
@@ -40,7 +61,7 @@ def tui_configureRecording() =
   val vcapture = tui_x11Setup()
   val acapture = tui_pulseSetup()
 
-  val output = readLoop_dir("Type the path to store your video recordings")
+  val output = readLoop_dir("Type the path to store your video recordings (default: the current path of Tanuki)")
   val delay = readLoop_int("Type the recording delay (in seconds)\nMax duration: 60")
   rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture)
 

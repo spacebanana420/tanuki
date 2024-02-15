@@ -8,6 +8,8 @@ import scala.io.Source
 
 def rec_createConfig() = FileOutputStream("video_config.txt")
 
+def rec_configExists(): Boolean = File("video_config.txt").isFile()
+
 def rec_readConfig(): List[String] =
   val settings =
     List(
@@ -79,14 +81,24 @@ def rec_getacapture(cfg: List[String]): List[String] = rec_readEntry(cfg, "acapt
 def rec_getOutput(cfg: List[String]): String = rec_readSingleValue(cfg, "output=")
 def rec_getDelay(cfg: List[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
 
-def rec_getFullArgs(config: List[String] = List()): List[String] =
+def rec_getCaptureArgs(config: List[String] = List()): List[String] =
+  val cfg =
+    if config == List() then rec_readConfig()
+    else config
+
+  val vcapture = rec_getvcapture(cfg)
+  val acapture = rec_getacapture(cfg)
+  val vcapture_args = capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
+  val acapture_args = capture_pulse(acapture(1))
+
+  vcapture_args ++ acapture_args
+
+def rec_getEncodeArgs(config: List[String] = List()): List[String] =
   val cfg =
     if config == List() then rec_readConfig()
     else config
   val vcodec = rec_getvcodec(cfg)
   val acodec = rec_getacodec(cfg)
-  val vcapture = rec_getvcapture(cfg)
-  val acapture = rec_getacapture(cfg)
 
   val v_args =
     vcodec(0) match
@@ -101,10 +113,7 @@ def rec_getFullArgs(config: List[String] = List()): List[String] =
         audio_setOpus(acodec(1).toInt)
       case _ => List[String]()
 
-  val vcapture_args = capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
-  val acapture_args = capture_pulse(acapture(1))
-
-  v_args ::: a_args ::: vcapture_args ::: acapture_args
+  v_args ++ a_args
 
 
 def rec_writeConfig(
@@ -114,12 +123,14 @@ vcodec: List[String] = List(), acodec: List[String] = List(), vcapture: List[Str
   def mkstring(l: List[String], s: String = "", i: Int = 0): String =
     if i >= l.length then
       s + "\n"
+    else if i == 0 then
+      mkstring(l, s"${l(i)}", i+1)
     else
       mkstring(l, s"$s:${l(i)}", i+1)
 
   val config =
     s"output=$output\ndelay=$delay\n"
-    "vcodec=" + mkstring(vcodec)
+    + "vcodec=" + mkstring(vcodec)
     + "acodec=" + mkstring(acodec)
     + "vcapture=" + mkstring(vcapture)
     + "acapture=" + mkstring(acapture)

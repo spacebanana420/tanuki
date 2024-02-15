@@ -44,6 +44,8 @@ private def readLoop_dir(txt: String): String =
   val answer = spawnAndRead(txt)
   if File(answer).isDirectory() then
     answer
+  else if answer == "" then
+    "."
   else
     pressToContinue("That is not a real path in your system!")
     readLoop_dir(txt)
@@ -51,21 +53,25 @@ private def readLoop_dir(txt: String): String =
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.3\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default View screenshots\n${green}3:$default Compress screenshots\n${green}4:$default Configure launcher\n"
-    val answer = readLoop(text, 4)
+    val text = s"$yellow[Tanuki Launcher]$default version 0.4\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording\n"
+    val answer = readLoop(text, 6)
     answer match
       case 0 =>
         exit()
       case 1 =>
         tui_play()
       case 2 =>
-        tui_ssview()
+        tui_play(true)
       case 3 =>
-        tui_ssconv()
+        tui_ssview()
       case 4 =>
+        tui_ssconv()
+      case 5 =>
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
+      case 6 =>
+        tui_configureRecording()
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
@@ -76,6 +82,18 @@ def tui_noffmpeg(): Boolean =
     false
 
 def tui_play(record: Boolean = false) =
+  if record && rec_configExists() then
+    val reccfg = rec_readConfig()
+    if !rec_isConfigOk(reccfg) then
+      tui_recconfigerror()
+    else
+      tui_play_generic(true, reccfg)
+  else if record then tui_recmissingconfig()
+  else
+    tui_play_generic()
+
+
+private def tui_play_generic(record: Boolean = false, reccfg: List[String] = List()) =
   val games = getGames(readConfig())
   if !tui_noentries(games) then
     val names = games.map(x => parseEntry(x)(0))
@@ -83,10 +101,12 @@ def tui_play(record: Boolean = false) =
 
     val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
-      if record then tui_recPlay()
-      println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
-      launchGame(paths(answer-1))
-
+      if record then
+        println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
+        launchGame(paths(answer-1), true, reccfg)
+      else
+        println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
+        launchGame(paths(answer-1))
 // def tui_chooseScreenshot(datapath: String): String =
 //   def file(path: String) =
 //     val images = File(path)
