@@ -5,6 +5,7 @@ import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
 import tanuki.quotes.*
+import tanuki.recorder.*
 
 import ffscala.*
 import java.io.File
@@ -39,6 +40,14 @@ private def readLoop_int(txt: String): Int =
   else
     readLoop_int(txt)
 
+private def readLoop_dir(txt: String): String =
+  val answer = spawnAndRead(txt)
+  if File(answer).isDirectory() then
+    answer
+  else
+    pressToContinue("That is not a real path in your system!")
+    readLoop_dir(txt)
+
 def tui_title() =
   while true do
     val quote = getRandomQuote()
@@ -66,7 +75,7 @@ def tui_noffmpeg(): Boolean =
   else
     false
 
-def tui_play() =
+def tui_play(record: Boolean = false) =
   val games = getGames(readConfig())
   if !tui_noentries(games) then
     val names = games.map(x => parseEntry(x)(0))
@@ -74,6 +83,7 @@ def tui_play() =
 
     val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
+      if record then tui_recPlay()
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
       launchGame(paths(answer-1))
 

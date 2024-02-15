@@ -8,16 +8,41 @@ import ffscala.*
 import ffscala.capture.*
 import java.io.File
 
+def tui_recPlay() =
+  val cfg = rec_readConfig()
+  val args = rec_getFullArgs(cfg)
+  val output = rec_getOutput(cfg)
+  val d = rec_getDelay(cfg)
+  val delay = if d > 60 then 60 else d
+
+  recordVideo(output, args, delay)
 
 def tui_configureRecording() =
   val vcodecs = List("x264")
   val acodecs = List("pcm", "opus")
-  val answer = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Exit\n\n")
 
-  if answer != 0 then
-    vcodecs(answer) match
-      case "x264" =>
+  val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
+  val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
 
+  val vcodec =
+    if ans_vc != 0 then
+      vcodecs(ans_vc-1) match //only x264 for now
+        case "x264" => tui_x264Setup()
+    else
+      tui_x264Setup()
+  val acodec =
+    if ans_ac != 0 then
+      acodecs(ans_ac-1) match
+        case "pcm" => tui_pcmSetup()
+        case "opus" => tui_opusSetup()
+    else
+      tui_pcmSetup()
+  val vcapture = tui_x11Setup()
+  val acapture = tui_pulseSetup()
+
+  val output = readLoop_dir("Type the path to store your video recordings")
+  val delay = readLoop_int("Type the recording delay (in seconds)\nMax duration: 60")
+  rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture)
 
 def tui_x264Setup(): List[String] =
   val presets = List("ultrafast", "superfast", "veryfast", "medium")
@@ -30,10 +55,10 @@ def tui_x264Setup(): List[String] =
 
   val final_preset =
     if preset == 0 then presets(1)
-    else presets(preset)
+    else presets(preset-1)
   val final_pixfmt =
     if pixfmt == 0 then pixfmts(0)
-    else pixfmts(pixfmt)
+    else pixfmts(pixfmt-1)
 
   List("x264", final_preset, crf.toString, keyint.toString, final_pixfmt)
 
@@ -45,9 +70,21 @@ def tui_pcmSetup(): List[String] =
     else "24"
   List("pcm", depth)
 
+def tui_opusSetup(): List[String] =
+  val bitrate = readLoop_int("Input the audio bitrate (in kilobits per second)")
+  List("opus", bitrate.toString)
+
 def tui_x11Setup(): List[String] =
   val w = readLoop_int("Input the capture resolution's width")
   val h = readLoop_int("Input the capture resolution's height")
   val fps = readLoop_int("Input the capture resolution's framerate")
 
   List("x11grab", w.toString, h.toString, fps.toString)
+
+def tui_pulseSetup(): List[String] =
+  val sources = getSources_pulse()
+  val ans = readLoop_list(sources, s"Choose the audio input source to use\n\n${green}${0}:${default} Default (system's default))\n\n")
+  val input =
+    if ans == 0 then "default"
+    else sources(ans-1)
+  List("pulse", input)
