@@ -41,4 +41,3 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: List[String] 
   if cmd_close != List() then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
-

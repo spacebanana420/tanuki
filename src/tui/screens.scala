@@ -82,7 +82,7 @@ def tui_noffmpeg(): Boolean =
     false
 
 def tui_play(record: Boolean = false) =
-  if record && rec_configExists() then
+  if record && !tui_noffmpeg() && rec_configExists() then
     val reccfg = rec_readConfig()
     if !rec_isConfigOk(reccfg) then
       tui_recconfigerror()

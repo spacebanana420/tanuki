@@ -9,7 +9,7 @@ import ffscala.capture.*
 import java.io.File
 
 def tui_recconfigerror() =
-  val text = "There's an error in your video_config.txt!\nYou might have a setting that isn't configured properly!\n\nWould you like to configure the video recorder now and delete the old configuration file?"
+  val text = "There's an error in your video_config.txt!\nYou might have a setting that isn't configured properly, or your config isn't compatible with this version of Tanuki!\n\nWould you like to configure the video recorder now and delete the old configuration file?"
   val answer = askPrompt(text)
   if answer then tui_configureRecording()
 
@@ -17,26 +17,6 @@ def tui_recmissingconfig() =
   val text = "No recorder configuration has been found!\nWould you like to configure?"
   val answer = askPrompt(text)
   if answer then tui_configureRecording()
-
-// def tui_record(cfg: List[String]) =
-//   //val cfg = rec_readConfig()
-//   val args = rec_getFullArgs(cfg)
-//   val output = rec_getOutput(cfg)
-//   val d = rec_getDelay(cfg)
-//   val delay = if d > 60 then 60 else d
-//   println(s"$args\n$output\n$delay")
-//   recordVideo(s"$output/video.mov", args, delay)
-
-// def tui_recPlay_check(cfg: List[String]): Boolean =
-//   if !rec_configExists() then
-//     tui_recmissingconfig()
-//     false
-//   else if !rec_isConfigOk(cfg) then
-//     tui_recconfigerror()
-//     false
-//   else
-//     true
-
 
 def tui_configureRecording() =
   val vcodecs = List("x264")
@@ -72,7 +52,7 @@ def tui_x264Setup(): List[String] =
   val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
   val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
-  val pixfmt = readLoop_list(pixfmts, s"Choose an color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
+  val pixfmt = readLoop_list(pixfmts, s"Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
 
   val final_preset =
     if preset == 0 then presets(1)
