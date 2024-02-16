@@ -36,7 +36,7 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: List[String] 
     println("\nPress Q to stop recording and return to the main menu")
     record(s"$output/tanuki-video.mov", captureargs, args)
   else
-    Thread.sleep(4000)
+    Thread.sleep(3000)
     readUserInput("\nPress enter to return to the main menu")
   if cmd_close != List() then
     cmd_close.run(ProcessLogger(line => ()))

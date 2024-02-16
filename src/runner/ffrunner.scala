@@ -8,9 +8,10 @@ import ffscala.*
 
 //temporary solution
 def screenshot_view(path: String) =
-  val cmdexec = Seq("ffplay", path)
+  val cmdexec = Seq("ffplay", "-loglevel", "quiet", path)
   val parentpath = File(path).getParent()
   Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
+  //execplay(path)
 
 private def changeExtension(name: String, i: Int, s: String = "", copy: Boolean = false): String =
   def reverse(s: String, i: Int, ns: String = ""): String =
