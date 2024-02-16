@@ -61,7 +61,7 @@ def tui_x264Setup(): List[String] =
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "rgb24")
 
   val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
-  val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
+  val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
 //   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
   val pixfmt = readLoop_list(pixfmts, s"Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
 
@@ -78,7 +78,7 @@ def tui_x264rgbSetup(): List[String] =
   val presets = List("ultrafast", "superfast", "veryfast", "medium")
 
   val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
-  val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
+  val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
 //   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
 
   val final_preset =
