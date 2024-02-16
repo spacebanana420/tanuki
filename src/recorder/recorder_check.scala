@@ -24,10 +24,10 @@ private def vcodec_ok(cfg: List[String]): Boolean =
   try
     vcodec(0) match
       case "x264" =>
-        vcodec(2).toByte; vcodec(3).toShort
+        vcodec(2).toByte;
         if vcodec.length == 4 then true else false
       case "x264rgb" =>
-        vcodec(2).toByte; vcodec(3).toShort
+        vcodec(2).toByte;
         if vcodec.length == 3 then true else false
       case _ => false
   catch
