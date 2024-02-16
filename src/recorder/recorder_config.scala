@@ -103,7 +103,7 @@ def rec_getEncodeArgs(config: List[String] = List()): List[String] =
   val v_args =
     vcodec(0) match
     case "x264" =>
-      video_setx264(vcodec(1), vcodec(2).toByte, vcodec(4))
+      video_setx264(vcodec(1), vcodec(2).toByte, vcodec(3))
     case "x264rgb" =>
       video_setx264rgb(vcodec(1), vcodec(2).toByte)
     case _ => List[String]()
