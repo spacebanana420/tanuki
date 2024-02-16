@@ -62,7 +62,7 @@ def tui_x264Setup(): List[String] =
 
   val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
   val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
-  val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
+//   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
   val pixfmt = readLoop_list(pixfmts, s"Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
 
   val final_preset =
@@ -72,20 +72,20 @@ def tui_x264Setup(): List[String] =
     if pixfmt == 0 then pixfmts(0)
     else pixfmts(pixfmt-1)
 
-  List("x264", final_preset, crf.toString, keyint.toString, final_pixfmt)
+  List("x264", final_preset, crf.toString, final_pixfmt)
 
 def tui_x264rgbSetup(): List[String] =
   val presets = List("ultrafast", "superfast", "veryfast", "medium")
 
   val preset = readLoop_list(presets, s"Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
   val crf = readLoop("Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression", 51)
-  val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
+//   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
 
   val final_preset =
     if preset == 0 then presets(1)
     else presets(preset-1)
 
-  List("x264rgb", final_preset, crf.toString, keyint.toString)
+  List("x264rgb", final_preset, crf.toString)
 
 def tui_pcmSetup(): List[String] =
   val depths = List("16bit", "24bit")

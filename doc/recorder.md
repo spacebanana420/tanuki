@@ -58,10 +58,6 @@ CRF is the encoding's control rate factor. It establishes a constant quality tar
 
 A good value for decent quality with not-so-huge file sizes would be a CRF between 8 and 15.
 
-### Keyframe interval
-
-The keyframe interval determines the interval in frames between keyframes, where between them are secondary frames. These secondary frames share identical pixel data with each other.
-
 ### Color format
 
 The color/pixel format determines how your color information is encoded. For a faithful capture of your gameplay, use rgb24 or an encoder that assumes rgb24, such as x264rgb.
