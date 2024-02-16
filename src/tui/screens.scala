@@ -89,12 +89,11 @@ def tui_play(record: Boolean = false) =
       val ok =
         i match
           case 0 => !tui_noffmpeg()
-          case 1 => rec_configExists()
+          case 1 => tui_recmissingconfig(); rec_configExists()
           case 2 => tui_supportedOS()
 
       if ok then everythingOk(i+1)
       else
-        if i == 1 then tui_recmissingconfig()
         false
 
   if record && everythingOk() then

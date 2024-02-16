@@ -33,7 +33,7 @@ Tanuki only captures the whole screen, unable to capture specific windows. Becau
 
 * Touhou 6 to 13 (fullscreen): 640x480
 * Touhou 14 onward (fullscreen): 1280x960
-* Game in fullscreen with WINE with fshack: Your screen's resolution, preferably cropped to 4:3 (for example: 1440x1080)
+* Game in fullscreen with WINE with fshack: Your screen's resolution.
 
 Fshack is a patch that can be added to Wine that prevents the game's resolution from affecting your display's.
 
