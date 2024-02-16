@@ -10,7 +10,7 @@ The launcher uses a TUI interface and is very simple to use and configure. You c
 
 You can also view screenshots and compress them into PNG copies.
 
-I plan to add screenshot cropping, data backup, screen recording and more to Tanuki!
+I plan to add screenshot cropping, data backup and more to Tanuki!
 
 # Download
 
@@ -24,7 +24,7 @@ If you just have Java in your system, download ```tanuki-java.jar```
 
 Tanuki requires the following to work:
 * Scala 3 or Java 8 or later
-* FFmpeg (optional, for screenshot functionality)
+* FFmpeg (optional, for screen recording and screenshot functionality)
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.
 
@@ -37,17 +37,6 @@ Tanuki's OS support extends to all operating systems with WINE support + Windows
 To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
 
 You can configure this file from within the launcher, or you can manually write your config text file.
-
-### Supported options:
-
-* ```game``` - Add a Touhou game entry.
-  * The path must lead to a file.
-* ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
-  * The path must lead to a directory.
-* ```command``` - Add a command entry to use a program to launch the games with.
-* ```sidecommand_start``` - Command that runs before launching a game.
-* ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
-* ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
 
 ### Config example:
 
@@ -78,6 +67,12 @@ Due to typical dynamic-linking, to run a custom WINE build on NixOS, install ```
 ```
 use_steam-run=true
 ```
+
+# Screen recording
+
+[Recorder documentation](doc/recorder.md)
+
+With FFmpeg, Tanuki can record your screen and audio as you play Touhou, to record your gameplay. You can configure the recording settings for a more faithful or lossless video footage, or for a more lightweight footage, whether it's lightweight as in low CPU usage or as in low file size.
 
 
 # Compile from source

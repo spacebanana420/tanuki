@@ -1,12 +1,21 @@
 package tanuki.tui
 
 import tanuki.ffmpeg_installed
+import tanuki.system_platform
 import tanuki.recorder.*
 import tanuki.runner.*
 
 import ffscala.*
 import ffscala.capture.*
 import java.io.File
+
+def tui_supportedOS() =
+  val text = "Video recording is currently only available for Linux and BSD systems!"
+  if system_platform == 1 || system_platform == 2 then
+    true
+  else
+    pressToContinue(text)
+    false
 
 def tui_recconfigerror() =
   val text = "There's an error in your video_config.txt!\nYou might have a setting that isn't configured properly, or your config isn't compatible with this version of Tanuki!\n\nWould you like to configure the video recorder now and delete the old configuration file?"

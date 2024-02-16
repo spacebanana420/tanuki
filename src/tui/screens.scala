@@ -82,14 +82,28 @@ def tui_noffmpeg(): Boolean =
     false
 
 def tui_play(record: Boolean = false) =
-  if record && !tui_noffmpeg() && rec_configExists() then
-    val reccfg = rec_readConfig()
-    if !rec_isConfigOk(reccfg) then
-      tui_recconfigerror()
+  def everythingOk(i: Int = 0): Boolean =
+    if i >= 3 then
+      true
     else
+      val ok =
+        i match
+          case 0 => !tui_noffmpeg()
+          case 1 => rec_configExists()
+          case 2 => tui_supportedOS()
+
+      if ok then everythingOk(i+1)
+      else
+        if i == 1 then tui_recmissingconfig()
+        false
+
+  if record && everythingOk() then
+    val reccfg = rec_readConfig()
+    if rec_isConfigOk(reccfg) then
       tui_play_generic(true, reccfg)
-  else if record then tui_recmissingconfig()
-  else
+    else
+      tui_recconfigerror()
+  else if !record then
     tui_play_generic()
 
 
