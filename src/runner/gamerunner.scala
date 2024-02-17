@@ -12,7 +12,7 @@ private def getVideoName(path: String, name: String = "tanuki-video.mov", i: Int
   if !File(s"$path/name").isFile() then
     name
   else
-    getName(path, s"tanuki-video-$i.mov", i+1)
+    getVideoName(path, s"tanuki-video-$i.mov", i+1)
 
 def launchGame(path: String, recordvideo: Boolean = false, reccfg: List[String] = List()) =
   val cfg = readConfig()
