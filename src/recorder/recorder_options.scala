@@ -18,10 +18,13 @@ import ffscala.capture.*
 /////VIDEO/////
 
 def video_setx264(preset: String, crf: Byte, pixfmt: String): List[String] =
-  x264_setPreset(preset) ++ setCRF(crf) ++ setPixFmt(pixfmt)
+  setVideoEncoder("x264") ++ x264_setPreset(preset) ++ setCRF(crf) ++ setPixFmt(pixfmt)
 
 def video_setx264rgb(preset: String, crf: Byte): List[String] =
-  x264_setPreset(preset) ++ setCRF(crf) //++ setPixFmt("rgb24")
+  setVideoEncoder("x264rgb") ++ x264_setPreset(preset) ++ setCRF(crf) //++ setPixFmt("rgb24")
+
+def video_setUtvideo(pixfmt: String): List[String] =
+  setVideoEncoder("utvideo") ++ setPixFmt(pixfmt)
 
 /////VIDEO CAPTURE/////
 
