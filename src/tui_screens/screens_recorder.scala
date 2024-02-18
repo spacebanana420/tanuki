@@ -89,19 +89,22 @@ def tui_x264rgbSetup(): List[String] =
   List("x264rgb", final_preset, crf.toString)
 
 def tui_pcmSetup(): List[String] =
+  val title = s"$green[Audio configuration]$default\n\n"
   val depths = List("16bit", "24bit")
-  val d = readLoop_list(depths, s"Choose the audio bit depth\n\n${green}${0}:${default} Default (16bit)\n\n")
+  val d = readLoop_list(depths, s"${title}Choose the audio bit depth\n\n${green}${0}:${default} Default (16bit)\n\n")
   val depth =
     if d == 0 || d == 1 then "16"
     else "24"
   List("pcm", depth)
 
 def tui_opusSetup(): List[String] =
-  val bitrate = readLoop_int("Input the audio bitrate (in kilobits per second)")
+  val title = s"$green[Audio configuration]$default\n\n"
+  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
   List("opus", bitrate.toString)
 
 def tui_mp3Setup(): List[String] =
-  val bitrate = readLoop_int("Input the audio bitrate (in kilobits per second)")
+  val title = s"$green[Audio configuration]$default\n\n"
+  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
   List("mp3", bitrate.toString)
 
 def tui_x11Setup(): List[String] =

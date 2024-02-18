@@ -15,7 +15,7 @@ def rec_readConfig(): Vector[String] =
     List(
     "output=", "delay=",
     "width=", "height=", "vcodec=", "acodec=",
-    "vcapture=", "acapture="
+    "vcapture=", "acapture=", "crop=", "scale="
     )
   val src = Source.fromFile("video_config.txt")
   val cfg = src

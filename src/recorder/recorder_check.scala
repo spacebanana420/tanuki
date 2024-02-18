@@ -10,7 +10,7 @@ def rec_isConfigOk(config: Seq[String] = List()): Boolean =
       rec_readConfig()
     else
       config
-  if output_ok(cfg) && vcodec_ok(cfg) && acodec_ok(cfg) && vcapture_ok(cfg) && acapture_ok(cfg) then
+  if output_ok(cfg) && vcodec_ok(cfg) && acodec_ok(cfg) && vcapture_ok(cfg) && acapture_ok(cfg) && filters_ok(cfg) then
     true
   else
     false
@@ -67,5 +67,18 @@ private def acapture_ok(cfg: Seq[String]): Boolean =
       case "pulse" =>
         if acapture.length == 2 then true else false
       case _ => false
+  catch
+    case e: Exception => false
+
+
+private def filters_ok(cfg: Seq[String]): Boolean =
+  val crop = rec_getCrop(cfg)
+  val scale = rec_getScale(cfg)
+  try
+    if crop.length != 0 then
+      crop(0).toInt; crop(1).toInt
+    if scale.length != 0 then
+      scale(0).toInt; scale(1).toInt
+    true
   catch
     case e: Exception => false
