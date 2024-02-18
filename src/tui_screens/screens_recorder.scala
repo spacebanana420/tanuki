@@ -1,7 +1,6 @@
 package tanuki.tui
 
-import tanuki.ffmpeg_installed
-import tanuki.system_platform
+import tanuki.{ffmpeg_installed, system_platform}
 import tanuki.recorder.*
 import tanuki.runner.*
 
@@ -28,15 +27,16 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264", "x264rgb")
+  val vcodecs = List("x264", "x264rgb", "utvideo")
   val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
   val vcodec =
     if ans_vc != 0 then
-      vcodecs(ans_vc-1) match //only x264 for now
+      vcodecs(ans_vc-1) match
         case "x264" => tui_x264Setup()
         case "x264rgb" => tui_x264rgbSetup()
+        case "utvideo" => tui_utvideoSetup()
     else
       tui_x264Setup()
   val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
@@ -87,6 +87,17 @@ def tui_x264rgbSetup(): List[String] =
     else presets(preset-1)
 
   List("x264rgb", final_preset, crf.toString)
+
+def tui_utvideoSetup(): List[String] =
+  val title = s"$green[Utvideo configuration]$default\n\n"
+  val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "gbrp")
+
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose an x264 preset\n\n${green}${0}:${default} Default (gbrp)\n\n")
+  val final_pixfmt =
+    if pixfmt == 0 then pixfmts(3)
+    else pixfmts(pixfmt-1)
+
+  List("utvideo", final_pixfmt)
 
 def tui_pcmSetup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
