@@ -4,9 +4,9 @@ import tanuki.misc.similarInList
 
 import java.io.File
 
-def rec_isConfigOk(config: List[String] = List()): Boolean =
+def rec_isConfigOk(config: Seq[String] = List()): Boolean =
   val cfg =
-    if config == List() then
+    if config.length == 0 then
       rec_readConfig()
     else
       config
@@ -15,11 +15,11 @@ def rec_isConfigOk(config: List[String] = List()): Boolean =
   else
     false
 
-private def output_ok(cfg: List[String]): Boolean =
+private def output_ok(cfg: Seq[String]): Boolean =
   val output = rec_getOutput(cfg)
   File(output).isDirectory()
 
-private def vcodec_ok(cfg: List[String]): Boolean =
+private def vcodec_ok(cfg: Seq[String]): Boolean =
   val vcodec = rec_getvcodec(cfg)
   try
     vcodec(0) match
@@ -33,7 +33,7 @@ private def vcodec_ok(cfg: List[String]): Boolean =
   catch
     case e: Exception => false
 
-private def acodec_ok(cfg: List[String]): Boolean =
+private def acodec_ok(cfg: Seq[String]): Boolean =
   val acodec = rec_getacodec(cfg)
   try
     acodec(0) match
@@ -49,7 +49,7 @@ private def acodec_ok(cfg: List[String]): Boolean =
       case _ => false
   catch case e: Exception => false
 
-private def vcapture_ok(cfg: List[String]): Boolean =
+private def vcapture_ok(cfg: Seq[String]): Boolean =
   val vcapture = rec_getvcapture(cfg)
   try
     vcapture(0) match
@@ -60,7 +60,7 @@ private def vcapture_ok(cfg: List[String]): Boolean =
   catch
     case e: Exception => false
 
-private def acapture_ok(cfg: List[String]): Boolean =
+private def acapture_ok(cfg: Seq[String]): Boolean =
   val acapture = rec_getacapture(cfg)
   try
     acapture(0) match

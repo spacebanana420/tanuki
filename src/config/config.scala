@@ -8,7 +8,7 @@ import scala.io.Source
 
 def configExists(): Boolean = File("config.txt").exists()
 
-def readConfig(): List[String] =
+def readConfig(): Vector[String] =
   val settings =
     List(
     "game=", "data=", "command=", "use_steam-run=",
@@ -18,7 +18,7 @@ def readConfig(): List[String] =
   val cfg = src
     .getLines()
     .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
-    .toList
+    .toVector
   src.close()
   cfg
 
@@ -30,7 +30,7 @@ private def getValue(l: String, setting: String, tmp: String = "", value: String
   else
     getValue(l, setting, tmp + l(i), value, i+1)
 
-private def getValues(cfg: List[String], setting: String, vals: List[String] = List(), i: Int = 0): List[String] =
+private def getValues(cfg: Seq[String], setting: String, vals: List[String] = List(), i: Int = 0): List[String] =
   if i >= cfg.length then
     vals
   else
@@ -40,7 +40,7 @@ private def getValues(cfg: List[String], setting: String, vals: List[String] = L
     else
       getValues(cfg, setting, vals, i+1)
 
-private def getFirstValue(cfg: List[String], setting: String, i: Int = 0): String =
+private def getFirstValue(cfg: Seq[String], setting: String, i: Int = 0): String =
   if i >= cfg.length then
     ""
   else
@@ -51,12 +51,12 @@ private def getFirstValue(cfg: List[String], setting: String, i: Int = 0): Strin
       getFirstValue(cfg, setting, i+1)
 
 
-def getGames(cfg: List[String]): List[String] = getValues(cfg, "game=")
-def getDatas(cfg: List[String]): List[String] = getValues(cfg, "data=")
-def getCommand(cfg: List[String]): String = getFirstValue(cfg, "command=")
+def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
+def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
+def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
 
-def getStartCmd(cfg: List[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
-def getCloseCmd(cfg: List[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
+def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
+def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
 
 private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = List(), i: Int = 0): List[String] =
   if i >= cmd.length then
@@ -66,7 +66,7 @@ private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = Lis
   else
     parseCommand(cmd, arg + cmd(i), cmdl, i+1)
 
-def steamRunEnabled(cfg: List[String]): Boolean =
+def steamRunEnabled(cfg: Seq[String]): Boolean =
   if getFirstValue(cfg, "use_steam-run=") == "true" then
     true
   else

@@ -3,7 +3,7 @@ import scala.math.{random, round}
 
 def getRandomQuote(): String =
   val quotes =
-    List(
+    Vector(
     "\"Heaven knows, Earth knows. I know, you know.\" ~ Shikieiki's spellcard message, Touhou 9",
     "\"Go with the flow.\" ~ Reimu's spellcard message, Touhou 9",
     "\"Sing your heart out.\" ~ Mystia Lorelei's spellcard message, Touhou 9",

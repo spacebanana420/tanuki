@@ -14,7 +14,7 @@ def tui_configerror() =
     val cfg = tui_configure()
     writeConfig(cfg, false)
 
-def tui_noentries(entries: List[String]): Boolean =
+def tui_noentries(entries: Seq[String]): Boolean =
   if entries.length == 0 then
     val text = "No entries have been found!\nWould you like to add some to your configuration?"
     val answer = askPrompt(text)

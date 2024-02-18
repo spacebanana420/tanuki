@@ -14,7 +14,7 @@ private def getVideoName(path: String, name: String = "tanuki-video.mov", i: Int
   else
     getVideoName(path, s"tanuki-video-$i.mov", i+1)
 
-def launchGame(path: String, recordvideo: Boolean = false, reccfg: List[String] = List()) =
+def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
   val cmd = getCommand(cfg)
   val cmd_start = getStartCmd(cfg)

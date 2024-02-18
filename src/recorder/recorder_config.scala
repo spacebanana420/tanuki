@@ -10,7 +10,7 @@ def rec_createConfig() = FileOutputStream("video_config.txt")
 
 def rec_configExists(): Boolean = File("video_config.txt").isFile()
 
-def rec_readConfig(): List[String] =
+def rec_readConfig(): Vector[String] =
   val settings =
     List(
     "output=", "delay=",
@@ -21,11 +21,11 @@ def rec_readConfig(): List[String] =
   val cfg = src
     .getLines()
     .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
-    .toList
+    .toVector
   src.close()
   cfg
 
-private def find(cfg: List[String], setting: String, i: Int = 0): Int =
+private def find(cfg: Seq[String], setting: String, i: Int = 0): Int =
   def startsWith(line: String, tmp: String = "", i: Int = 0): Boolean =
     if i >= line.length || i >= setting.length then
       if tmp == setting then
@@ -42,7 +42,7 @@ private def find(cfg: List[String], setting: String, i: Int = 0): Int =
   else
     find(cfg, setting, i+1)
 
-private def rec_readEntry(cfg: List[String], setting: String): List[String] =
+private def rec_readEntry(cfg: Seq[String], setting: String): List[String] =
   def getValue(line: String, tmp: String = "", nl: List[String] = List(), i: Int = 0): List[String] =
     if i >= line.length then
       if tmp == "" then
@@ -60,7 +60,7 @@ private def rec_readEntry(cfg: List[String], setting: String): List[String] =
   else
     getValue(cfg(i), i = setting.length)
 
-private def rec_readSingleValue(cfg: List[String], setting: String): String =
+private def rec_readSingleValue(cfg: Seq[String], setting: String): String =
   def getValue(line: String, tmp: String = "", i: Int): String =
     if i >= line.length then
       tmp
@@ -73,17 +73,17 @@ private def rec_readSingleValue(cfg: List[String], setting: String): String =
   else
     getValue(cfg(i), i = setting.length)
 
-def rec_getvcodec(cfg: List[String]): List[String] = rec_readEntry(cfg, "vcodec=")
-def rec_getacodec(cfg: List[String]): List[String] = rec_readEntry(cfg, "acodec=")
-def rec_getvcapture(cfg: List[String]): List[String] = rec_readEntry(cfg, "vcapture=")
-def rec_getacapture(cfg: List[String]): List[String] = rec_readEntry(cfg, "acapture=")
+def rec_getvcodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcodec=")
+def rec_getacodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acodec=")
+def rec_getvcapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcapture=")
+def rec_getacapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acapture=")
 
-def rec_getOutput(cfg: List[String]): String = rec_readSingleValue(cfg, "output=")
-def rec_getDelay(cfg: List[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
+def rec_getOutput(cfg: Seq[String]): String = rec_readSingleValue(cfg, "output=")
+def rec_getDelay(cfg: Seq[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
 
-def rec_getCaptureArgs(config: List[String] = List()): List[String] =
+def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
   val cfg =
-    if config == List() then rec_readConfig()
+    if config.length == 0 then rec_readConfig()
     else config
 
   val vcapture = rec_getvcapture(cfg)
@@ -93,9 +93,9 @@ def rec_getCaptureArgs(config: List[String] = List()): List[String] =
 
   vcapture_args ++ acapture_args
 
-def rec_getEncodeArgs(config: List[String] = List()): List[String] =
+def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
   val cfg =
-    if config == List() then rec_readConfig()
+    if config.length == 0 then rec_readConfig()
     else config
   val vcodec = rec_getvcodec(cfg)
   val acodec = rec_getacodec(cfg)
@@ -122,9 +122,9 @@ def rec_getEncodeArgs(config: List[String] = List()): List[String] =
 
 def rec_writeConfig(
 output: String, delay: Int,
-vcodec: List[String] = List(), acodec: List[String] = List(), vcapture: List[String] = List(), acapture: List[String] = List()
+vcodec: Seq[String] = List(), acodec: Seq[String] = List(), vcapture: Seq[String] = List(), acapture: Seq[String] = List()
 ) =
-  def mkstring(l: List[String], s: String = "", i: Int = 0): String =
+  def mkstring(l: Seq[String], s: String = "", i: Int = 0): String =
     if i >= l.length then
       s + "\n"
     else if i == 0 then

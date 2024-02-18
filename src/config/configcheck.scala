@@ -33,7 +33,7 @@ private def check_paths(entries: List[String], isGame: Boolean, i: Int = 0): Boo
         printStatus(s"You have a $etype entry that is missing a name!\n")
         false
     val check_path =
-      if entry(1) != ""  && isPathCorrect(entry(1)) then
+      if entry(1) != "" && isPathCorrect(entry(1)) then
         true
       else
         printStatus(s"You have a $etype entry has an incorrect path assigned!\n")

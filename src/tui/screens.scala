@@ -107,7 +107,7 @@ def tui_play(record: Boolean = false) =
     tui_play_generic()
 
 
-private def tui_play_generic(record: Boolean = false, reccfg: List[String] = List()) =
+private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List()) =
   val games = getGames(readConfig())
   if !tui_noentries(games) then
     val names = games.map(x => parseEntry(x)(0))
