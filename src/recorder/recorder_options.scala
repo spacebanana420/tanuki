@@ -47,3 +47,9 @@ def audio_setmp3(bitrate: Int): List[String] =
 def getSources_pulse(): List[String] = listSources("pulse")
 
 def capture_pulse(input: String): List[String] = captureAudio("pulse", input)
+
+/////RECORD FILTERS/////
+
+def tanukifilter_crop(w: Int, h: Int): List[String] = cropCenter(w, h)
+
+def tanukifilter_scale(w: Int, h: Int): List[String] = scale(w, h)

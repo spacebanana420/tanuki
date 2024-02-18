@@ -73,52 +73,16 @@ private def rec_readSingleValue(cfg: Seq[String], setting: String): String =
   else
     getValue(cfg(i), i = setting.length)
 
-def rec_getvcodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcodec=")
-def rec_getacodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acodec=")
-def rec_getvcapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcapture=")
-def rec_getacapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acapture=")
+private def rec_getvcodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcodec=")
+private def rec_getacodec(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acodec=")
+private def rec_getvcapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "vcapture=")
+private def rec_getacapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "acapture=")
+
+private def rec_getCrop(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "crop=")
+private def rec_getScale(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "scale=")
 
 def rec_getOutput(cfg: Seq[String]): String = rec_readSingleValue(cfg, "output=")
 def rec_getDelay(cfg: Seq[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
-
-def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
-  val cfg =
-    if config.length == 0 then rec_readConfig()
-    else config
-
-  val vcapture = rec_getvcapture(cfg)
-  val acapture = rec_getacapture(cfg)
-  val vcapture_args = capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
-  val acapture_args = capture_pulse(acapture(1))
-
-  vcapture_args ++ acapture_args
-
-def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
-  val cfg =
-    if config.length == 0 then rec_readConfig()
-    else config
-  val vcodec = rec_getvcodec(cfg)
-  val acodec = rec_getacodec(cfg)
-
-  val v_args =
-    vcodec(0) match
-    case "x264" =>
-      video_setx264(vcodec(1), vcodec(2).toByte, vcodec(3))
-    case "x264rgb" =>
-      video_setx264rgb(vcodec(1), vcodec(2).toByte)
-    case _ => List[String]()
-  val a_args =
-    acodec(0) match
-      case "pcm" =>
-        audio_setPCM(acodec(1).toByte)
-      case "opus" =>
-        audio_setOpus(acodec(1).toInt)
-      case "mp3" =>
-        audio_setmp3(acodec(1).toInt)
-      case _ => List[String]()
-
-  v_args ++ a_args
-
 
 def rec_writeConfig(
 output: String, delay: Int,
