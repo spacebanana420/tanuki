@@ -50,10 +50,20 @@ def tui_configureRecording() =
       tui_pcmSetup()
   val vcapture = tui_x11Setup()
   val acapture = tui_pulseSetup()
+  val crop = 
+    if askPrompt("Would you like to crop your footage?") then
+      tui_filterCrop()
+    else
+      List[String]()
+  val scale =
+    if askPrompt("Would you like to scale your footage?") then
+      tui_filterScale()
+    else
+      List[String]()
 
   val output = readLoop_dir("Type the path to store your video recordings (default: the current path of Tanuki)")
   val delay = readLoop_int("Type the recording delay (in seconds)\nMax duration: 60")
-  rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture)
+  rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture, crop, scale)
 
 def tui_x264Setup(): List[String] =
   val title = s"$green[x264 configuration]$default\n\n"
@@ -132,3 +142,15 @@ def tui_pulseSetup(): List[String] =
     if ans == 0 then "default"
     else sources(ans-1)
   List("pulse", input)
+
+def tui_filterCrop(): List[String] =
+  val title = s"$green[Crop filter]$default\n\n"
+  val w = readLoop_int("Input the crop width")
+  val h = readLoop_int("Input the crop height")
+  List(w.toString, h.toString)
+
+def tui_filterScale(): List[String] =
+  val title = s"$green[Scale filter]$default\n\n"
+  val w = readLoop_int("Input the scale width")
+  val h = readLoop_int("Input the scale height")   
+  List(w.toString, h.toString)
