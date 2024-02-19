@@ -29,11 +29,6 @@ def video_setUtvideo(pixfmt: String): List[String] =
 def video_setMjpeg(quality: Short, pixfmt: String): List[String] =
   setVideoEncoder("mjpeg") ++ setQuality(quality) ++ setPixFmt(pixfmt)
 
-/////VIDEO CAPTURE/////
-
-def capture_x11(w: Int, h: Int, fps: Int): List[String] =
-  x11grab_captureVideo("0.0", fps, false, width = w, height = h)
-
 /////AUDIO/////
 
 def audio_setPCM(depth: Byte): List[String] =
@@ -48,9 +43,22 @@ def audio_setOpus(bitrate: Int): List[String] =
 def audio_setmp3(bitrate: Int): List[String] =
   setAudioEncoder("mp3") ++ setAudioBitrate(bitrate)
 
-/////AUDIO CAPTURE/////
+/////CAPTURE/////
+
+def getSources_dshow_v(): List[String] = listSources("dshow_video")
 
 def getSources_pulse(): List[String] = listSources("pulse")
+
+def getSources_dshow_a(): List[String] = listSources("dshow_audio")
+
+def capture_x11(w: Int, h: Int, fps: Int): List[String] =
+  x11grab_captureVideo("0.0", fps, false, width = w, height = h)
+
+def capture_dshow_v(input: String, w: Int, h: Int, fps: Int): List[String] =
+  dshow_captureVideo(input, fps, w, h)
+
+def capture_dshow_a(input: String): List[String] =
+  dshow_captureAudio(input, 48000, 2, 24) //improve on ffscala
 
 def capture_pulse(input: String): List[String] = captureAudio("pulse", input)
 
