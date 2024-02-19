@@ -5,7 +5,7 @@ Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic 
 ### Tanuki's software requirements
 
 * Scala 3 or Java 8 or later
-* FFmpeg (optional, for screenshot functionality)
+* FFmpeg (optional, for screen recording and screenshot functionality)
 * WINE (for running Touhou on non-Windows systems)
 * steam-run (for NixOS only and only if you run third-party wine binaries)
 
@@ -25,6 +25,8 @@ On Windows, it's not recommended that you run Tanuki with the default terminal t
 * NetBSD
 
 I don't guarantee support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
+
+Note that Tanuki's video recorder does not support MacOS, and only supports FreeBSD and NetBSD if your system is running x11 and Pulseaudio.
 
 <p align="center">
 <img src="../images/futo.png" height="220"/>
