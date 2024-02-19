@@ -24,12 +24,14 @@ Support for Windows, MacOS and other capture backends is on my plans but it is n
 * ```aacodec``` - Your audio encoder selection and its parameters.
 * ```vcapture``` - Your screen capture configuration.
 * ```acapture``` - Your audio capture configuration.
+* ```crop``` - Crop your video footage.
+* ```scale``` - Scale your video footage.
 
 The video and audio encoding parameters are unique to each encoder.
 
 ## How to properly capture gameplay
 
-Tanuki only captures the whole screen, unable to capture specific windows. Because of this, your video's width and height should correspond to the resolution you will be playing Touhou at. Here's the recommendations:
+Tanuki only captures the whole screen, unable to capture specific windows. Because of this, your video's width and height should correspond to the **display** resolution you will be playing Touhou at. Here's the recommendations:
 
 * Touhou 6 to 13 (fullscreen): 640x480
 * Touhou 14 onward (fullscreen): 1280x960
@@ -37,11 +39,17 @@ Tanuki only captures the whole screen, unable to capture specific windows. Becau
 
 Fshack is a patch that can be added to Wine that prevents the game's resolution from affecting your display's.
 
+If you are playing with wine+fshack and capturing at your screen's native resolution, you might want to use ```crop``` to remove the reundant 4:3 letterboxing in the video. For example, if you are recording at 1920x1080, you could do ```crop=1440:1080```.
+
+If you are experiencing stuttering or frame drops, your encoding is too heavy. If lowering the encoding configuration isn't enough, you can set a lower capture framerate or use the ```scale``` option to encode at a lower resolution. If you instea use a lower **capture** resolution, you will just be cropping your capture input from the x:y position of 0x0, use scale instead.
+ 
 ## Supported encoders
 
 ### Video
 * x264 (default)
 * x264rgb
+* utvideo
+* mjpeg
 
 ### Audio
 * pcm (default)
@@ -50,13 +58,23 @@ Fshack is a patch that can be added to Wine that prevents the game's resolution 
 
 If you don't know what to choose, x264 is recommended with either pcm or mp3. As for x264, the superfast preset is reasonable in terms of speed and compression quality. Use ultrafast if your CPU can't keep up.
 
+x264rgb is x264 but uses the RGB color format, producing color that is faithful to your game's original image.
+
+Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 ultrafast. Utvideo is much faster to decode (good for video editing), although it produces **significantly** large files.
+
+MJPEg is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
+
 ## Video encoding parameters
 
-### CRF
+### CRF (x264)
 
 CRF is the encoding's control rate factor. It establishes a constant quality target and the bitrate varies throughout the video according to its need for information to produce the wanted quality. Value ranges fom 0 to 51, with 0 being lossless and higher values producing lower quality.
 
 A good value for decent quality with not-so-huge file sizes would be a CRF between 8 and 15.
+
+### Quality (MJPEG)
+
+This sets the quality target for MJPEG encoding. Accepted values range from 1 to 120. The lower the value, the higher the quality, at the cost of a bigger file. 1 produces a very faithful lossy result. Values above 1 are not recommended if you are going to heavily manipulate the video in editing or VFX. Values above 10 are generally not recommended due to the quality result.
 
 ### Color format
 
