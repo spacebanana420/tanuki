@@ -53,7 +53,7 @@ private def readLoop_dir(txt: String): String =
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.4\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording\n"
+    val text = s"$yellow[Tanuki Launcher]$default version 0.5\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording\n"
     val answer = readLoop(text, 6)
     answer match
       case 0 =>
@@ -213,24 +213,3 @@ def tui_ssconv() =
         pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
 
 //def tui_sscrop(image: String) =
-
-
-// def tui_data() =
-//   val data = getDatas(readConfig())
-//   val names = data.map(x => parseEntry(x)(0))
-//   val paths = data.map(x => parseEntry(x)(1))
-//   val text = getList(names)
-//
-//   var done = false
-//   while done == false do
-//     val answer = answerToNumber(spawnAndRead(text))
-//
-//     if answer == 0 then
-//       done = true
-//     else if (1 to names.length).contains(answer) then
-//       done = true
-//       println(s"Launching ${names(answer-1)}\nGirls are now praying, please wait warmly...")
-//       launchGame(paths(answer-1))
-//
-//
-// def tui_opendata() =

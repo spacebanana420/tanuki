@@ -53,7 +53,13 @@ def rec_getFilterArgs(config: Seq[String] = List()): List[String] =
   val f_crop = rec_getCrop(cfg)
   val f_scale = rec_getScale(cfg)
 
-  val c_args = tanukifilter_crop(f_crop(0).toInt, f_crop(1).toInt)
-  val s_args = tanukifilter_scale(f_scale(0).toInt, f_scale(1).toInt)
+  val c_args =
+    if f_crop.length == 2 then
+      tanukifilter_crop(f_crop(0).toInt, f_crop(1).toInt)
+    else List[String]()
+  val s_args =
+    if f_scale.length == 2 then
+      tanukifilter_scale(f_scale(0).toInt, f_scale(1).toInt)
+    else List[String]()
 
   c_args ++ s_args
