@@ -6,3 +6,9 @@ def answerToNumber(str: String): Int =
     str.toInt
   catch
     case e: Exception => -1
+
+def answerToShort(str: String): Short =
+  try
+    str.toShort
+  catch
+    case e: Exception => -1

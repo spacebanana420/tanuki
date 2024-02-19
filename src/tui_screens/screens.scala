@@ -40,6 +40,13 @@ private def readLoop_int(txt: String): Int =
   else
     readLoop_int(txt)
 
+private def readLoop_short(txt: String): Short =
+  val answer = answerToShort(spawnAndRead(txt))
+  if answer != -1 then
+    answer
+  else
+    readLoop_short(txt)
+
 private def readLoop_dir(txt: String): String =
   val answer = spawnAndRead(txt)
   if File(answer).isDirectory() then

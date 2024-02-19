@@ -33,6 +33,8 @@ def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
       video_setx264rgb(vcodec(1), vcodec(2).toByte)
     case "utvideo" =>
       video_setUtvideo(vcodec(1))
+    case "mjpeg" =>
+      video_setMjpeg(vcodec(1).toShort, vcodec(2))
     case _ => List[String]()
   val a_args =
     acodec(0) match

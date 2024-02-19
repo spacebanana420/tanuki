@@ -27,7 +27,7 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264", "x264rgb", "utvideo")
+  val vcodecs = List("x264", "x264rgb", "utvideo", "mjpeg")
   val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
@@ -37,6 +37,7 @@ def tui_configureRecording() =
         case "x264" => tui_x264Setup()
         case "x264rgb" => tui_x264rgbSetup()
         case "utvideo" => tui_utvideoSetup()
+        case "mjpeg" => tui_mjpegSetup()
     else
       tui_x264Setup()
   val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
@@ -102,12 +103,32 @@ def tui_utvideoSetup(): List[String] =
   val title = s"$green[Utvideo configuration]$default\n\n"
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "gbrp")
 
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose an x264 preset\n\n${green}${0}:${default} Default (gbrp)\n\n")
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (gbrp)\n\n")
   val final_pixfmt =
     if pixfmt == 0 then pixfmts(3)
     else pixfmts(pixfmt-1)
 
   List("utvideo", final_pixfmt)
+
+def tui_mjpegSetup(): List[String] =
+  val title = s"$green[MJPEG configuration]$default\n\n"
+  val pixfmts = List("yuvj420p", "yuvj422p", "yuvj444p")
+  val ask: String =
+    s"${title}Input the quality value (from 1 to 120) (Default: 1)" +
+    s"\n\nHigher value means lower quality and file size"
+
+  val quality = readLoop_short(ask)
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuvj444p)\n\n")
+  
+  val final_quality: Short =
+    if quality == 0 then 1
+    else if quality > 120 then 120
+    else quality
+  val final_pixfmt =
+    if pixfmt == 0 then pixfmts(2)
+    else pixfmts(pixfmt-1)
+
+  List("mjpeg", final_quality.toString, final_pixfmt)
 
 def tui_pcmSetup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"

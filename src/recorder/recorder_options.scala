@@ -26,6 +26,9 @@ def video_setx264rgb(preset: String, crf: Byte): List[String] =
 def video_setUtvideo(pixfmt: String): List[String] =
   setVideoEncoder("utvideo") ++ setPixFmt(pixfmt)
 
+def video_setMjpeg(quality: Short, pixfmt: String): List[String] =
+  setVideoEncoder("mjpeg") ++ setQuality(quality) ++ setPixFmt(pixfmt)
+
 /////VIDEO CAPTURE/////
 
 def capture_x11(w: Int, h: Int, fps: Int): List[String] =
