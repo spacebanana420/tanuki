@@ -13,8 +13,17 @@ def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
 
   val vcapture = rec_getvcapture(cfg)
   val acapture = rec_getacapture(cfg)
-  val vcapture_args = capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
-  val acapture_args = capture_pulse(acapture(1))
+
+  val vcapture_args =
+    if vcapture(0) == "dshow" then
+      capture_dshow_v(vcapture(1), vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toInt)
+    else
+      capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
+  val acapture_args =
+    if acapture(0) == "dshow" then
+      capture_dshow_a(acapture(1))
+    else
+      capture_pulse(acapture(1))
 
   vcapture_args ++ acapture_args
 

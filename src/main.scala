@@ -16,7 +16,6 @@ val system_platform = getPlatform()
   else
     tui_configerror()
 
-//unfinished, unused and untested
 def getPlatform(): Byte =
   if File("C:").isDirectory() then 0
   else if File("/nix/store").isDirectory() then 1
