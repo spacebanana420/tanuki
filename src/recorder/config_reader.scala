@@ -94,17 +94,21 @@ private def mkstring(l: Seq[String], s: String = "", i: Int = 0): String =
 
 def rec_writeConfig(
 output: String, delay: Int,
-vcodec: Seq[String] = List(), acodec: Seq[String] = List(), vcapture: Seq[String] = List(), acapture: Seq[String] = List()
+vcodec: Seq[String], acodec: Seq[String], vcapture: Seq[String], acapture: Seq[String],
+crop: Seq[String] = List(), scale: Seq[String] = List()
 ) =
+  val config_crop = if crop.length != 0 then "crop=" + mkstring(crop) else ""
+  val config_scale = if scale.length != 0 then "scale=" + mkstring(scale) else ""
   val config =
     s"output=$output\ndelay=$delay\n"
     + "vcodec=" + mkstring(vcodec)
     + "acodec=" + mkstring(acodec)
     + "vcapture=" + mkstring(vcapture)
     + "acapture=" + mkstring(acapture)
+    + config_crop + config_scale
 
   FileOutputStream("video_config.txt").write(config.getBytes())
 
-def rec_writeConfig_filters(fcrop: Seq[String], fscale: Seq[String]) =
-  val config = "crop=" + mkstring(fcrop) + "scale=" + mkstring(fscale)
-  FileOutputStream("video_config.txt", true).write(config.getBytes())
+// def rec_writeConfig_filters(fcrop: Seq[String], fscale: Seq[String]) =
+//   val config = "crop=" + mkstring(fcrop) + "scale=" + mkstring(fscale)
+//   FileOutputStream("video_config.txt", true).write(config.getBytes())

@@ -34,6 +34,8 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
   if recordvideo then
     val captureargs = rec_getCaptureArgs(reccfg)
     val args = rec_getEncodeArgs(reccfg)
+    val filters = rec_getFilterArgs(reccfg)
+
     val output = rec_getOutput(reccfg)
     val d = rec_getDelay(reccfg)
     val delay = if d > 60 then 60 else d
@@ -41,7 +43,7 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
 
     if delay > 0 then Thread.sleep(delay*1000)
     println("\nPress Q to stop recording and return to the main menu")
-    record(s"$output/$name", captureargs, args)
+    record(s"$output/$name", captureargs, args, filters)
   else
     Thread.sleep(3000)
     readUserInput("\nPress enter to return to the main menu")

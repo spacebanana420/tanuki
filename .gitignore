@@ -9,6 +9,8 @@ scala-cli.json
 .scala-build
 .dsp
 *.mov
+.vscode
+.idea
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
