@@ -73,9 +73,9 @@ def tui_title() =
     val quote = getRandomQuote()
     val text =
       s"$yellow[Tanuki Launcher]$default version 0.5\n\n$quote\n\n"
-      + s"${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record"
-      + s"\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots"
-      + s"\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
+      + s"${green}0:$default Exit\n\n${green}1:$default Play\n${green}2:$default Play and record"
+      + s"\n\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots"
+      + s"\n\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
       + s"\n${green}7:$default View recorded footage\n"
     val answer = readLoop(text, 7)
     answer match
