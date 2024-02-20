@@ -128,18 +128,18 @@ def tui_QSVSetup(): List[String] =
 def tui_QSV265Setup(): List[String] =
   val title = s"$green[QuickSync configuration]$default\n\n"
   val presets = List("veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow")
-  val pixfmts = List("nv12", "yuyv422", "bgra", "vuyx")
+  val pixfmts = List("nv12", "yuyv422")
 
   pressToContinue("You chose the QSV H.265 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
   val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
-  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (fast)\n\n")
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (bgra)\n\n")
+  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (faster)\n\n")
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuyv422)\n\n")
   val final_preset =
-    if preset == 0 then presets(2)
+    if preset == 0 then presets(1)
     else presets(preset-1)
   val final_pixfmt =
-    if pixfmt == 0 then pixfmts(2)
+    if pixfmt == 0 then pixfmts(1)
     else pixfmts(pixfmt-1)
 
   List("qsv265", final_preset, bitrate.toString, final_pixfmt)

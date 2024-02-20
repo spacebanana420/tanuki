@@ -84,4 +84,4 @@ def rec_getHWAccel(config: Seq[String] = List()): String =
     if config.length == 0 then rec_readConfig()
     else config
     val vcodec = rec_getvcodec(cfg)
-    if vcodec(0) == "qsv" || vcodec(0) == "qsv265" then "qsv" else ""
+    if vcodec(0) == "qsv" then "qsv" else ""
