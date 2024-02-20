@@ -79,6 +79,8 @@ Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 
 
 MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
 
+As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support, use mp3. If you want good compression efficiency, use opus.
+
 ## Video encoding parameters
 
 ### CRF (x264)
