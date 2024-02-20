@@ -10,9 +10,12 @@ As of now, it is only possible to record your whole screen and not a specific wi
 
 ## Supported platforms
 * Linux-based systems under x11 and pulseaudio
+* Windows
 * Any other system under x11 and pulseaudio (untested)
 
-Support for Windows, MacOS and other capture backends is on my plans but it is not implemented yet.
+Support for MacOS and other capture backends is on my plans but it is not implemented yet.
+
+Please note that support for Windows capture is experimental. It's implemented but untested.
 
 ## Configuration options:
 
