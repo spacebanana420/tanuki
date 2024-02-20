@@ -28,25 +28,31 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
       Seq("steam-run", cmd, path)
     else
       Seq(cmd, path)
-  if cmd_start != List() then
+  if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
   val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
   if recordvideo then
-    val captureargs = rec_getCaptureArgs(reccfg)
-    val args = rec_getEncodeArgs(reccfg)
-    val filters = rec_getFilterArgs(reccfg)
-
-    val output = rec_getOutput(reccfg)
-    val d = rec_getDelay(reccfg)
-    val delay = if d > 60 then 60 else d
-    val name = getVideoName(output)
-
-    if delay > 0 then Thread.sleep(delay*1000)
-    println("\nPress Q to stop recording and return to the main menu")
-    record(s"$output/$name", captureargs, args, filters)
+    recordGameplay(reccfg)
   else
     Thread.sleep(3000)
     readUserInput("\nPress enter to return to the main menu")
-  if cmd_close != List() then
+  if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
+
+
+private def recordGameplay(cfg: List[String]) =
+  val captureargs = rec_getCaptureArgs(cfg)
+  val args = rec_getEncodeArgs(cfg)
+  val filters = rec_getFilterArgs(cfg)
+
+  val output = rec_getOutput(cfg)
+  val d = rec_getDelay(cfg)
+  val delay = if d > 60 then 60 else d
+  val name = getVideoName(output)
+
+  if delay > 0 then
+    println(s"Recording will begin in $delay seconds")
+    Thread.sleep(delay*1000)
+  println("\nPress Q to stop recording and return to the main menu")
+  record(s"$output/$name", captureargs, args, filters, rec_getHWAccel(cfg))

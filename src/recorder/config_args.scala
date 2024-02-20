@@ -74,3 +74,10 @@ def rec_getFilterArgs(config: Seq[String] = List()): List[String] =
     else List[String]()
 
   c_args ++ s_args
+
+def rec_getHWAccel(config: Seq[String] = List()): String =
+    val cfg =
+    if config.length == 0 then rec_readConfig()
+    else config
+    val vcodec = rec_getvcodec(cfg)
+    if vcodec(0) == "qsv" then "qsv" else ""
