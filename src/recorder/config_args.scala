@@ -41,7 +41,9 @@ def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
     case "x264rgb" =>
       video_setx264rgb(vcodec(1), vcodec(2).toByte)
     case "qsv" =>
-      video_setQSV(vcodec(1).toInt)
+      video_setQSV(vcodec(1), vcodec(2).toInt)
+    case "qsv265" =>
+      video_setQSV265(vcodec(1), vcodec(2).toInt, vcodec(3))
     case "utvideo" =>
       video_setUtvideo(vcodec(1))
     case "mjpeg" =>
@@ -82,4 +84,4 @@ def rec_getHWAccel(config: Seq[String] = List()): String =
     if config.length == 0 then rec_readConfig()
     else config
     val vcodec = rec_getvcodec(cfg)
-    if vcodec(0) == "qsv" then "qsv" else ""
+    if vcodec(0) == "qsv" || vcodec(0) == "qsv265" then "qsv" else ""

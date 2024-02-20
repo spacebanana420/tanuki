@@ -27,7 +27,7 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264", "x264rgb", "qsv", "utvideo", "mjpeg")
+  val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "utvideo", "mjpeg")
   val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
@@ -37,6 +37,7 @@ def tui_configureRecording() =
         case "x264" => tui_x264Setup()
         case "x264rgb" => tui_x264rgbSetup()
         case "qsv" => tui_QSVSetup()
+        case "qsv265" => tui_QSV265Setup()
         case "utvideo" => tui_utvideoSetup()
         case "mjpeg" => tui_mjpegSetup()
     else
@@ -112,10 +113,36 @@ def tui_x264rgbSetup(): List[String] =
 
 def tui_QSVSetup(): List[String] =
   val title = s"$green[QuickSync configuration]$default\n\n"
+  val presets = List("veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow")
+
   pressToContinue("You chose the QSV H.264 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
   val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
-  List("qsv", bitrate.toString)
+  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (fast)\n\n")
+  val final_preset =
+    if preset == 0 then presets(2)
+    else presets(preset-1)
+  
+  List("qsv", final_preset, bitrate.toString)
+
+def tui_QSV265Setup(): List[String] =
+  val title = s"$green[QuickSync configuration]$default\n\n"
+  val presets = List("veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow")
+  val pixfmts = List("nv12", "yuyv422", "bgra", "vuyx")
+
+  pressToContinue("You chose the QSV H.265 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
+  
+  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
+  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (fast)\n\n")
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (bgra)\n\n")
+  val final_preset =
+    if preset == 0 then presets(2)
+    else presets(preset-1)
+  val final_pixfmt =
+    if pixfmt == 0 then pixfmts(2)
+    else pixfmts(pixfmt-1)
+
+  List("qsv265", final_preset, bitrate.toString, final_pixfmt)
 
 def tui_utvideoSetup(): List[String] =
   val title = s"$green[Utvideo configuration]$default\n\n"

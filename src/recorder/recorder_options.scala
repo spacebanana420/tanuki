@@ -23,8 +23,11 @@ def video_setx264(preset: String, crf: Byte, pixfmt: String): List[String] =
 def video_setx264rgb(preset: String, crf: Byte): List[String] =
   setVideoEncoder("x264rgb") ++ x264_setPreset(preset) ++ setCRF(crf) //++ setPixFmt("rgb24")
 
-def video_setQSV(bitrate: Int): List[String] =
-  setVideoEncoder("qsv") ++ setVideoBitrate(bitrate) ++ setPixFmt("nv12")
+def video_setQSV(preset: String, bitrate: Int): List[String] =
+  setVideoEncoder("qsv") ++ qsv_setPreset(preset) ++ setVideoBitrate(bitrate) ++ setPixFmt("nv12")
+
+def video_setQSV265(preset: String, bitrate: Int, pixfmt: String): List[String] =
+  setVideoEncoder("qsv265") ++ qsv_setPreset(preset) ++ setVideoBitrate(bitrate) ++ setPixFmt(pixfmt)
 
 def video_setUtvideo(pixfmt: String): List[String] =
   setVideoEncoder("utvideo") ++ setPixFmt(pixfmt)

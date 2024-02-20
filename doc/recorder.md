@@ -52,6 +52,8 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
   * H.264, Great all-rounder, supports RGB and both lossless and lossy encoding
 * qsv
   * H.264, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression and NV12
+* qsv265
+  * H.265, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression, supports RGBA
 * utvideo
   * Huffman, lossless RGB, great for video editing performance, extremely large files
 * mjpeg
@@ -70,6 +72,8 @@ If you don't know what to choose, x264 is recommended with either pcm or mp3. As
 x264rgb is x264 but uses the RGB color format, producing color that is faithful to your game's original image.
 
 QSV encodes in H.264, just like x264, but it's a hardware encoder for Intel GPUs. Encoding speed is extremely fast compared to CPU-based encoders, although it doesn't support RGB or lossless encoding.
+
+Tanuki offers the H.265 variant of QSV. This encoder is the QuickSync implementation for H.265, rather than H.264. Compression efficiency is higher, although encoding speed is a bit slower and decoding speed is much slower. It's not ideal for heavy video editing. Unlike H.264 QSV, this variant supports RGB and a few other color formats. 
 
 Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 ultrafast. Utvideo is much faster to decode (good for video editing), although it produces **significantly** large files.
 
