@@ -47,15 +47,23 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 
 ### Video
 * x264 (default)
+  * H.264, Great all-rounder, supports both lossless and lossy encoding
 * x264rgb
+  * H.264, Great all-rounder, supports RGB and both lossless and lossy encoding
 * qsv
+  * H.264, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression and NV12
 * utvideo
+  * Huffman, lossless RGB, great for video editing performance, extremely large files
 * mjpeg
+  * MJPEG, lossy YUV, great for video editing performance, reasonable file size
 
 ### Audio
 * pcm (default)
+  * Uncompressed audio, very fast to encode and decode, great support and great for audio work.
 * mp3
+  * Lossy audio, great support.
 * opus
+  * Lossy audio, great compression efficiency
 
 If you don't know what to choose, x264 is recommended with either pcm or mp3. As for x264, the superfast preset is reasonable in terms of speed and compression quality. Use ultrafast if your CPU can't keep up.
 
@@ -65,7 +73,7 @@ QSV encodes in H.264, just like x264, but it's a hardware encoder for Intel GPUs
 
 Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 ultrafast. Utvideo is much faster to decode (good for video editing), although it produces **significantly** large files.
 
-MJPEg is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
+MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
 
 ## Video encoding parameters
 
