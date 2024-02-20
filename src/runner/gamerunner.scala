@@ -41,7 +41,7 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
   game.destroy()
 
 
-private def recordGameplay(cfg: List[String]) =
+private def recordGameplay(cfg: Seq[String]) =
   val captureargs = rec_getCaptureArgs(cfg)
   val args = rec_getEncodeArgs(cfg)
   val filters = rec_getFilterArgs(cfg)

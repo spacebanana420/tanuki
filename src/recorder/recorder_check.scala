@@ -29,6 +29,9 @@ private def vcodec_ok(cfg: Seq[String]): Boolean =
       case "x264rgb" =>
         vcodec(2).toByte;
         if vcodec.length == 3 then true else false
+      case "qsv" =>
+        vcodec(1).toInt
+        if vcodec.length == 2 then true else false
       case "utvideo" =>
         if vcodec.length == 2 then true else false
       case "mjpeg" =>

@@ -40,6 +40,8 @@ def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
       video_setx264(vcodec(1), vcodec(2).toByte, vcodec(3))
     case "x264rgb" =>
       video_setx264rgb(vcodec(1), vcodec(2).toByte)
+    case "qsv" =>
+      video_setQSV(vcodec(1).toInt)
     case "utvideo" =>
       video_setUtvideo(vcodec(1))
     case "mjpeg" =>

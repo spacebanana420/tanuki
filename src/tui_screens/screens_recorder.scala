@@ -27,7 +27,7 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264", "x264rgb", "utvideo", "mjpeg")
+  val vcodecs = List("x264", "x264rgb", "qsv", "utvideo", "mjpeg")
   val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
@@ -36,6 +36,7 @@ def tui_configureRecording() =
       vcodecs(ans_vc-1) match
         case "x264" => tui_x264Setup()
         case "x264rgb" => tui_x264rgbSetup()
+        case "qsv" => tui_QSVSetup()
         case "utvideo" => tui_utvideoSetup()
         case "mjpeg" => tui_mjpegSetup()
     else
@@ -108,6 +109,13 @@ def tui_x264rgbSetup(): List[String] =
     else presets(preset-1)
 
   List("x264rgb", final_preset, crf.toString)
+
+def tui_QSVSetup(): List[String] =
+  val title = s"$green[QuickSync configuration]$default\n\n"
+  pressToContinue("You chose the QSV H.264 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
+  
+  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
+  List("qsv", bitrate.toString)
 
 def tui_utvideoSetup(): List[String] =
   val title = s"$green[Utvideo configuration]$default\n\n"

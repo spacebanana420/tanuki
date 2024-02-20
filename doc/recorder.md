@@ -48,6 +48,7 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 ### Video
 * x264 (default)
 * x264rgb
+* qsv
 * utvideo
 * mjpeg
 
@@ -60,6 +61,8 @@ If you don't know what to choose, x264 is recommended with either pcm or mp3. As
 
 x264rgb is x264 but uses the RGB color format, producing color that is faithful to your game's original image.
 
+QSV encodes in H.264, just like x264, but it's a hardware encoder for Intel GPUs. Encoding speed is extremely fast compared to CPU-based encoders, although it doesn't support RGB or lossless encoding.
+
 Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 ultrafast. Utvideo is much faster to decode (good for video editing), although it produces **significantly** large files.
 
 MJPEg is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
@@ -71,6 +74,12 @@ MJPEg is a lossy intraframe encoder that implements JPEG image encoding in video
 CRF is the encoding's control rate factor. It establishes a constant quality target and the bitrate varies throughout the video according to its need for information to produce the wanted quality. Value ranges fom 0 to 51, with 0 being lossless and higher values producing lower quality.
 
 A good value for decent quality with not-so-huge file sizes would be a CRF between 8 and 15.
+
+### Bitrate (QSV)
+
+Tanuki sets a constant bitrate for your video encode. It's measured in kilobits per second, and the higher it is, the higher the video quality, at the cost of higher file size.
+
+For QSV, a bitrate between 10000 and 50000 is recommended, but how much you truly need will depend on your recording resolution and framerate.
 
 ### Quality (MJPEG)
 
