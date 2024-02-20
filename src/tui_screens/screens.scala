@@ -22,6 +22,13 @@ private def getList(l: List[String], txt: String = s"Choose an entry\n\n${green}
     val line = s"${green}${i+1}:${default} ${l(i)}\n"
     getList(l, txt + line, i+1)
 
+private def getArray(l: Array[String], txt: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n", i: Int = 0): String =
+  if i >= l.length then
+    txt
+  else
+    val line = s"${green}${i+1}:${default} ${l(i)}\n"
+    getArray(l, txt + line, i+1)
+
 private def readLoop(txt: String, maxval: Int): Int =
   val answer = answerToNumber(spawnAndRead(txt))
   if answer == 0 || (1 to maxval).contains(answer) then
@@ -31,6 +38,10 @@ private def readLoop(txt: String, maxval: Int): Int =
 
 private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
   val txt_list = getList(l, title)
+  readLoop(txt_list, l.length)
+
+private def readLoop_array(l: Array[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
+  val txt_list = getArray(l, title)
   readLoop(txt_list, l.length)
 
 private def readLoop_int(txt: String): Int =
@@ -60,8 +71,13 @@ private def readLoop_dir(txt: String): String =
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text = s"$yellow[Tanuki Launcher]$default version 0.5\n\n$quote\n\n${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording\n"
-    val answer = readLoop(text, 6)
+    val text =
+      s"$yellow[Tanuki Launcher]$default version 0.5\n\n$quote\n\n"
+      + s"${green}0:$default Exit\n${green}1:$default Play\n${green}2:$default Play and record"
+      + s"\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots"
+      + s"\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
+      + s"\n${green}7:$default View recorded footage\n"
+    val answer = readLoop(text, 7)
     answer match
       case 0 =>
         exit()
@@ -79,6 +95,8 @@ def tui_title() =
         writeConfig(cfg, overwrite)
       case 6 =>
         tui_configureRecording()
+      case 7 =>
+        tui_movieMenu()
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
