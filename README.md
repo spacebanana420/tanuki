@@ -38,6 +38,8 @@ To play games and manage your data, you need to add game and data entries to you
 
 You can configure this file from within the launcher, or you can manually write your config text file.
 
+The configuration also supports settings for command execution, etc.
+
 ### Config example:
 
 ```
@@ -56,16 +58,10 @@ To run your Touhou games with WINE, add the following setting to your config.txt
 command=wine
 ```
 
-I personally recommend you download and use Wine-GE instead, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
+If you are playing Touhou with a custom WINE build, make sure to read the full documentation. You can set the path to the build like this:
 
-If you download a custom WINE build, assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
 command=/path/to/custom-wine/bin/wine
-```
-
-Due to typical dynamic-linking, to run a custom WINE build on NixOS, install ```steam-run``` on your system and add the following setting to your config.txt:
-```
-use_steam-run=true
 ```
 
 # Screen recording

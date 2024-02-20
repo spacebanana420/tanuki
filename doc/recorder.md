@@ -53,7 +53,7 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 * qsv
   * H.264, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression and NV12
 * qsv265
-  * H.265, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression
+  * H.265, GPU-based encoder, really fast encode, very slow decode, requires an Intel GPU, only supports lossy compression
 * utvideo
   * Huffman, lossless RGB, great for video editing performance, extremely large files
 * mjpeg
