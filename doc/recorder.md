@@ -72,6 +72,8 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 * opus
   * Lossy audio, great compression efficiency
 
+## Choosing a video encoder
+
 If you don't know what to choose, x264 is recommended with either pcm or mp3. As for x264, the superfast preset is reasonable in terms of speed and compression quality. Use ultrafast if your CPU can't keep up.
 
 x264rgb is x264 but uses the RGB color format, producing color that is faithful to your game's original image.
@@ -84,7 +86,27 @@ Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 
 
 MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
 
+QSV also offers a variant for MJPEG. Encoding speed is extremely fast, the fastest of all encoding solutions available here.
+
 As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support, use mp3. If you want good compression efficiency, use opus.
+
+### Quick encoding speed comparison
+* QSV MJPEG (extremely fast)
+* QSV H.264 (extremely fast)
+* QSV H.265 (very fast)
+* MJPEG (fast)
+* x264 ultrafast (somewhat fast)
+* Utvideo (somewhat fast)
+* x264 veryfast (slow)
+* x264 medium (very slow)
+
+### Quick decoding speed comparison
+* MJPEG and QSV MJPEG (extremely fast)
+* Utvideo (extremely fast)
+* x264 and QSV H.264 (good enough)
+* QSV H.265 (very slow)
+
+Decoding speed only matters for video editing and other video-related workflows as well as playing back the videos on weak hardware or without hardware acceleration.
 
 ## Video encoding parameters
 
@@ -103,6 +125,10 @@ For QSV, a bitrate between 10000 and 50000 is recommended, but how much you trul
 ### Quality (MJPEG)
 
 This sets the quality target for MJPEG encoding. Accepted values range from 1 to 120. The lower the value, the higher the quality, at the cost of a bigger file. 1 produces a very faithful lossy result. Values above 1 are not recommended if you are going to heavily manipulate the video in editing or VFX. Values above 10 are generally not recommended due to the quality result.
+
+### Preset (x264 and QSV)
+
+The encoding preset sets the encoding parameters that will ultimately define the trade-off between compression quality and speed. A slower preset means that you can get the same video quality for lower file sizes, at the cost of slower encoding that requires more hardware power.
 
 ### Color format
 
