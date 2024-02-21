@@ -12,3 +12,9 @@ def answerToShort(str: String): Short =
     str.toShort
   catch
     case e: Exception => -1
+
+def answerToByte(str: String): Byte =
+  try
+    str.toByte
+  catch
+    case e: Exception => -1

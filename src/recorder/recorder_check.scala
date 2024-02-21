@@ -35,6 +35,9 @@ private def vcodec_ok(cfg: Seq[String]): Boolean =
       case "qsv265" =>
         vcodec(2).toInt
         if vcodec.length == 4 then true else false
+      case "mjpegqsv" =>
+        vcodec(1).toByte
+        if vcodec.length == 3 then true else false
       case "utvideo" =>
         if vcodec.length == 2 then true else false
       case "mjpeg" =>

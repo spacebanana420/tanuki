@@ -51,6 +51,13 @@ private def readLoop_int(txt: String): Int =
   else
     readLoop_int(txt)
 
+private def readLoop_byte(txt: String): Byte =
+  val answer = answerToByte(spawnAndRead(txt))
+  if answer != -1 then
+    answer
+  else
+    readLoop_byte(txt)
+
 private def readLoop_short(txt: String): Short =
   val answer = answerToShort(spawnAndRead(txt))
   if answer != -1 then
