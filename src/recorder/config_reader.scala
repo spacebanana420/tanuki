@@ -81,8 +81,8 @@ private def rec_getacapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg,
 private def rec_getCrop(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "crop=")
 private def rec_getScale(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "scale=")
 
-def rec_getOutput(cfg: Seq[String]): String = rec_readSingleValue(cfg, "output=")
-def rec_getDelay(cfg: Seq[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
+private def rec_getOutput(cfg: Seq[String]): String = rec_readSingleValue(cfg, "output=")
+private def rec_getDelay(cfg: Seq[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
 
 private def mkstring(l: Seq[String], s: String = "", i: Int = 0): String =
   if i >= l.length then

@@ -1,6 +1,6 @@
 package tanuki.tui
 
-import tanuki.{ffmpeg_installed, system_platform}
+import tanuki.{ffmpeg_installed, system_platform, recording_supported}
 import tanuki.recorder.*
 import tanuki.runner.*
 
@@ -8,9 +8,9 @@ import ffscala.*
 import ffscala.capture.*
 import java.io.File
 
-def tui_supportedOS() =
+def tui_supportedOS(): Boolean =
   val text = "Video recording is currently only available for Windows, Linux and BSD systems!"
-  if system_platform < 3 then
+  if recording_supported then
     true
   else
     pressToContinue(text)

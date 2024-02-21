@@ -1,13 +1,13 @@
 package tanuki.tui
 
-import tanuki.recorder.{rec_getOutput, rec_readConfig}
+import tanuki.recorder.{rec_getOutputArg}
 import ffscala.*
 import java.io.File
 import scala.util.Sorting.quickSort
 
 def tui_movieMenu(): Unit =
   if !tui_noffmpeg() then
-    val output = rec_getOutput(rec_readConfig())
+    val output = rec_getOutputArg()
     val videos = File(output)
       .list()
       .filter(x => File(s"$output/$x").isFile() && x.contains("tanuki-video"))

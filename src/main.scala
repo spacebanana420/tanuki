@@ -7,6 +7,7 @@ import java.io.File
 
 val ffmpeg_installed = checkFFmpeg()
 val system_platform = getPlatform()
+val recording_supported = system_platform < 3
 
 @main def main() =
   if !configExists() then

@@ -1,5 +1,6 @@
 package tanuki.runner
 
+import tanuki.{ffmpeg_installed, recording_supported}
 import tanuki.config.*
 import tanuki.tui.*
 import tanuki.recorder.*
@@ -35,20 +36,42 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
     recordGameplay(reccfg)
   else
     Thread.sleep(3000)
-    readUserInput("\nPress enter to return to the main menu")
+    if standbyInput() then
+      recordGameplay(usedelay = false)
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
 
+private def standbyInput(): Boolean =
+  val record_ready =
+    ffmpeg_installed
+    && recording_supported
+    && rec_configExists()
+    && rec_isConfigOk()
 
-private def recordGameplay(cfg: Seq[String]) =
+  val ans =
+    if record_ready then
+      readUserInput("\nPress enter to return to the main menu\nOr press R + enter to start recording")
+    else readUserInput("\nPress enter to return to the main menu")
+
+  if !record_ready then
+    false
+  else if ans == "r" || ans == "R" then
+    true
+  else
+    false
+  
+private def recordGameplay(cfg: Seq[String] = List(), usedelay: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
   val args = rec_getEncodeArgs(cfg)
   val filters = rec_getFilterArgs(cfg)
 
-  val output = rec_getOutput(cfg)
-  val d = rec_getDelay(cfg)
-  val delay = if d > 60 then 60 else d
+  val output = rec_getOutputArg(cfg)
+  val d = rec_getDelayArg(cfg)
+  val delay =
+    if d > 60 then 60
+    else if !usedelay then 0
+    else d
   val name = getVideoName(output)
 
   if delay > 0 then

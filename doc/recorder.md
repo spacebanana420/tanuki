@@ -60,7 +60,7 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 * mjpeg
   * MJPEG, lossy YUV, great for video editing performance, reasonable file size
 * mjpegqsv
-  * MJPEG, GPU-based encoder, unbelievably fast encode, very fast decode, requires an Intel GPU, lossy compression.
+  * MJPEG, GPU-based encoder, extremely fast, very fast decode, requires an Intel GPU, lossy compression.
 * utvideo
   * Huffman, lossless RGB, great for video editing performance, extremely large files
 

@@ -83,7 +83,20 @@ def rec_getFilterArgs(config: Seq[String] = List()): List[String] =
 
 def rec_getHWAccel(config: Seq[String] = List()): String =
     val cfg =
-    if config.length == 0 then rec_readConfig()
-    else config
+      if config.length == 0 then rec_readConfig()
+      else config
     val vcodec = rec_getvcodec(cfg)
     if vcodec(0) == "qsv" then "qsv" else ""
+
+def rec_getOutputArg(config: Seq[String] = List()): String =
+  val cfg =
+    if config.length == 0 then rec_readConfig()
+    else config
+  rec_getOutput(cfg)
+
+def rec_getDelayArg(config: Seq[String] = List()): Int =
+  val cfg =
+    if config.length == 0 then rec_readConfig()
+    else config
+  rec_getDelay(cfg)
+  

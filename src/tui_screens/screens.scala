@@ -126,7 +126,7 @@ def tui_play(record: Boolean = false) =
 
       if ok then everythingOk(i+1)
       else
-        if i == 1 then tui_recmissingconfig();
+        if i == 1 then tui_recmissingconfig()
         false
 
   if record && everythingOk() then
