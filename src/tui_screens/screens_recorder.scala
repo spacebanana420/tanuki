@@ -148,7 +148,7 @@ def tui_QSV265Setup(): List[String] =
 def tui_QSVMJPEGSetup(): List[String] =
   val title = s"$green[QuickSync MJPEG configuration]$default\n\n"
   val presets = List("veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow")
-  val pixfmts = List("nv12", "yuyv422", "bgra")
+  val pixfmts = List("nv12", "yuyv422")
 
   pressToContinue("You chose the QSV MJPEG encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
