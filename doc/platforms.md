@@ -26,7 +26,7 @@ On Windows, it's not recommended that you run Tanuki with the default terminal t
 
 I don't guarantee support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
 
-Note that Tanuki's video recorder does not support MacOS, and only supports FreeBSD and NetBSD if your system is running x11 and Pulseaudio.
+Note that Tanuki's video recorder does not support MacOS, and Linux, FreeBSD and NetBSD are only supported if your system is running x11 and Pulseaudio.
 
 <p align="center">
 <img src="../images/futo.png" height="220"/>

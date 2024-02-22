@@ -47,7 +47,7 @@ command=wine
 ```
 This setting will make Tanuki run your games with your system's wine. Note that it must then be installed. You can also add a custom wine fork that you downloaded by specifying the path to it.
 
-I personally recommend you download and use Wine-GE instead, as it has better audio resampling (SFX won't be muffled in-game) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
+I personally recommend you download and use [Wine-GE](https://github.com/GloriousEggroll/wine-ge-custom) instead, as it has better audio resampling (in-game SFX audio won't be muffled/distorted) and it uses fshack by default, which prevents the game's resolution from affecting your desktop's.
 
 If you download a custom WINE build, assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
@@ -65,7 +65,7 @@ use_steam-run=true
 
 ## Bad input delay with Xfce and other desktops
 
-It seems that the Xfce desktop does not disable or bypass its compositor and desktop vsync when a fullscreen game is launched. It lets you, however, manually disable it, either through the GUI settings or through a command.
+It seems that the Xfce desktop does not automatically disable or bypass its compositor and desktop vsync when a fullscreen game is launched. It lets you, however, manually disable it, either through the GUI settings or through a command.
 
 With this following configuration, Xfce's compositor will disable when you start a Touhou game and re-enable once you come back to the main menu:
 
@@ -73,6 +73,10 @@ With this following configuration, Xfce's compositor will disable when you start
 sidecommand_start=xfconf-query -c xfwm4 -p /general/use_compositing -s false
 sidecommand_close=xfconf-query -c xfwm4 -p /general/use_compositing -s true
 ```
+
+These commands only apply to Xfce, though it's likely that your desktop has its own commands for disabling the compositor, or it automatically disables when a fullscreen game is opened.
+
+This is not necessary or possible to do under Wayland, but a proper Wayland implementation will automatically disable vsync and effects for fullscreen apps.
 
 <p align="center">
 <img src="../images/mamizou.png" height="220"/>
