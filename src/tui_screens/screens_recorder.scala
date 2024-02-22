@@ -27,7 +27,7 @@ def tui_recmissingconfig() =
   if answer then tui_configureRecording()
 
 def tui_configureRecording() =
-  val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "mjpeg", "mjpegqsv", "utvideo")
+  val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "nvenc", "mjpeg", "mjpegqsv", "utvideo")
   val acodecs = List("pcm", "mp3", "opus")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
@@ -38,6 +38,7 @@ def tui_configureRecording() =
         case "x264rgb" => tui_x264rgbSetup()
         case "qsv" => tui_QSVSetup()
         case "qsv265" => tui_QSV265Setup()
+        case "nvenc" => tui_NVENCSetup()
         case "utvideo" => tui_utvideoSetup()
         case "mjpeg" => tui_mjpegSetup()
         case "mjpegqsv" => tui_QSVMJPEGSetup()
@@ -162,6 +163,26 @@ def tui_QSVMJPEGSetup(): List[String] =
   val quality = if q < 1 then 1 else if q > 100 then 100 else q 
 
   List("mjpegqsv", quality.toString, final_pixfmt)
+
+def tui_NVENCSetup(): List[String] =
+  val title = s"$green[NVENC H.264 configuration]$default\n\n"
+  val presets = List("fast", "medium", "slow", "slower")
+  val true_presets = List("p3", "p4", "p5", "p6")
+  val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "rgb0")
+
+  val preset = readLoop_list(presets, s"${title}Choose an NVENC preset\n\n${green}${0}:${default} Default (medium)\n\n")
+  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
+  //val crf = readLoop(s"${title}Input the quality value (from 1 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
+  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
+
+  val final_preset =
+    if preset == 0 then true_presets(1)
+    else true_presets(preset-1)
+  val final_pixfmt =
+    if pixfmt == 0 then pixfmts(0)
+    else pixfmts(pixfmt-1)
+
+  List("nvenc", final_preset, bitrate.toString, final_pixfmt)
 
 def tui_utvideoSetup(): List[String] =
   val title = s"$green[Utvideo configuration]$default\n\n"

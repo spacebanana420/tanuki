@@ -30,7 +30,10 @@ def video_setQSV265(preset: String, bitrate: Int, pixfmt: String): List[String] 
   setVideoEncoder("qsv265") ++ qsv_setPreset(preset) ++ setVideoBitrate(bitrate) ++ setPixFmt(pixfmt)
 
 def video_setQSVMJPEG(quality: Byte, pixfmt: String): List[String] =
-  setVideoEncoder("mjpegqsv") ++ qsv_MJPEGQuality(quality) ++ setPixFmt(pixfmt)
+  sbgetVideoEncoder("mjpegqsv") ++ qsv_MJPEGQuality(quality) ++ setPixFmt(pixfmt)
+
+def video_setNVENC(preset: String, bitrate: Int, pixfmt: String): List[String] =
+  setVideoEncoder("nvenc") ++ nvenc_setPreset(preset) ++ setVideoBitrate(bitrate) ++ setPixFmt(pixfmt)
 
 def video_setUtvideo(pixfmt: String): List[String] =
   setVideoEncoder("utvideo") ++ setPixFmt(pixfmt)
