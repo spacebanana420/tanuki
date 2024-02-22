@@ -15,66 +15,6 @@ val green = foreground("green")
 val default = foreground("default")
 val yellow = foreground("yellow")
 
-private def getList(l: List[String], txt: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n", i: Int = 0): String =
-  if i >= l.length then
-    txt
-  else
-    val line = s"${green}${i+1}:${default} ${l(i)}\n"
-    getList(l, txt + line, i+1)
-
-private def getArray(l: Array[String], txt: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n", i: Int = 0): String =
-  if i >= l.length then
-    txt
-  else
-    val line = s"${green}${i+1}:${default} ${l(i)}\n"
-    getArray(l, txt + line, i+1)
-
-private def readLoop(txt: String, maxval: Int): Int =
-  val answer = answerToNumber(spawnAndRead(txt))
-  if answer == 0 || (1 to maxval).contains(answer) then
-    answer
-  else
-    readLoop(txt, maxval)
-
-private def readLoop_list(l: List[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
-  val txt_list = getList(l, title)
-  readLoop(txt_list, l.length)
-
-private def readLoop_array(l: Array[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
-  val txt_list = getArray(l, title)
-  readLoop(txt_list, l.length)
-
-private def readLoop_int(txt: String): Int =
-  val answer = answerToNumber(spawnAndRead(txt))
-  if answer != -1 then
-    answer
-  else
-    readLoop_int(txt)
-
-private def readLoop_byte(txt: String): Byte =
-  val answer = answerToByte(spawnAndRead(txt))
-  if answer != -1 then
-    answer
-  else
-    readLoop_byte(txt)
-
-private def readLoop_short(txt: String): Short =
-  val answer = answerToShort(spawnAndRead(txt))
-  if answer != -1 then
-    answer
-  else
-    readLoop_short(txt)
-
-private def readLoop_dir(txt: String): String =
-  val answer = spawnAndRead(txt)
-  if File(answer).isDirectory() then
-    answer
-  else if answer == "" then
-    "."
-  else
-    pressToContinue("That is not a real path in your system!")
-    readLoop_dir(txt)
-
 def tui_title() =
   while true do
     val quote = getRandomQuote()
@@ -107,7 +47,7 @@ def tui_title() =
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
-    val text = s"FFmpeg wasn't found in your system!'\nFFmpeg is required for this functionality!"
+    val text = s"FFmpeg wasn't found in your system!\nFFmpeg is required for this functionality!"
     pressToContinue(text)
     true
   else
@@ -153,24 +93,6 @@ private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List
       else
         println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
         launchGame(paths(answer-1))
-// def tui_chooseScreenshot(datapath: String): String =
-//   def file(path: String) =
-//     val images = File(path)
-//       .list()
-//       .toList
-//       .filter(x => File(s"$path/$x").isFile && (x.contains(".png") || x.contains(".bmp")))
-//     val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
-//     if answer != 0 then
-//       s"$path/${images(answer-1)}"
-//     else
-//       ""
-//
-//   val dirs = getScreenshotDirs(datapath)
-//   val answer = readLoop_list(dirs, s"The following screenshot folders in $datapath were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
-//   if answer != 0 then
-//     file(s"$datapath/${dirs(answer-1)}")
-//   else
-//     ""
 
 def tui_ssentry(manualdata: List[String] = List()): String =
   val datas =
@@ -187,7 +109,6 @@ def tui_ssentry(manualdata: List[String] = List()): String =
   else
     ""
 
-
 def tui_ssdir(path: String): String =
   val dirs = getScreenshotDirs(path)
   val answer = readLoop_list(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
@@ -196,8 +117,7 @@ def tui_ssdir(path: String): String =
   else
     ""
 
-def tui_ssimage(path: String): String =
-  val dir = tui_ssdir(path)
+def tui_ssimage(dir: String): String =
   if dir != "" then
     val images = listScreenshots(dir)
     val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
@@ -209,23 +129,29 @@ def tui_ssimage(path: String): String =
     ""
 
 def tui_ssview() =
+  def viewLoop(dir: String): Unit =
+    val ssimage = tui_ssimage(dir)
+    if ssimage != "" then
+      screenshot_view(ssimage)
+      viewLoop(dir)
+  
   val datas = getDatas(readConfig())
   if !tui_noffmpeg() && !tui_noentries(datas) then
     val entry = tui_ssentry(datas)
     if entry != "" then
-      val ssimage = tui_ssimage(entry)
-      if ssimage != "" then screenshot_view(ssimage)
+      val dir = tui_ssdir(entry)
+      viewLoop(dir)
 
 //incompatible with the other functions, not using for now
-def tui_ssoptions(path: String, image: String) =
-  val answer = readLoop_list(List("Convert", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
-  if answer == 1 then
-    println("a") //finish
-    //tui_ssconv(path, image)
-  else if answer == 2 then
-    println("a") //temp
-    //tui_sscrop(image)
-    //finish
+// def tui_ssoptions(path: String, image: String) =
+//   val answer = readLoop_list(List("Convert", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
+//   if answer == 1 then
+//     println("a") //finish
+//     //tui_ssconv(path, image)
+//   else if answer == 2 then
+//     println("a") //temp
+//     //tui_sscrop(image)
+//     //finish
 
 def tui_ssconv() =
   val datas = getDatas(readConfig())
