@@ -61,7 +61,7 @@ private def standbyInput(): Boolean =
   else
     false
   
-private def recordGameplay(cfg: Seq[String] = List(), usedelay: Boolean = true) =
+def recordGameplay(cfg: Seq[String] = List(), usedelay: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
   val args = rec_getEncodeArgs(cfg)
   val filters = rec_getFilterArgs(cfg)

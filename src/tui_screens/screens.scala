@@ -19,12 +19,14 @@ def tui_title() =
   while true do
     val quote = getRandomQuote()
     val text =
-      s"$yellow[Tanuki Launcher]$default version 0.5\n\n$quote\n\n"
-      + s"${green}0:$default Exit\n\n${green}1:$default Play\n${green}2:$default Play and record"
-      + s"\n\n${green}3:$default View screenshots\n${green}4:$default Compress screenshots"
-      + s"\n\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
-      + s"\n${green}7:$default View recorded footage\n"
-    val answer = readLoop(text, 7)
+      s"$yellow[Tanuki Launcher]$default version 0.5.1\n\n$quote\n\n"
+      + s"${green}0:$default Exit"
+      + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
+      + s"\n${green}3:$default Record video only"
+      + s"\n\n${green}4:$default View screenshots\n${green}5:$default Compress screenshots"
+      + s"\n\n${green}6:$default Configure launcher\n${green}7:$default Configure video recording"
+      + s"\n${green}8:$default View recorded footage\n"
+    val answer = readLoop(text, 8)
     answer match
       case 0 =>
         exit()
@@ -33,16 +35,18 @@ def tui_title() =
       case 2 =>
         tui_play(true)
       case 3 =>
-        tui_ssview()
+        recordGameplay()
       case 4 =>
-        tui_ssconv()
+        tui_ssview()
       case 5 =>
+        tui_ssconv()
+      case 6 =>
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
-      case 6 =>
-        tui_configureRecording()
       case 7 =>
+        tui_configureRecording()
+      case 8 =>
         tui_movieMenu()
 
 def tui_noffmpeg(): Boolean =
