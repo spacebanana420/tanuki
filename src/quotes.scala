@@ -57,7 +57,11 @@ def getRandomQuote(): String =
     "\"You're so loud in the morning.\" ~ Cirno, Touhou 9",
     "\"Go do your work! Stop slacking off all the time!\" ~ Reimu Hakurei, Touhou 9",
     "\"I've got some nice cards! Buy something for the road?\" ~ Mike Goutokuji, Touhou 18",
-    "\"I have helped myself to your delicious nightmares.\" ~ Doremy Sweet, Touhou 15"
+    "\"I have helped myself to your delicious nightmares.\" ~ Doremy Sweet, Touhou 15",
+    "\"A ten-game match of danmaku transformations! Shall we begin?\" ~ Mamizou Futatsuiwa, Touhou 13",
+    "\"Ooh, so you don't mind if I beat you?\" ~ Marisa Kirisame, Touhou 13",
+    "\"Now attempt to defeat me! And lay bare your own desire!\" ~ Toyosatomimi no Miko, Touhou 13",
+    "\"I guess this means everyone's relying on me, huh?\" ~ Sanae Kochiya, Touhou 15"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)
