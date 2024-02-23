@@ -61,6 +61,8 @@ def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
         audio_setOpus(acodec(1).toInt)
       case "mp3" =>
         audio_setmp3(acodec(1).toInt)
+      case "aac" =>
+        audio_setaac(acodec(1).toInt)
       case _ => List[String]()
 
   v_args ++ a_args

@@ -28,7 +28,7 @@ def tui_recmissingconfig() =
 
 def tui_configureRecording() =
   val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "nvenc", "mjpeg", "mjpegqsv", "utvideo")
-  val acodecs = List("pcm", "mp3", "opus")
+  val acodecs = List("pcm", "mp3", "opus", "aac")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
   val vcodec =
@@ -51,6 +51,7 @@ def tui_configureRecording() =
         case "pcm" => tui_pcmSetup()
         case "opus" => tui_opusSetup()
         case "mp3" => tui_mp3Setup()
+        case "aac" => tui_aacSetup()
     else
       tui_pcmSetup()
   val vcapture =
@@ -195,6 +196,11 @@ def tui_mp3Setup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
   val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
   List("mp3", bitrate.toString)
+
+def tui_aacSetup(): List[String] =
+  val title = s"$green[Audio configuration]$default\n\n"
+  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
+  List("aac", bitrate.toString)
 
 ////Capture setup////
 

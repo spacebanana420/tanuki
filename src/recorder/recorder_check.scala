@@ -63,6 +63,9 @@ private def acodec_ok(cfg: Seq[String]): Boolean =
       case "mp3" =>
         acodec(1).toInt
         if acodec.length == 2 then true else false
+      case "aac" =>
+        acodec(1).toInt
+        if acodec.length == 2 then true else false
       case _ => false
   catch case e: Exception => false
 
