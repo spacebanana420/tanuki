@@ -62,5 +62,5 @@ This method only depends on GraalVM, which is automatically downloaded by scala-
 As far as I know, this command does not work on NixOS, even if launched with steam-run, because GraalVM does its own system command executions and those aren't covered by steam-run.
 
 <p align="center">
-<img src="../images/congratulations.png" height="220"/>
+<img src="../images/congratulations.png" height="230"/>
 </p>

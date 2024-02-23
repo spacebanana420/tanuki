@@ -70,7 +70,7 @@ command=/path/to/custom-wine/bin/wine
 
 With FFmpeg, Tanuki can record your screen and audio as you play Touhou, to record your gameplay. You can configure the recording settings for a more faithful or lossless video footage, or for a more lightweight footage, whether it's lightweight as in low CPU usage or as in low file size.
 
-After you record your footage, you can view it as many times as you want with [Gensokyo Cinema](doc/movie.md)
+After you record your footage, you can view it as many times as you want with [Gensokyo Cinema](doc/movie.md).
 
 # Compile from source
 
@@ -88,5 +88,5 @@ For more information and alternatives on compiling Tanuki, check the link below.
 [Compiling Tanuki from source](doc/compile.md)
 
 <p align="center">
-<img src="images/youmu.png" height="220"/>
+<img src="images/youmu.png" height="230"/>
 </p>

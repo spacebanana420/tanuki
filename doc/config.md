@@ -79,5 +79,5 @@ These commands only apply to Xfce, though it's likely that your desktop has its 
 This is not necessary or possible to do under Wayland, but a proper Wayland implementation will automatically disable vsync and effects for fullscreen apps.
 
 <p align="center">
-<img src="../images/mamizou.png" height="220"/>
+<img src="../images/mamizou.png" height="230"/>
 </p>

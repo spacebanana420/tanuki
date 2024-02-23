@@ -154,6 +154,6 @@ Normally used by PCM in Tanuki, a higher bit depth determines a higher resolutio
 Audio bitrate works the same as video bitrate. Tanuki sets a constant bitrate for your audio encode. It's measured in kilobits per second, and the higher it is, the higher the audio quality, at the cost of higher file size.
 
 <p align="center">
-<img src="../images/yuuka.png" height="220"/>
+<img src="../images/yuuka.png" height="230"/>
 </p>
 
