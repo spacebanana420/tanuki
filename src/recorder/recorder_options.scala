@@ -55,6 +55,9 @@ def audio_setOpus(bitrate: Int): List[String] =
 def audio_setmp3(bitrate: Int): List[String] =
   setAudioEncoder("mp3") ++ setAudioBitrate(bitrate)
 
+def audio_setaac(bitrate: Int): List[String] =
+  setAudioEncoder("aac") ++ setAudioBitrate(bitrate)
+
 /////CAPTURE/////
 
 def getSources_dshow_v(): List[String] = listSources("dshow_video")

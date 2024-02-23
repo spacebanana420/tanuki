@@ -85,33 +85,20 @@ def tui_x264Setup(): List[String] =
   val presets = List("ultrafast", "superfast", "veryfast", "medium")
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "rgb24")
 
-  val preset = readLoop_list(presets, s"${title}Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
+  val preset = setup_getPreset(title, "x264", "superfast", presets)
   val crf = readLoop(s"${title}Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
-//   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
+  val pixfmt = setup_getPixfmt(title, "yuv420p", pixfmts)
 
-  val final_preset =
-    if preset == 0 then presets(1)
-    else presets(preset-1)
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(0)
-    else pixfmts(pixfmt-1)
-
-  List("x264", final_preset, crf.toString, final_pixfmt)
+  List("x264", preset, crf.toString, pixfmt)
 
 def tui_x264rgbSetup(): List[String] =
   val title = s"$green[x264 configuration]$default\n\n"
   val presets = List("ultrafast", "superfast", "veryfast", "medium")
 
-  val preset = readLoop_list(presets, s"${title}Choose an x264 preset\n\n${green}${0}:${default} Default (superfast)\n\n")
+  val preset = setup_getPreset(title, "x264", "superfast", presets)
   val crf = readLoop(s"${title}Input the encoding CRF value (from 0 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
-//   val keyint = readLoop("Input the keyframe interval (from 1 to 600)\nLower values make it easier to decode the video, at the cost of higher bitrates in scenes that lack motion", 600)
 
-  val final_preset =
-    if preset == 0 then presets(1)
-    else presets(preset-1)
-
-  List("x264rgb", final_preset, crf.toString)
+  List("x264rgb", preset, crf.toString)
 
 def tui_QSVSetup(): List[String] =
   val title = s"$green[QuickSync H.264 configuration]$default\n\n"
@@ -120,12 +107,9 @@ def tui_QSVSetup(): List[String] =
   pressToContinue("You chose the QSV H.264 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
   val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
-  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (fast)\n\n")
-  val final_preset =
-    if preset == 0 then presets(2)
-    else presets(preset-1)
+  val preset = setup_getPreset(title, "QSV", "fast", presets)
   
-  List("qsv", final_preset, bitrate.toString)
+  List("qsv", preset, bitrate.toString)
 
 def tui_QSV265Setup(): List[String] =
   val title = s"$green[QuickSync H.265 configuration]$default\n\n"
@@ -135,34 +119,21 @@ def tui_QSV265Setup(): List[String] =
   pressToContinue("You chose the QSV H.265 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
   val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
-  val preset = readLoop_list(presets, s"${title}Choose a QSV preset\n\n${green}${0}:${default} Default (faster)\n\n")
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuyv422)\n\n")
-  val final_preset =
-    if preset == 0 then presets(1)
-    else presets(preset-1)
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(1)
-    else pixfmts(pixfmt-1)
+  val preset = setup_getPreset(title, "QSV", "faster", presets)
+  val pixfmt = setup_getPixfmt(title, "yuyv422", pixfmts)
 
-  List("qsv265", final_preset, bitrate.toString, final_pixfmt)
+  List("qsv265", preset, bitrate.toString, pixfmt)
 
 def tui_QSVMJPEGSetup(): List[String] =
   val title = s"$green[QuickSync MJPEG configuration]$default\n\n"
-  val presets = List("veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow")
   val pixfmts = List("nv12", "yuyv422")
-
   pressToContinue("You chose the QSV MJPEG encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
   val q = readLoop_byte(s"${title}Input the video quality (from 1 to 100)\nHigher means more quality and bigger file\n")
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuyv422)\n\n")
-
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(1)
-    else pixfmts(pixfmt-1)
-
+  val pixfmt = setup_getPixfmt(title, "yuyv422", pixfmts)
   val quality = if q < 1 then 1 else if q > 100 then 100 else q 
 
-  List("mjpegqsv", quality.toString, final_pixfmt)
+  List("mjpegqsv", quality.toString, pixfmt)
 
 def tui_NVENCSetup(): List[String] =
   val title = s"$green[NVENC H.264 configuration]$default\n\n"
@@ -171,29 +142,21 @@ def tui_NVENCSetup(): List[String] =
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "rgb0")
 
   val preset = readLoop_list(presets, s"${title}Choose an NVENC preset\n\n${green}${0}:${default} Default (medium)\n\n")
-  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
-  //val crf = readLoop(s"${title}Input the quality value (from 1 to 51)\nHigher value means lower quality and file size\n0 gives lossless compression\n", 51)
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuv420p)\n\n")
+  val bitrate = setup_getBitrate(title)
+  val pixfmt = setup_getPixfmt(title, "yuv420p", pixfmts)
 
   val final_preset =
     if preset == 0 then true_presets(1)
     else true_presets(preset-1)
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(0)
-    else pixfmts(pixfmt-1)
 
-  List("nvenc", final_preset, bitrate.toString, final_pixfmt)
+  List("nvenc", final_preset, bitrate.toString, pixfmt)
 
 def tui_utvideoSetup(): List[String] =
   val title = s"$green[Utvideo configuration]$default\n\n"
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "gbrp")
 
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (gbrp)\n\n")
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(3)
-    else pixfmts(pixfmt-1)
-
-  List("utvideo", final_pixfmt)
+  val pixfmt = setup_getPixfmt(title, "gbrp", pixfmts)
+  List("utvideo", pixfmt)
 
 def tui_mjpegSetup(): List[String] =
   val title = s"$green[MJPEG configuration]$default\n\n"
@@ -203,17 +166,14 @@ def tui_mjpegSetup(): List[String] =
     s"\n\nHigher value means lower quality and file size"
 
   val quality = readLoop_short(ask)
-  val pixfmt = readLoop_list(pixfmts, s"${title}Choose a color format\n\n${green}${0}:${default} Default (yuvj444p)\n\n")
+  val pixfmt = setup_getPixfmt(title, "yuvj444p", pixfmts)
   
   val final_quality: Short =
     if quality == 0 then 1
     else if quality > 120 then 120
     else quality
-  val final_pixfmt =
-    if pixfmt == 0 then pixfmts(2)
-    else pixfmts(pixfmt-1)
 
-  List("mjpeg", final_quality.toString, final_pixfmt)
+  List("mjpeg", final_quality.toString, pixfmt)
 
 ////Audeo encoder setup////
 
