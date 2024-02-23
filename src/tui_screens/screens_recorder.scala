@@ -141,6 +141,8 @@ def tui_NVENCSetup(): List[String] =
   val presets = List("fast", "medium", "slow", "slower")
   val true_presets = List("p3", "p4", "p5", "p6")
   val pixfmts = List("yuv420p", "yuv422p", "yuv444p", "rgb0")
+  pressToContinue("You chose the NVENC H.264 encoder"
+  +"\nThis hardware encoder requires an NVIDIA GPU to work, so make sure that's what you're using")
 
   val preset = readLoop_list(presets, s"${title}Choose an NVENC preset\n\n${green}${0}:${default} Default (medium)\n\n")
   val bitrate = setup_getBitrate(title)
