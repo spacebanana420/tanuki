@@ -7,8 +7,9 @@ def getRandomQuote(): String =
     "\"Heaven knows, Earth knows. I know, you know.\" ~ Shikieiki's spellcard message, Touhou 9",
     "\"Go with the flow.\" ~ Reimu's spellcard message, Touhou 9",
     "\"Sing your heart out.\" ~ Mystia Lorelei's spellcard message, Touhou 9",
-    "\"Happiness and misfortune come together. \" ~ Yuuka's spellcard message, Touhou 9",
-
+    "\"Happiness and misfortune come together.\" ~ Yuuka's spellcard message, Touhou 9",
+    "\"Dying is loss in death, living is profit in life.\" ~ Komachi's spellcard message, Touhou 9",
+    
     "\"Boo!\" ~ Kogasa Tatara, Touhou 12",
     "\"The dead do not speak.\" ~ Sakuya Izayoi, Touhou 7",
     "\"Well, I'm alive.\" ~ Marisa Kirisame, Touhou 9",
@@ -61,7 +62,10 @@ def getRandomQuote(): String =
     "\"A ten-game match of danmaku transformations! Shall we begin?\" ~ Mamizou Futatsuiwa, Touhou 13",
     "\"Ooh, so you don't mind if I beat you?\" ~ Marisa Kirisame, Touhou 13",
     "\"Now attempt to defeat me! And lay bare your own desire!\" ~ Toyosatomimi no Miko, Touhou 13",
-    "\"I guess this means everyone's relying on me, huh?\" ~ Sanae Kochiya, Touhou 15"
+    "\"I guess this means everyone's relying on me, huh?\" ~ Sanae Kochiya, Touhou 15",
+    "\"Someone visited my place by mistake the other day. I gave them fried tofu.\" ~ Aunn Komano, Touhou 19",
+    "\"Some visitor the other day thought I was a fox and gave me fried tofu.\" ~ Aunn Komano, Touhou 19",
+    "\"Is it over? If it's over, then I wanna drink some sake!\" ~ Mamizou Futatsuiwa, Touhou 19"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)
