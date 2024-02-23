@@ -14,7 +14,7 @@ def tui_movieMenu(): Unit =
     quickSort(videos)
 
     val title = s"$green[Gensokyo cinema]$default\nChoose a video to play\n\n${green}${0}:${default} Exit\n\n"
-    val video = readLoop_array(videos, title)
+    val video = readLoop_movie(videos, title)
     if video != 0 then
       println(
         s"\nPlaying ${videos(video-1)}...\n"
@@ -26,11 +26,3 @@ def tui_movieMenu(): Unit =
       val args = setAutoExit() ++ setWindowTitle("Gensokyo Cinema")
       execplay(s"$output/${videos(video-1)}", args)
       tui_movieMenu()
-
-// private def getLargestName(names: Seq[String], largest: Int = 0, i: Int = 0): Int =
-//   if i >= names.length then
-//     largest
-//   else if names(i) largest then
-//     getLargestName(names, names(i).length, i+1)
-//   else getLargestName(names, largest, i+1)
-  

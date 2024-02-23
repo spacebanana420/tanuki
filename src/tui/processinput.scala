@@ -79,3 +79,31 @@ def readLoop_dir(txt: String): String =
   else
     pressToContinue("That is not a real path in your system!")
     readLoop_dir(txt)
+
+//only used in the movie menu
+def readLoop_movie(names: Array[String], title: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n"): Int =
+  def largestName(largest: Int = 0, i: Int = 0): Int =
+    if i >= names.length then
+      largest
+    else if names(i).length > largest then
+      largestName(names(i).length, i+1)
+    else largestName(largest, i+1)
+
+  def getWhitespace(amt: Int, s: String = "     ", i: Int = 0): String = 
+    if i >= amt then s
+    else getWhitespace(amt, s + " ", i+1)
+
+  def getArray_movie(largest: Int, txt: String = s"Choose an entry\n\n${green}${0}:${default} Exit\n\n", i: Int = 0, newline: Boolean = true): String =
+    if i >= names.length then
+      txt
+    else
+      val line =
+      if newline then
+        val spaces = getWhitespace(largest - names(i).length)
+        s"${green}${i+1}:${default} ${names(i)}$spaces"
+      else
+        s"${green}${i+1}:${default} ${names(i)}\n"
+      getArray_movie(largest, txt + line, i+1, !newline)
+
+  val txt_list = getArray_movie(largestName(), title)
+  readLoop(txt_list, names.length)
