@@ -57,6 +57,8 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
   * H.264, GPU-based encoder, extremely fast, requires an Intel GPU, only supports lossy compression and NV12
 * qsv265
   * H.265, GPU-based encoder, really fast encode, very slow decode, requires an Intel GPU, only supports lossy compression
+* nvenc
+  * H.264, GPU-based encoder, extremely fast, requires an NVIDIA GPU
 * mjpeg
   * MJPEG, lossy YUV, great for video editing performance, reasonable file size
 * mjpegqsv
@@ -71,6 +73,8 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
   * Lossy audio, great support.
 * opus
   * Lossy audio, great compression efficiency
+* aac
+  * Lossy audio, great support.
 
 ## Choosing a video encoder
 
@@ -80,7 +84,9 @@ x264rgb is x264 but uses the RGB color format, producing color that is faithful 
 
 QSV encodes in H.264, just like x264, but it's a hardware encoder for Intel GPUs. Encoding speed is extremely fast compared to CPU-based encoders, although it doesn't support RGB or lossless encoding.
 
-Tanuki offers the H.265 variant of QSV. This encoder is the QuickSync implementation for H.265, rather than H.264. Compression efficiency is higher, although encoding speed is a bit slower and decoding speed is noticeably slower, it's not ideal for heavy video editing. Unlike H.264 QSV, this variant supports YUV 4:2:2, which is always better than NV12 for color preservation. 
+Tanuki offers the H.265 variant of QSV. This encoder is the QuickSync implementation for H.265, rather than H.264. Compression efficiency is higher, although encoding speed is a bit slower and decoding speed is noticeably slower, it's not ideal for heavy video editing. Unlike H.264 QSV, this variant supports YUV 4:2:2, which is always better than NV12 for color preservation.
+
+NVENC is also a GPU-based encoder. Tanuki's implementation supports H.264 only. NVENC's concept and performance is very to QSV, but you require an NVIDIA GPU that supports NVENC. NVENC is also capable of better quality than QSV due to supporting RGB and YUV 4:4:4.
 
 Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 ultrafast. Utvideo is much faster to decode (good for video editing), although it produces **significantly** large files.
 
@@ -88,10 +94,11 @@ MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video
 
 QSV also offers a variant for MJPEG. Encoding speed is extremely fast, the fastest of all encoding solutions available here.
 
-As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support, use mp3. If you want good compression efficiency, use opus.
+As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support, use mp3 or aac. If you want good compression efficiency, use opus.
 
 ### Quick encoding speed comparison
 * QSV MJPEG (extremely fast)
+* NVENC (extremely fast)
 * QSV H.264 (extremely fast)
 * QSV H.265 (very fast)
 * MJPEG (fast)
@@ -103,7 +110,7 @@ As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you wa
 ### Quick decoding speed comparison
 * MJPEG and QSV MJPEG (extremely fast)
 * Utvideo (extremely fast)
-* x264 and QSV H.264 (good enough)
+* x264, NVENC and QSV H.264 (good enough)
 * QSV H.265 (very slow)
 
 Decoding speed only matters for video editing and other video-related workflows as well as playing back the videos on weak hardware or without hardware acceleration.
@@ -116,7 +123,7 @@ CRF is the encoding's control rate factor. It establishes a constant quality tar
 
 A good value for decent quality with not-so-huge file sizes would be a CRF between 8 and 15.
 
-### Bitrate (QSV)
+### Bitrate (QSV and NVENC)
 
 Tanuki sets a constant bitrate for your video encode. It's measured in kilobits per second, and the higher it is, the higher the video quality, at the cost of higher file size.
 
@@ -126,7 +133,7 @@ For QSV, a bitrate between 10000 and 50000 is recommended, but how much you trul
 
 This sets the quality target for MJPEG encoding. Accepted values range from 1 to 120. The lower the value, the higher the quality, at the cost of a bigger file. 1 produces a very faithful lossy result. Values above 1 are not recommended if you are going to heavily manipulate the video in editing or VFX. Values above 10 are generally not recommended due to the quality result.
 
-### Preset (x264 and QSV)
+### Preset (x264, NVENC and QSV)
 
 The encoding preset sets the encoding parameters that will ultimately define the trade-off between compression quality and speed. A slower preset means that you can get the same video quality for lower file sizes, at the cost of slower encoding that requires more hardware power.
 
