@@ -57,9 +57,9 @@ private def acodec_ok(cfg: Seq[String]): Boolean =
       case "pcm" =>
         acodec(1).toByte
         if acodec.length == 2 then true else false
-      case "opus" =>
-        acodec(1).toInt
-        if acodec.length == 2 then true else false
+      // case "opus" =>
+      //   acodec(1).toInt
+      //   if acodec.length == 2 then true else false
       case "mp3" =>
         acodec(1).toInt
         if acodec.length == 2 then true else false

@@ -28,7 +28,8 @@ def tui_recmissingconfig() =
 
 def tui_configureRecording() =
   val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "nvenc", "mjpeg", "mjpegqsv", "utvideo")
-  val acodecs = List("pcm", "mp3", "opus", "aac")
+  val acodecs = List("pcm", "mp3", "aac")
+  //val acodecs_mp4 = List("flac", "mp3", "opus", "aac")
 
   val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
   val vcodec =
@@ -44,21 +45,21 @@ def tui_configureRecording() =
         case "mjpegqsv" => tui_QSVMJPEGSetup()
     else
       tui_x264Setup()
-  val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
-  val acodec =
-    if ans_ac != 0 then
-      acodecs(ans_ac-1) match
-        case "pcm" => tui_pcmSetup()
-        case "opus" => tui_opusSetup()
-        case "mp3" => tui_mp3Setup()
-        case "aac" => tui_aacSetup()
-    else
-      tui_pcmSetup()
   val vcapture =
     if system_platform == 0 then
       tui_dshowSetup_video()
     else
       tui_x11Setup()
+  val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
+  val acodec =
+    if ans_ac != 0 then
+      acodecs(ans_ac-1) match
+        case "pcm" => tui_pcmSetup()
+        //case "opus" => tui_opusSetup()
+        case "mp3" => tui_mp3Setup()
+        case "aac" => tui_aacSetup()
+    else
+      tui_pcmSetup()
   val acapture =
     if system_platform == 0 then
       tui_dshowSetup_audio()

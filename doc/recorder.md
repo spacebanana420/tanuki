@@ -68,13 +68,11 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
 
 ### Audio
 * pcm (default)
-  * Uncompressed audio, very fast to encode and decode, great support and great for audio work.
+  * Uncompressed audio, very fast to encode and decode, great for audio work.
 * mp3
   * Lossy audio, great support.
-* opus
-  * Lossy audio, great compression efficiency
 * aac
-  * Lossy audio, great support.
+  * Lossy audio, best support, more efficient than mp3.
 
 ## Choosing a video encoder
 
@@ -94,7 +92,7 @@ MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video
 
 QSV also offers a variant for MJPEG. Encoding speed is extremely fast, the fastest of all encoding solutions available here.
 
-As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support, use mp3 or aac. If you want good compression efficiency, use opus.
+As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support as well as a lower digital footprint, use mp3 or aac.
 
 ### Quick encoding speed comparison
 * QSV MJPEG (extremely fast)

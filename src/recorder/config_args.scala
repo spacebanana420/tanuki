@@ -57,8 +57,8 @@ def rec_getEncodeArgs(config: Seq[String] = List()): List[String] =
     acodec(0) match
       case "pcm" =>
         audio_setPCM(acodec(1).toByte)
-      case "opus" =>
-        audio_setOpus(acodec(1).toInt)
+      // case "opus" =>
+      //   audio_setOpus(acodec(1).toInt)
       case "mp3" =>
         audio_setmp3(acodec(1).toInt)
       case "aac" =>
