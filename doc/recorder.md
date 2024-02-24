@@ -165,6 +165,14 @@ This is a recent issue I discovered when playing Touhou 18 or 19 in fullscreen.
 
 Make sure to enable safe mode when you are configuring the capture options, this will fix it. Note that safemode prevents framerates above 60 as well, though you only have a reason to record at higher than 60 FPS if you raised the game's framerate with vpatch.
 
+### The video file is very large!
+
+A video's file size is determined by its bitrate. If the encoder you chose has a bitrate setting, you can lower the bitrate to create a smaller video file. If the encoder has a quality or CRF setting instead, use a value that represents less quality (higher for CRF, for example).
+
+## Tanuki didn't record any video!
+
+If Tanuki didn't record any video, your encoding configuration might be incompatible with your system. You might have chosen a GPU-based encoder that requires an NVIDIA or Intel GPU, but you don't have a compatible hardware.
+
 <p align="center">
 <img src="../images/yuuka.png" height="230"/>
 </p>

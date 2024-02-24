@@ -19,7 +19,7 @@ def tui_title() =
   while true do
     val quote = getRandomQuote()
     val text =
-      s"$yellow[Tanuki Launcher]$default version 0.5.1\n\n$quote\n\n"
+      s"$yellow[Tanuki Launcher]$default version 0.6\n\n$quote\n\n"
       + s"${green}0:$default Exit"
       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
       + s"\n${green}3:$default Record video only"
