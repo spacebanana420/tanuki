@@ -32,34 +32,33 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
   val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
-  if recordvideo then
-    recordGameplay(reccfg, name)
-  else
-    Thread.sleep(3000)
-    if standbyInput() then
-      recordGameplay(gamename = name, usedelay = false)
+  if recordvideo then recordGameplay(reccfg, name)
+  else Thread.sleep(3000)
+  readUserInput("\nPress enter to return to the main menu")
+    // if standbyInput() then
+    //   recordGameplay(gamename = name, usedelay = false)
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
 
-private def standbyInput(): Boolean =
-  val record_ready =
-    ffmpeg_installed
-    && recording_supported
-    && rec_configExists()
-    && rec_isConfigOk()
+// private def standbyInput(): Boolean =
+//   val record_ready =
+//     ffmpeg_installed
+//     && recording_supported
+//     && rec_configExists()
+//     && rec_isConfigOk()
 
-  val ans =
-    if record_ready then
-      readUserInput("\nPress enter to return to the main menu\nOr press R + enter to start recording")
-    else readUserInput("\nPress enter to return to the main menu")
+//   val ans =
+//     if record_ready then
+//       readUserInput("\nPress enter to return to the main menu\nOr press R + enter to start recording")
+//     else readUserInput("\nPress enter to return to the main menu")
 
-  if !record_ready then
-    false
-  else if ans == "r" || ans == "R" then
-    true
-  else
-    false
+//   if !record_ready then
+//     false
+//   else if ans == "r" || ans == "R" then
+//     true
+//   else
+//     false
   
 def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
@@ -77,9 +76,9 @@ def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: B
       getVideoName(output, s"tanuki-video")
     else
       getVideoName(output, s"tanuki-video-$gamename")
-
+  readUserInput("Press enter to begin recording")
   if delay > 0 then
     println(s"Recording will begin in $delay seconds")
     Thread.sleep(delay*1000)
-  println("\nPress Q to stop recording and return to the main menu")
+  println("\nPress Q to stop recording")
   record(s"$output/$name", captureargs, args, filters, rec_getHWAccel(cfg))

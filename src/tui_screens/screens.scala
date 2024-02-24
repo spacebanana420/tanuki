@@ -91,12 +91,10 @@ private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List
 
     val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
-      if record then
-        println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
-        launchGame(paths(answer-1), names(answer-1), true, reccfg)
-      else
-        println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
-        launchGame(paths(answer-1), names(answer-1))
+      println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
+      
+      if record then launchGame(paths(answer-1), names(answer-1), true, reccfg)
+      else launchGame(paths(answer-1), names(answer-1))
 
 def tui_ssentry(manualdata: List[String] = List()): String =
   val datas =
