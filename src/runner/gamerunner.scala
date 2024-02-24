@@ -15,7 +15,7 @@ private def getVideoName(path: String, name: String = "tanuki-video.mov", i: Int
   else
     getVideoName(path, s"tanuki-video-$i.mov", i+1)
 
-def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
+def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
   val cmd = getCommand(cfg)
   val cmd_start = getStartCmd(cfg)
@@ -33,11 +33,11 @@ def launchGame(path: String, recordvideo: Boolean = false, reccfg: Seq[String] =
     cmd_start.run(ProcessLogger(line => ()))
   val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
   if recordvideo then
-    recordGameplay(reccfg)
+    recordGameplay(reccfg, name)
   else
     Thread.sleep(3000)
     if standbyInput() then
-      recordGameplay(usedelay = false)
+      recordGameplay(gamename = name, usedelay = false)
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
@@ -61,7 +61,7 @@ private def standbyInput(): Boolean =
   else
     false
   
-def recordGameplay(cfg: Seq[String] = List(), usedelay: Boolean = true) =
+def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
   val args = rec_getEncodeArgs(cfg)
   val filters = rec_getFilterArgs(cfg)
@@ -72,7 +72,11 @@ def recordGameplay(cfg: Seq[String] = List(), usedelay: Boolean = true) =
     if d > 60 then 60
     else if !usedelay then 0
     else d
-  val name = getVideoName(output)
+  val name =
+    if gamename == "" then
+      getVideoName(output, s"tanuki-video.mov")
+    else
+      getVideoName(output, s"tanuki-video-$gamename.mov")
 
   if delay > 0 then
     println(s"Recording will begin in $delay seconds")
