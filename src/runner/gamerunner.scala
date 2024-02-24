@@ -9,11 +9,11 @@ import java.io.File
 import scala.sys.process.*
 import ffscala.capture.*
 
-private def getVideoName(path: String, name: String = "tanuki-video.mov", i: Int = 1): String =
+private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 1): String =
   if !File(s"$path/$name").isFile() then
-    name
+    name + ".mov"
   else
-    getVideoName(path, s"tanuki-video-$i.mov", i+1)
+    getVideoName(path, s"$name-$i", i+1)
 
 def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
@@ -74,9 +74,9 @@ def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: B
     else d
   val name =
     if gamename == "" then
-      getVideoName(output, s"tanuki-video.mov")
+      getVideoName(output, s"tanuki-video")
     else
-      getVideoName(output, s"tanuki-video-$gamename.mov")
+      getVideoName(output, s"tanuki-video-$gamename")
 
   if delay > 0 then
     println(s"Recording will begin in $delay seconds")
