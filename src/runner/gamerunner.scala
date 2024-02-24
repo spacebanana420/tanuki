@@ -63,7 +63,7 @@ private def standbyInput(): Boolean =
   
 def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
-  val args = rec_getEncodeArgs(cfg)
+  val args = rec_getEncodeArgs(cfg) ++ rec_getSafeFPS(cfg)
   val filters = rec_getFilterArgs(cfg)
 
   val output = rec_getOutputArg(cfg)

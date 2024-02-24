@@ -2,6 +2,7 @@ package tanuki.recorder
 
 import tanuki.misc.similarInList
 
+import ffscala.setFramerate
 import java.io.File
 import java.io.FileOutputStream
 import scala.io.Source
@@ -18,7 +19,7 @@ def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
     if vcapture(0) == "dshow" then
       capture_dshow_v(vcapture(1), vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toInt)
     else
-      capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
+      capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toBoolean)
   val acapture_args =
     if acapture(0) == "dshow" then
       capture_dshow_a(acapture(1))
@@ -104,3 +105,12 @@ def rec_getDelayArg(config: Seq[String] = List()): Int =
     else config
   rec_getDelay(cfg)
   
+def rec_getSafeFPS(config: Seq[String] = List()): List[String] = 
+  val cfg =
+    if config.length == 0 then rec_readConfig()
+    else config
+  val vcapture = rec_getvcapture(cfg)
+  if vcapture(0) == "x11grab" && vcapture(4) == "true" then
+    setFramerate(vcapture(3).toInt)
+  else
+    List()

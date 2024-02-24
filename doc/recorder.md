@@ -151,6 +151,20 @@ Normally used by PCM in Tanuki, a higher bit depth determines a higher resolutio
 
 Audio bitrate works the same as video bitrate. Tanuki sets a constant bitrate for your audio encode. It's measured in kilobits per second, and the higher it is, the higher the audio quality, at the cost of higher file size.
 
+## Troubleshooting
+
+### My video is stuttering, the encode is too heavy!
+
+There are many ways to fasten your video encode. The most straightforward ways are to lower your framerate or encoding resolution (by using the scale option).
+
+You might prefer to keep the resolution and framerate as they are. In that case, you can lower the encoding preset (if it exists for your chosen encoder) or switch encoder entirely.
+
+### When recording on Linux with a framerate lower than 60, the video has huge stuttering!
+
+This is a recent issue I discovered when playing Touhou 18 or 19 in fullscreen.
+
+Make sure to enable safe mode when you are configuring the capture options, this will fix it. Note that safemode prevents framerates above 60 as well, though you only have a reason to record at higher than 60 FPS if you raised the game's framerate with vpatch.
+
 <p align="center">
 <img src="../images/yuuka.png" height="230"/>
 </p>

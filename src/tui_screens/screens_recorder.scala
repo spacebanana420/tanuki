@@ -213,8 +213,15 @@ def tui_x11Setup(): List[String] =
   val w = readLoop_int(s"${title}Input the capture resolution's width")
   val h = readLoop_int(s"${title}Input the capture resolution's height")
   val fps = readLoop_int(s"${title}Input the capture resolution's framerate")
+  val safemode =
+    if fps != 60 then
+      askPrompt(
+      "Would you like to enable safe mode?\n" +
+      "Enable this if you are not recording at 60FPS but the footage has extreme stutters"
+      )
+    else false
 
-  List("x11grab", w.toString, h.toString, fps.toString)
+  List("x11grab", w.toString, h.toString, fps.toString, safemode.toString)
 
 def tui_pulseSetup(): List[String] =
   val title = s"$green[Audio capture]$default\n\n"
