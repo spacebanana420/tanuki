@@ -60,7 +60,7 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
 //   else
 //     false
   
-def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: Boolean = true) =
+def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", waitconfirm: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)
   val args = rec_getEncodeArgs(cfg) ++ rec_getSafeFPS(cfg)
   val filters = rec_getFilterArgs(cfg)
@@ -69,14 +69,13 @@ def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", usedelay: B
   val d = rec_getDelayArg(cfg)
   val delay =
     if d > 60 then 60
-    else if !usedelay then 0
     else d
   val name =
     if gamename == "" then
       getVideoName(output, s"tanuki-video")
     else
       getVideoName(output, s"tanuki-video-$gamename")
-  readUserInput("Press enter to begin recording")
+  if waitconfirm then readUserInput("Press enter to begin recording")
   if delay > 0 then
     println(s"Recording will begin in $delay seconds")
     Thread.sleep(delay*1000)

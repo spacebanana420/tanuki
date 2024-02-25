@@ -35,7 +35,7 @@ def tui_title() =
       case 2 =>
         tui_play(true)
       case 3 =>
-        recordGameplay()
+        recordGameplay(waitconfirm = false)
       case 4 =>
         tui_ssview()
       case 5 =>
@@ -92,7 +92,7 @@ private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List
     val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
     if answer != 0 then
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
-      
+
       if record then launchGame(paths(answer-1), names(answer-1), true, reccfg)
       else launchGame(paths(answer-1), names(answer-1))
 
