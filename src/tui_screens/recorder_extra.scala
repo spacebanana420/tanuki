@@ -10,7 +10,7 @@ import java.io.File
 
 def setup_getBitrate(title: String): Int =
   readLoop_int(
-    s"${title}Input the video bitrate (in kilobits persecond)"
+    s"${title}Input the video bitrate (in kilo bits persecond)"
     + "\nHigher means more quality and bigger file\n"
     )
 

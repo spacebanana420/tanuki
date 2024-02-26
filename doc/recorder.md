@@ -151,6 +151,21 @@ Normally used by PCM in Tanuki, a higher bit depth determines a higher resolutio
 
 Audio bitrate works the same as video bitrate. Tanuki sets a constant bitrate for your audio encode. It's measured in kilobits per second, and the higher it is, the higher the audio quality, at the cost of higher file size.
 
+## Recording tips
+
+### Web-friendly recording
+* Use one of the following encoders: ```x264 qsv nvenc```
+* Use the yuv420p or nv12 color format
+* Use a reasonable bitrate/CRF value, not too high
+* Use the aac or mp3 audio encoder, with a bitrate up to 320kb/s
+
+### Lossless RGB recording
+
+* Use the x264rgb encoder or utvideo
+* In case of utvideo, choose the gbrp color format
+* In case of x264, use a CRF value of 0
+* Use the pcm audio encoder, at 16 or 24 bit
+
 ## Troubleshooting
 
 ### My video is stuttering, the encode is too heavy!
