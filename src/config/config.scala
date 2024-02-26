@@ -12,7 +12,7 @@ def readConfig(): Vector[String] =
   val settings =
     List(
     "game=", "data=", "command=", "use_steam-run=",
-    "sidecommand_start=", "sidecommand_close="
+    "sidecommand_start=", "sidecommand_close=", "ffmpeg_path="
     )
   val src = Source.fromFile("config.txt")
   val cfg = src
@@ -54,6 +54,7 @@ private def getFirstValue(cfg: Seq[String], setting: String, i: Int = 0): String
 def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
 def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
 def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
+def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 
 def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
 def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))

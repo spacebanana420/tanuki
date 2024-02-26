@@ -1,6 +1,6 @@
 package tanuki.runner
 
-import tanuki.{ffmpeg_installed, recording_supported}
+import tanuki.{ffmpeg_path, ffplay_path, recording_supported}
 import tanuki.config.*
 import tanuki.tui.*
 import tanuki.recorder.*
@@ -80,4 +80,4 @@ def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", waitconfirm
     println(s"Recording will begin in $delay seconds")
     Thread.sleep(delay*1000)
   println("\nPress Q to stop recording")
-  record(s"$output/$name", captureargs, args, filters, rec_getHWAccel(cfg))
+  record(s"$output/$name", captureargs, args, filters, rec_getHWAccel(cfg), exec=ffmpeg_path)

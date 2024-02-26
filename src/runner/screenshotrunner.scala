@@ -1,5 +1,6 @@
 package tanuki.runner
 
+import tanuki.{ffmpeg_path, ffplay_path}
 import tanuki.config.*
 import java.io.File
 import scala.sys.process.*
@@ -8,7 +9,7 @@ import ffscala.*
 
 //temporary solution
 def screenshot_view(path: String) =
-  val cmdexec = Seq("ffplay", "-loglevel", "quiet", path)
+  val cmdexec = Seq(ffplay_path, "-loglevel", "quiet", path)
   val parentpath = File(path).getParent()
   Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
   //execplay(path)
@@ -31,11 +32,11 @@ private def changeExtension(name: String, i: Int, s: String = "", copy: Boolean 
 
 def screenshot_convert(name: String, path: String) =
   val newname = changeExtension(name, name.length-1)
-  encode(s"$path/$name", s"$path/PNG/$newname")
+  encode(s"$path/$name", s"$path/PNG/$newname", exec=ffmpeg_path)
 
 def screenshot_crop(name: String, path: String, x: Int, y: Int, w: Int, h: Int) =
   if !File(s"$path/crop").isDirectory() then
     File(s"$path/crop").mkdir()
   val fcrop = crop(x, y, w, h)
   val newname = changeExtension(name, name.length-1)
-  encode(s"$path/$name", s"$path/crop/$newname", filters=fcrop)
+  encode(s"$path/$name", s"$path/crop/$newname", filters=fcrop, exec=ffmpeg_path)

@@ -19,6 +19,9 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
+* ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
+  * This should be the path to the directory containing ffmpeg and ffplay
+  * If this path is invalid or doesn't contain the executables, Tanuki defaults to the system FFmpeg executables (if they are installed)
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
 

@@ -1,5 +1,6 @@
 package tanuki.tui
 
+import tanuki.{ffmpeg_path, ffplay_path}
 import tanuki.recorder.{rec_getOutputArg}
 import ffscala.*
 import java.io.File
@@ -24,5 +25,5 @@ def tui_movieMenu(): Unit =
       )
 
       val args = setAutoExit() ++ setWindowTitle("Gensokyo Cinema")
-      execplay(s"$output/${videos(video-1)}", args)
+      execplay(s"$output/${videos(video-1)}", args, exec=ffplay_path)
       tui_movieMenu()
