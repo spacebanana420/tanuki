@@ -21,13 +21,14 @@ Lines in the config file that start with "#" or don't start with an entry option
   * The package "steam-run" must be installed in your system.
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
   * This should be the path to the directory containing ffmpeg and ffplay
-  * If this path is invalid or doesn't contain the executables, Tanuki defaults to the system FFmpeg executables (if they are installed)
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
 
 Tanuki only assumes the first instances of ```command```, ```sidecommand_start```, ```sidecommand_close``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
 
 ```sidecommand_start``` and ```sidecommand_close``` run in parallel to game execution and closure and are not whitespace-safe, but you can pass CLI arguments to them and so build a full command.
+
+```ffmpeg_path``` can be used to set a custom directory where the executables for FFmpeg and FFplay are. This path must be a directory, this way this single setting can be used to detect both FFmpeg and FFplay. If the path doesn't have the executables or is not a directory, the default system FFmpeg and FFplay are used (if they are installed and in your $PATH).
 
 ### Config example:
 
