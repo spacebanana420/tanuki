@@ -10,7 +10,7 @@ import scala.sys.process.*
 import ffscala.capture.*
 
 private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 1): String =
-  if !File(s"$path/$name").isFile() then
+  if !File(s"$path/$name.mov").isFile() then
     name + ".mov"
   else
     getVideoName(path, s"$name-$i", i+1)

@@ -8,8 +8,9 @@ import java.io.File
 val ffmpeg_path = getFFmpeg("ffmpeg")
 val ffplay_path = getFFmpeg("ffplay")
 val ffmpeg_installed = checkFFmpeg(ffmpeg_path)
+//val ffplay_installed = checkFFmpeg(ffplay_path) noticeable delay, implement multithreading
 
-val system_platform = getPlatform() //do System.getProperty("os.name") later
+val system_platform = getPlatform()
 val recording_supported = system_platform != 3
 
 @main def main() =

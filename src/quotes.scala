@@ -68,7 +68,9 @@ def getRandomQuote(): String =
     "\"Is it over? If it's over, then I wanna drink some sake!\" ~ Mamizou Futatsuiwa, Touhou 19",
     "\"How cold of you.\" ~ Marisa Kirisame, Touhou 6",
     "\"Ah, so you're the human who gave Chen a hard time?\" ~ Ran Yakumo, Touhou 7",
-    "\"Preparations are fun? You're a weirdo.\" ~ Marisa Kirisame, Touhou 7"
+    "\"Preparations are fun? You're a weirdo.\" ~ Marisa Kirisame, Touhou 7",
+    "\"...it's still too early to speak.\" ~ Sagume Kishin, Touhou 15",
+    "\"It's my job, after all. I have to do it.\" ~ Reisen Udongein Inaba, Touhou 15"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)
