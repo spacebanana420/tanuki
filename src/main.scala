@@ -9,8 +9,8 @@ val ffmpeg_path = getFFmpeg("ffmpeg")
 val ffplay_path = getFFmpeg("ffplay")
 val ffmpeg_installed = checkFFmpeg(ffmpeg_path)
 
-val system_platform = getPlatform()
-val recording_supported = system_platform < 3
+val system_platform = getPlatform() //do System.getProperty("os.name") later
+val recording_supported = system_platform != 3
 
 @main def main() =
   if !configExists() then
@@ -20,11 +20,19 @@ val recording_supported = system_platform < 3
   else
     tui_configerror()
 
+// def getPlatform(): Byte =
+//   if File("C:").isDirectory() then 0
+//   else if File("/nix/store").isDirectory() then 1
+//   else if File("/run").isDirectory() && File("/bin").isDirectory() then 2
+//   else 3
+
 def getPlatform(): Byte =
-  if File("C:").isDirectory() then 0
-  else if File("/nix/store").isDirectory() then 1
-  else if File("/run").isDirectory() && File("/bin").isDirectory() then 2
-  else 3
+  val platform = System.getProperty("os.name")
+  if platform.contains("Windows") then 0
+  else if platform.contains("Linux") && File("/nix/store").isDirectory() then 1
+  else if platform.contains("Linux") then 2
+  else if platform.contains("Mac") then 3
+  else 4
 
 def getFFmpeg(exec: String): String =
   def findExec(dir: String, files: Array[String], i: Int = 0): String =

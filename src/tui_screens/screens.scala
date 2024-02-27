@@ -34,8 +34,9 @@ def tui_title() =
         tui_play()
       case 2 =>
         tui_play(true)
-      case 3 =>
-        recordGameplay(waitconfirm = false)
+      case 3 => //finish this
+        if rec_isRecordingSupported() then
+          recordGameplay(waitconfirm = false)
       case 4 =>
         tui_ssview()
       case 5 =>
@@ -58,7 +59,7 @@ def tui_noffmpeg(): Boolean =
     false
 
 def tui_play(record: Boolean = false) =
-  def everythingOk(i: Int = 0): Boolean =
+  def everythingOk(i: Int = 0): Boolean = //replace with the new function
     if i >= 3 then
       true
     else

@@ -1,8 +1,31 @@
 package tanuki.recorder
 
+import tanuki.{recording_supported, ffmpeg_installed}
+import tanuki.tui.{tui_noffmpeg, tui_supportedOS, tui_recmissingconfig, tui_recconfigerror}
 import tanuki.misc.similarInList
 
 import java.io.File
+
+def rec_isRecordingSupported(): Boolean =
+  def everythingOk(i: Int = 0): Boolean =
+    if i >= 3 then
+      true
+    else
+      val ok =
+        i match
+          case 0 => !tui_noffmpeg()
+          case 1 => rec_configExists()
+          case 2 => tui_supportedOS()
+
+      if ok then everythingOk(i+1)
+      else
+        if i == 1 then tui_recmissingconfig()
+        false
+
+  if everythingOk() && rec_isConfigOk() then
+    true
+  else
+    false
 
 def rec_isConfigOk(config: Seq[String] = List()): Boolean =
   val cfg =
