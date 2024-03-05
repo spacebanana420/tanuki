@@ -12,7 +12,7 @@ import ffscala.capture.*
 private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0): String =
   if i == 0 && !File(s"$path/$name.mov").isFile() then
     name + ".mov"
-  else if !File(s"$path/$name-$i.mov").isFile() then
+  else if i != 0 && !File(s"$path/$name-$i.mov").isFile() then
     s"$name-$i.mov"
   else
     getVideoName(path, name, i+1)
