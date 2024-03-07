@@ -20,6 +20,8 @@ If you have Scala 3 in your system, download ```tanuki.jar```
 
 If you just have Java in your system, download ```tanuki-java.jar```
 
+If you are running an x86_64 Linux system, download ```tanuki-linux-x86_64```
+
 # Requirements & how to use
 
 Tanuki requires the following to work:
