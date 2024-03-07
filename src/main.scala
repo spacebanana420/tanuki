@@ -41,9 +41,11 @@ def getFFmpeg(exec: String): String =
     else if files(i).contains(exec) && File(s"$dir/${files(i)}").canExecute() then
       File(s"$dir/${files(i)}").getAbsolutePath()
     else findExec(dir, files, i+1)
-    
-  val path = getFFmpegPath(readConfig())
-  if File(path).isDirectory() then
-    val ffpath = findExec(path, File(path).list())
-    if ffpath == "" then exec else ffpath
+  
+  if configExists() then
+    val path = getFFmpegPath(readConfig())
+    if File(path).isDirectory() then
+      val ffpath = findExec(path, File(path).list())
+      if ffpath == "" then exec else ffpath
+    else exec
   else exec
