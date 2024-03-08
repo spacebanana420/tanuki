@@ -2,12 +2,19 @@
 
 pkgs.mkShell {
   packages = with pkgs; [
-    scala_3
-    scala-cli
-    git
-    p7zip
-    ffmpeg
-    wineWowPackages.stable
-    steam-run
+    #Base packages
+      scala_3
+      scala-cli
+      git
+      p7zip
+    #Runtime dependencies
+      ffmpeg
+      wineWowPackages.stable
+      steam-run
+    #Native compilation
+      graalvm-ce
+      gcc
+      glibc
+      zlib
   ];
 }
