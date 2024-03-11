@@ -48,7 +48,10 @@ def tui_title() =
       case 7 =>
         tui_configureRecording()
       case 8 =>
-        tui_movieMenu()
+        if rec_configExists() then
+          tui_movieMenu()
+        else
+          pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
