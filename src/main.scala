@@ -33,7 +33,8 @@ def getPlatform(): Byte =
   else if platform.contains("Linux") && File("/nix/store").isDirectory() then 1
   else if platform.contains("Linux") then 2
   else if platform.contains("Mac") then 3
-  else 4
+  else if platform.contains("FreeBSD") then 4
+  else 5
 
 def getFFmpeg(exec: String): String =
   def findExec(dir: String, files: Array[String], i: Int = 0): String =

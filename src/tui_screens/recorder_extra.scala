@@ -23,7 +23,7 @@ private def setup_generic(title: String, firstline: String, deflt: String, prese
 
 def setup_getPreset(title: String, encoder: String, deflt: String, presets: List[String]): String =
   val determinant =
-    encoder(0) match
+    encoder(0).toLower match
       case 'a' | 'e' | 'i' | 'o' | 'u' | 'x' | 'h' =>
         "an"
       case _ => "a"

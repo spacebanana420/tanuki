@@ -61,10 +61,11 @@ def tui_configureRecording() =
     else
       tui_pcmSetup()
   val acapture =
-    if system_platform == 0 then
-      tui_dshowSetup_audio()
-    else
-      tui_pulseSetup()
+    system_platform match
+      case 0 => tui_dshowSetup_audio()
+      case 4 => tui_ossSetup()
+      case _ => tui_pulseSetup()
+      
   val crop = 
     if askPrompt("Would you like to crop your footage?") then
       tui_filterCrop()
@@ -233,6 +234,16 @@ def tui_pulseSetup(): List[String] =
     else sources(ans-1)
   List("pulse", input)
 
+def tui_ossSetup(): List[String] = //merge with the one above
+  val title = s"$green[Audio capture]$default\n\n"
+  
+  val sources = getSources_oss()
+  val ans = readLoop_list(sources, s"${title}Choose the audio input source to use\n\n${green}${0}:${default} Default (system's default))\n\n")
+  val input =
+    if ans == 0 then "default"
+    else sources(ans-1)
+  List("oss", input)
+ 
 def tui_dshowSetup_video(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
   val sources = getSources_dshow_v()

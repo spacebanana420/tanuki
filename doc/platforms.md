@@ -19,14 +19,16 @@ These operating systems are officially supported by me. If there's something wro
 
 On Windows, it's not recommended that you run Tanuki with the default terminal that comes with powershell, because it does not support ANSI escape codes, and so colors don't work and you will see a lot of gibberish instead.
 
-### Theoretically supported systems
+### Theoretically/partially supported systems
 * FreeBSD
 * MacOS
 * NetBSD
 
-I don't guarantee support or test Tanuki on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
+I don't guarantee support on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
 
-Note that Tanuki's video recorder does not support MacOS, and Linux, FreeBSD and NetBSD are only supported if your system is running x11 and Pulseaudio.
+More information on video recording support can be seen in the [recorder documentation](recorder.md).
+
+On FreeBSD, in order to view images and videos, you must build the FFmpeg port with SDL support enabled, the FFmpeg pkg does not provide FFplay!
 
 <p align="center">
 <img src="../images/futo.png" height="230"/>

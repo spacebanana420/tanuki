@@ -2,7 +2,9 @@
 
 After you record your gameplay footage, you can view it inside Tanuki.
 
-Tanuki uses FFplay for viewing videos, and so FFmpeg is required. The path to your videos is the same as the path to your recording footage, and you can view all footage with "tanuki-video" in their file name.
+Tanuki uses FFplay for viewing videos. If you have FFmpeg installed, chances are you also have FFplay. If you are on FreeBSD, however, in order to have FFplay you need to build the FFmpeg port with SDL support enabled.
+
+The path to your videos is the same as the path to your recording footage, and you can view all footage with "tanuki-video" in their file name.
 
 ## Controls
 

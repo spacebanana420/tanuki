@@ -66,6 +66,8 @@ def getSources_dshow_v(): List[String] = listSources("dshow_video")
 
 def getSources_pulse(): List[String] = listSources("pulse")
 
+def getSources_oss(): List[String] = listSources("oss")
+
 def getSources_dshow_a(): List[String] = listSources("dshow_audio")
 
 def capture_x11(w: Int, h: Int, fps: Int, safemode: Boolean): List[String] =
