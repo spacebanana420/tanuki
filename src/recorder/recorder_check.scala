@@ -6,7 +6,7 @@ import tanuki.misc.similarInList
 
 import java.io.File
 
-def rec_isRecordingSupported(): Boolean =
+def rec_isRecordingSupported(): Boolean = //this is a mess, rework this later
   def everythingOk(i: Int = 0): Boolean =
     if i >= 3 then
       true
@@ -110,7 +110,7 @@ private def acapture_ok(cfg: Seq[String]): Boolean =
   val acapture = rec_getacapture(cfg)
   try
     acapture(0) match
-      case "pulse" =>
+      case "pulse" | "oss" =>
         if acapture.length == 2 then true else false
       case "dshow" =>
         if acapture.length == 2 then true else false
