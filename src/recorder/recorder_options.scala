@@ -84,6 +84,8 @@ def capture_dshow_a(input: String): List[String] =
 
 def capture_pulse(input: String): List[String] = captureAudio("pulse", input)
 
+def capture_oss(input: String): List[String] = captureAudio("oss", input)
+
 /////RECORD FILTERS/////
 
 def tanukifilter_crop(w: Int, h: Int): List[String] = cropCenter(w, h)

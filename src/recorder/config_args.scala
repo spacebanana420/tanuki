@@ -21,10 +21,13 @@ def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
     else
       capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toBoolean)
   val acapture_args =
-    if acapture(0) == "dshow" then
-      capture_dshow_a(acapture(1))
-    else
-      capture_pulse(acapture(1))
+    acapture(0) match
+      case "dshow" =>
+        capture_dshow_a(acapture(1))
+      case "pulse" =>
+        capture_pulse(acapture(1))
+      case _ =>
+        capture_oss(acapture(1))
 
   vcapture_args ++ acapture_args
 
