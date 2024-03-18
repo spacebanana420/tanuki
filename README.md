@@ -4,7 +4,7 @@
 <img src="images/leaf.png" width="120"/>
 </p>
 
-Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards.
+Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards. Tanuki is also capable of recording video and audio footage, whether you're playing Touhou or not.
 
 The launcher uses a TUI interface and is very simple to use and configure. You can add your games and game data (screenshots, etc) to your configuration list. It's very convenient to launch a game once your configuration is done.
 
@@ -27,6 +27,7 @@ If you are running an x86_64 Linux system, download ```tanuki-linux-x86_64```
 Tanuki requires the following to work:
 * Scala 3 or Java 8 or later
 * FFmpeg (optional, for screen recording, video playback and screenshot functionality)
+* FFplay (optional, for viewing video and images)
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.
 

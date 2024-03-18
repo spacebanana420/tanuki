@@ -91,3 +91,5 @@ def capture_oss(input: String): List[String] = oss_captureAudio(input)
 def tanukifilter_crop(w: Int, h: Int): List[String] = cropCenter(w, h)
 
 def tanukifilter_scale(w: Int, h: Int): List[String] = scale(w, h)
+
+def tanukifilter_normalize(): List[String] = normalizeAudio()

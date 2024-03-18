@@ -30,6 +30,7 @@ Please note that support for Windows capture is experimental. It's implemented b
 * ```acapture``` - Your audio capture configuration.
 * ```crop``` - Crop your video footage.
 * ```scale``` - Scale your video footage.
+* ```loudnorm``` - Normalize your footage's audio.
 
 The video and audio encoding parameters are unique to each encoder.
 

@@ -14,8 +14,8 @@ def rec_readConfig(): Vector[String] =
   val settings =
     List(
     "output=", "delay=",
-    "width=", "height=", "vcodec=", "acodec=",
-    "vcapture=", "acapture=", "crop=", "scale="
+    "vcodec=", "acodec=", "vcapture=", "acapture=",
+    "crop=", "scale=", "loudnorm="
     )
   val src = Source.fromFile("video_config.txt")
   val cfg = src
@@ -80,6 +80,7 @@ private def rec_getacapture(cfg: Seq[String]): List[String] = rec_readEntry(cfg,
 
 private def rec_getCrop(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "crop=")
 private def rec_getScale(cfg: Seq[String]): List[String] = rec_readEntry(cfg, "scale=")
+private def rec_getNorm(cfg: Seq[String]): String = rec_readSingleValue(cfg, "loudnorm=")
 
 private def rec_getOutput(cfg: Seq[String]): String = rec_readSingleValue(cfg, "output=")
 private def rec_getDelay(cfg: Seq[String]): Int = rec_readSingleValue(cfg, "delay=").toInt
@@ -95,17 +96,18 @@ private def mkstring(l: Seq[String], s: String = "", i: Int = 0): String =
 def rec_writeConfig(
 output: String, delay: Int,
 vcodec: Seq[String], acodec: Seq[String], vcapture: Seq[String], acapture: Seq[String],
-crop: Seq[String] = List(), scale: Seq[String] = List()
+crop: Seq[String] = List(), scale: Seq[String] = List(), norm: String = ""
 ) =
   val config_crop = if crop.length != 0 then "crop=" + mkstring(crop) else ""
   val config_scale = if scale.length != 0 then "scale=" + mkstring(scale) else ""
+
   val config =
     s"output=$output\ndelay=$delay\n"
     + "vcodec=" + mkstring(vcodec)
     + "acodec=" + mkstring(acodec)
     + "vcapture=" + mkstring(vcapture)
     + "acapture=" + mkstring(acapture)
-    + config_crop + config_scale
+    + config_crop + config_scale + norm
 
   FileOutputStream("video_config.txt").write(config.getBytes())
 

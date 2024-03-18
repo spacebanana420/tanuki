@@ -77,6 +77,7 @@ def rec_getFilterArgs(config: Seq[String] = List()): List[String] =
     else config
   val f_crop = rec_getCrop(cfg)
   val f_scale = rec_getScale(cfg)
+  val f_norm = rec_getNorm(cfg)
 
   val c_args =
     if f_crop.length == 2 then
@@ -86,8 +87,12 @@ def rec_getFilterArgs(config: Seq[String] = List()): List[String] =
     if f_scale.length == 2 then
       tanukifilter_scale(f_scale(0).toInt, f_scale(1).toInt)
     else List[String]()
+  val n_args =
+    if f_norm == "true" || f_norm == "yes" then
+      tanukifilter_normalize()
+    else List[String]()
 
-  c_args ++ s_args
+  c_args ++ s_args ++ n_args
 
 def rec_getHWAccel(config: Seq[String] = List()): String =
     val cfg =

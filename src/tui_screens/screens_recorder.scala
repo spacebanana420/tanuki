@@ -77,9 +77,15 @@ def tui_configureRecording() =
     else
       List[String]()
 
+  val normalize =
+    if askPrompt("Would you like to normalize your audio?") then
+      "loudnorm=true"
+    else
+      ""
+
   val output = readLoop_dir("Type the path to store your video recordings (default: the current path of Tanuki)")
   val delay = readLoop_int("Type the recording delay (in seconds)\nMax duration: 60")
-  rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture, crop, scale)
+  rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture, crop, scale, normalize)
 
 ////Video encoder setup////
 
