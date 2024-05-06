@@ -52,7 +52,9 @@ private def getFirstValue(cfg: Seq[String], setting: String, i: Int = 0): String
 
 
 def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
+//def getNativeGames(cfg: Seq[String]): List[String] = getValues(cfg, "native-game=")
 def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
+
 def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 

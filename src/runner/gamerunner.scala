@@ -37,8 +37,6 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   if recordvideo then recordGameplay(reccfg, name)
   else Thread.sleep(3000)
   readUserInput("\nPress enter to return to the main menu")
-    // if standbyInput() then
-    //   recordGameplay(gamename = name, usedelay = false)
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   game.destroy()
