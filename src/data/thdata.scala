@@ -4,7 +4,7 @@ import tanuki.misc.*, tanuki.tui.*
 
 
 import java.io.File
-import java.nio.file.StandardCopyOption.*;
+import java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -28,9 +28,9 @@ def getTHData(path: String): List[String] =
   val files = raw.filter(x => isFileRelevant(x, path))
   List("dirs") ::: dirs ::: List("files") ::: files
 
-def backupScoreFile(path: String): Byte = //implement optional 7zip support, and a config setting for toggling use of 7zip
+def backupScoreFile(path: String, name: String): Byte = //implement optional 7zip support, and a config setting for toggling use of 7zip
   val pathfile = File(path)
-  val dir_path = s"$path/tanuki_scorebackup"
+  val dir_path = s"$path/$name"
 
   if pathfile.isDirectory() && pathfile.canWrite() then
     val scorefiles =
@@ -44,10 +44,21 @@ def backupScoreFile(path: String): Byte = //implement optional 7zip support, and
     if scorefiles.length == 0 then 1 else 2
   else 0
 
+private def generateDirName(path: String, name: String = "tanuki_scorebackup", i: Int = 0): String =
+  val newname = if i == 0 then name else s"$name-$i"
+  if !File(s"$path/$newname").isDirectory() then newname
+  else generateDirName(path, name, i+1)
+
 def tui_backupScore() =
+  val green = foreground("green"); val default = foreground("default")
   val datadir = tui_chooseDataDir()
-  val result = backupScoreFile(datadir)
+  val name =
+    if askPrompt("Do you want to overwrite the current backup, if it exists?", false) then
+      "tanuki_scorebackup"
+    else generateDirName(datadir)
+  val result = backupScoreFile(datadir, name)
+
   result match
-    case 0 => pressToContinue("The data entry does not lead to a directory, or the directory does not have write access!")
-    case 1 => pressToContinue("No scorefile was found!")
-    case _ => pressToContinue("Successfully backed up all found scorefiles in \"tanuki_scorebackup\"!")
+    case 0 => pressToContinue(s"The data entry\n$green$datadir$default\ndoes not lead to a directory, or the directory does not have write access!")
+    case 1 => pressToContinue(s"No scorefile was found!\nDirectory: $green$datadir$default")
+    case _ => pressToContinue(s"Successfully backed up all scorefiles into $green\"$name\"$default!")
