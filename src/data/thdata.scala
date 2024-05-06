@@ -1,7 +1,10 @@
 package tanuki.data
 
-import tanuki.misc.*
+import tanuki.misc.*, tanuki.tui.*
+
+
 import java.io.File
+import java.nio.file.StandardCopyOption.*;
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -33,10 +36,18 @@ def backupScoreFile(path: String): Byte = //implement optional 7zip support, and
     val scorefiles =
       pathfile.list()
       .filter(x => File(s"$path/$x").isFile() && File(s"$path/$x").length() < 1000000 && x.contains("score") && x.contains(".dat")) //filter out files bigger than 1MB, touhou scorefiles are way smaller than that
-    if File(dir_path).isDirectory() then File(dir_path).mkdir() //maybe mkdir() already checks for existing directories?
+    if !File(dir_path).isDirectory() then File(dir_path).mkdir() //maybe mkdir() already checks for existing directories?
     for f <- scorefiles do
       val source = Path.of(s"$path/$f")
       val target = Path.of(s"$dir_path/$f")
-      Files.move(source, target)
+      Files.copy(source, target, REPLACE_EXISTING)
     if scorefiles.length == 0 then 1 else 2
   else 0
+
+def tui_backupScore() =
+  val datadir = tui_chooseDataDir()
+  val result = backupScoreFile(datadir)
+  result match
+    case 0 => pressToContinue("The data entry does not lead to a directory, or the directory does not have write access!")
+    case 1 => pressToContinue("No scorefile was found!")
+    case _ => pressToContinue("Successfully backed up all found scorefiles in \"tanuki_scorebackup\"!")

@@ -18,15 +18,16 @@ val yellow = foreground("yellow")
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val text =
-      s"$yellow[Tanuki Launcher]$default version 0.6.4\n\n$quote\n\n"
+    val text = //revamp this with my new banantui instead
+      s"$yellow[Tanuki Launcher]$default version 0.7\n\n$quote\n\n"
       + s"${green}0:$default Exit"
       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
       + s"\n${green}3:$default Record video only"
       + s"\n\n${green}4:$default View screenshots\n${green}5:$default Compress screenshots"
       + s"\n\n${green}6:$default Configure launcher\n${green}7:$default Configure video recording"
       + s"\n${green}8:$default View recorded footage\n"
-    val answer = readLoop(text, 8)
+      + s"\n${green}9:$default Backup scorefiles\n"
+    val answer = readLoop(text, 9)
     answer match
       case 0 =>
         exit()
@@ -52,6 +53,9 @@ def tui_title() =
           tui_movieMenu()
         else
           pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
+      case 9 =>
+        tui_backupScore()
+
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
@@ -100,7 +104,7 @@ private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List
       if record then launchGame(paths(answer-1), names(answer-1), true, reccfg)
       else launchGame(paths(answer-1), names(answer-1))
 
-def tui_ssentry(manualdata: List[String] = List()): String =
+def tui_chooseDataDir(manualdata: List[String] = List()): String =
   val datas =
     if manualdata == List() then
       getDatas(readConfig())
@@ -143,7 +147,7 @@ def tui_ssview() =
   
   val datas = getDatas(readConfig())
   if !tui_noffmpeg() && !tui_noentries(datas) then
-    val entry = tui_ssentry(datas)
+    val entry = tui_chooseDataDir(datas)
     if entry != "" then
       val dir = tui_ssdir(entry)
       viewLoop(dir)
@@ -162,7 +166,7 @@ def tui_ssview() =
 def tui_ssconv() =
   val datas = getDatas(readConfig())
   if !tui_noffmpeg() && !tui_noentries(datas) then
-    val entry = tui_ssentry(datas)
+    val entry = tui_chooseDataDir(datas)
     if entry != "" then
       val ssdir = tui_ssdir(entry)
       if ssdir != "" then
