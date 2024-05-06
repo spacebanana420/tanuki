@@ -4,7 +4,7 @@ Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic 
 
 ### Tanuki's software requirements
 
-* Scala 3 or Java 8 or later
+* Scala 3 or Java 11 or later
 * FFmpeg (optional, for screen recording and screenshot functionality)
 * FFplay (optional, for viewing video and images)
 * WINE (optional for Windows, for running Touhou on non-Windows systems)

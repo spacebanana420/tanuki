@@ -1,7 +1,7 @@
 echo "Building lightweight JAR"
 scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
 echo "Building Fat JAR"
-steam-run scala-cli --power package src --assembly --preamble=false -f --jvm 8 -o tanuki-java.jar
+steam-run scala-cli --power package src --assembly --preamble=false -f --jvm 11 -o tanuki-java.jar
 echo "Building native binary (Linux, static)"
 native-image --no-fallback --static -O3 -jar tanuki-java.jar -o tanuki-linux-x86_64
 echo "Building native binary (Linux, static, native cpu)"
