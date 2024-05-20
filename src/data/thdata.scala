@@ -52,13 +52,14 @@ private def generateDirName(path: String, name: String = "tanuki_scorebackup", i
 def tui_backupScore() =
   val green = foreground("green"); val default = foreground("default")
   val datadir = tui_chooseDataDir()
-  val name =
-    if askPrompt("Do you want to overwrite the current backup, if it exists?", false) then
-      "tanuki_scorebackup"
-    else generateDirName(datadir)
-  val result = backupScoreFile(datadir, name)
+  if datadir != "" then
+    val name =
+      if askPrompt("Do you want to overwrite the current backup, if it exists?", false) then
+        "tanuki_scorebackup"
+      else generateDirName(datadir)
 
-  result match
-    case 0 => pressToContinue(s"The data entry\n$green$datadir$default\ndoes not lead to a directory, or the directory does not have write access!")
-    case 1 => pressToContinue(s"No scorefile was found!\nDirectory: $green$datadir$default")
-    case _ => pressToContinue(s"Successfully backed up all scorefiles into $green\"$name\"$default!")
+    val result = backupScoreFile(datadir, name)
+    result match
+      case 0 => pressToContinue(s"The data entry\n$green$datadir$default\ndoes not lead to a directory, or the directory does not have write access!")
+      case 1 => pressToContinue(s"No scorefile was found!\nDirectory: $green$datadir$default")
+      case _ => pressToContinue(s"Successfully backed up all scorefiles into $green\"$name\"$default!")

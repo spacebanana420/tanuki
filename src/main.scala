@@ -29,8 +29,7 @@ val recording_supported = system_platform != 3
 def getPlatform(): Byte =
   val platform = System.getProperty("os.name")
   if platform.contains("Windows") then 0
-  else if platform.contains("Linux") && File("/nix/store").isDirectory() then 1
-  else if platform.contains("Linux") then 2
+  else if platform.contains("Linux") then if File("/nix/store").isDirectory() then 1 else 2
   else if platform.contains("Mac") then 3
   else if platform.contains("FreeBSD") then 4
   else 5
