@@ -12,7 +12,8 @@ def readConfig(): Vector[String] =
   val settings =
     List(
     "game=", "data=", "command=", "use_steam-run=",
-    "sidecommand_start=", "sidecommand_close=", "ffmpeg_path="
+    "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=",
+    "dxvk_framerate=", "wine_prefix=", "return_closegame="
     )
   val src = Source.fromFile("config.txt")
   val cfg = src
@@ -57,6 +58,15 @@ def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
 
 def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
+
+def getWinePrefix(cfg: Seq[String]): String =
+  val prefix = getFirstValue(cfg, "wine_prefix=")
+  if File(prefix).isDirectory() then prefix else ""
+
+def getDxvkFramerate(cfg: Seq[String]): String = getFirstValue(cfg, "dxvk_framerate=")
+def getReturnClose(cfg: Seq[String]): Boolean =
+  val toggle_str = getFirstValue(cfg, "return_closegame=").toLowerCase()
+  if toggle_str == "yes" || toggle_str == "true" then true else false
 
 def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
 def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))

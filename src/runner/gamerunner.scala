@@ -1,6 +1,6 @@
 package tanuki.runner
 
-import tanuki.{ffmpeg_path, ffplay_path, recording_supported}
+import tanuki.{ffmpeg_path, ffplay_path, recording_supported, system_platform}
 import tanuki.config.*
 import tanuki.tui.*
 import tanuki.recorder.*
@@ -19,9 +19,14 @@ private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0
 
 def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
+
   val cmd = getCommand(cfg)
   val cmd_start = getStartCmd(cfg)
   val cmd_close = getCloseCmd(cfg)
+
+  val close_on_return = getReturnClose(cfg)
+  val wine_prefix = getWinePrefix(cfg)
+  //remember to implement dxvk
   val parentpath = File(path).getParent()
 
   val cmdexec =
@@ -33,13 +38,17 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
       Seq(cmd, path)
   if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
-  val game = Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
+  val game =
+    if system_platform != 0 && wine_prefix != "" && cmd != "" then
+      Process(cmdexec, File(parentpath), ("WINEPREFIX", wine_prefix)).run(ProcessLogger(line => ()))
+    else
+      Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
   if recordvideo then recordGameplay(reccfg, name)
   else Thread.sleep(3000)
   readUserInput("\nPress enter to return to the main menu")
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
-  game.destroy()
+  if close_on_return then game.destroy()
 
 // private def standbyInput(): Boolean =
 //   val record_ready =
