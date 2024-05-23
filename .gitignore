@@ -16,6 +16,7 @@ footage
 tanuki-linux-x86_64
 tanuki
 tanuki-native
+build
 *.zip
 *.7z
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
