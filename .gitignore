@@ -14,6 +14,7 @@ scala-cli.json
 .idea
 footage
 tanuki-linux-x86_64
+tanuki
 tanuki-native
 *.zip
 *.7z
