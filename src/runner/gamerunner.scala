@@ -17,16 +17,33 @@ private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0
   else
     getVideoName(path, name, i+1)
 
+def groupWineEnvs(env_wine: String, env_dxvk: String, group: Vector[(String, String)] = Vector(), i: Int = 0): Vector[(String, String)] = //maybe replace with pure if statements
+    i match
+      case 0 =>
+        if env_wine != "" then
+          groupWineEnvs(env_wine, env_dxvk, group :+ ("WINEPREFIX", env_wine), i+1)
+        else
+          groupWineEnvs(env_wine, env_dxvk, group, i+1)
+      case 1 =>
+        if env_dxvk != "" then
+          groupWineEnvs(env_wine, env_dxvk, group :+ ("DXVK_FRAME_RATE", env_dxvk), i+1)
+        else
+          groupWineEnvs(env_wine, env_dxvk, group, i+1)
+      case _ =>
+        group
+
 def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
 
   val cmd = getCommand(cfg)
   val cmd_start = getStartCmd(cfg)
   val cmd_close = getCloseCmd(cfg)
-
   val close_on_return = getReturnClose(cfg)
+
   val wine_prefix = getWinePrefix(cfg)
-  //remember to implement dxvk
+  val dxvk_fps = getDxvkFramerate(cfg)
+  val wine_envs = groupWineEnvs(wine_prefix, dxvk_fps)
+
   val parentpath = File(path).getParent()
 
   val cmdexec =
@@ -39,12 +56,21 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
   val game =
-    if system_platform != 0 && wine_prefix != "" && cmd != "" then
-      Process(cmdexec, File(parentpath), ("WINEPREFIX", wine_prefix)).run(ProcessLogger(line => ()))
+    if system_platform != 0 && cmd != "" then
+      wine_envs.length match
+        case 1 =>
+          Process(cmdexec, File(parentpath), wine_envs(0)).run(ProcessLogger(line => ()))
+        case 2 =>
+          Process(cmdexec, File(parentpath), wine_envs(0), wine_envs(1)).run(ProcessLogger(line => ()))
+        case _ =>
+          Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
     else
       Process(cmdexec, File(parentpath)).run(ProcessLogger(line => ()))
-  if recordvideo then recordGameplay(reccfg, name)
-  else Thread.sleep(3000)
+
+  if recordvideo then
+    recordGameplay(reccfg, name)
+  else
+    Thread.sleep(3000)
   readUserInput("\nPress enter to return to the main menu")
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))

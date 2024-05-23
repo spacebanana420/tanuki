@@ -19,7 +19,7 @@ def tui_title() =
   while true do
     val quote = getRandomQuote()
     val text = //revamp this with my new banantui instead
-      s"$yellow[Tanuki Launcher]$default version 0.7\n\n$quote\n\n"
+      s"$yellow[Tanuki Launcher]$default version 0.7.1\n\n$quote\n\n"
       + s"${green}0:$default Exit"
       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
       + s"\n${green}3:$default Record video only"
@@ -66,7 +66,7 @@ def tui_noffmpeg(): Boolean =
     false
 
 def tui_play(record: Boolean = false) =
-  def everythingOk(i: Int = 0): Boolean = //replace with the new function
+  def everythingOk(i: Int = 0): Boolean = //replace with rec_isRecordingSupported()
     if i >= 3 then
       true
     else

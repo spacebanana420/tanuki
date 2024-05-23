@@ -22,7 +22,10 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
   * This should be the path to the directory containing ffmpeg and ffplay
 * ```wine_prefix``` - Sets which directory to use as your WINE prefix
-* ```return_closegame``` - If set to true, then the game will close if you "press enter to return to the main menu"
+  * The prefix directory must already exist
+* ```dxvk_framerate``` - Sets a framerate limit with DXVK
+  * This only works if your WINE prefix has DXVK enabled, Tanuki does not configure this
+* ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
