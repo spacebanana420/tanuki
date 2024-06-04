@@ -46,7 +46,7 @@ The configuration also supports settings for command execution, etc.
 ### Config example:
 
 ```
-command=wine
+wine=wine
 
 game=Touhou 7:/path/to/touhou 7/th7.exe
 data=Touhou 7 Data:/path/to/touhou 7
@@ -58,13 +58,13 @@ Tanuki is cross-platform, but the Touhou games are only distributed for x86 Wind
 
 To run your Touhou games with WINE, add the following setting to your config.txt:
 ```
-command=wine
+wine=wine
 ```
 
 If you are playing Touhou with a custom WINE build, make sure to read the full documentation. You can set the path to the build like this:
 
 ```
-command=/path/to/custom-wine/bin/wine
+wine=/path/to/custom-wine/bin/wine
 ```
 
 # Screen recording

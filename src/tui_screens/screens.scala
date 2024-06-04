@@ -19,12 +19,12 @@ val yellow = foreground("yellow")
 def tui_title() =
   while true do
     val quote = getRandomQuote()
-    val title = s"$yellow[Tanuki Launcher]$default version 0.7.1\n\n$quote"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.8\n\n$quote"
     val text = //revamp this with my new banantui instead
       s"$title\n\n"
       + s"${green}0:$default Exit"
       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
-      + s"\n${green}3:$default Record video only"
+      + s"\n${green}3:$default Record video"
       + s"\n${green}4:$default Manage Touhou data"
       + s"\n\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
       + s"\n${green}7:$default View recorded footage\n"

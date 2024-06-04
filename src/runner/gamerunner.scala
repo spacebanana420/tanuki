@@ -19,12 +19,8 @@ private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0
     getVideoName(path, name, i+1)
 
 private def isProgramNative(filename: String): Boolean =
-  if (system_platform == 0 && filename.contains(".exe"))
-  || (system_platform != 0 && !filename.contains(".exe"))
-  then true else false
-
-// private def setRunner(wine: String, cmd: String, native: Boolean): String =
-//   if native then cmd else wine
+  val windows_related = filename.contains(".exe") || filename.contains(".lnk") || filename.contains(".msi")
+  if system_platform == 0 || !windows_related then true else false
 
 def groupWineEnvs(env_wine: String, env_dxvk: String, group: Vector[(String, String)] = Vector(), i: Int = 0): Vector[(String, String)] = //maybe replace with pure if statements
     i match
