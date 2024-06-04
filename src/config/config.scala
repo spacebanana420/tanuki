@@ -11,7 +11,7 @@ def configExists(): Boolean = File("config.txt").exists()
 def readConfig(): Vector[String] =
   val settings =
     Vector(
-    "game=", "data=", "command=", "use_steam-run=",
+    "game=", "data=", "wine=", "command=", "use_steam-run=",
     "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=",
     "dxvk_framerate=", "wine_prefix=", "return_closegame="
     )
@@ -57,6 +57,7 @@ def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
 def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
 
 def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
+def getWinePath(cfg: Seq[String]): String = getFirstValue(cfg, "wine=")
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 
 def getWinePrefix(cfg: Seq[String]): String =

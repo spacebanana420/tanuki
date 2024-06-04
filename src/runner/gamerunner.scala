@@ -18,6 +18,14 @@ private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0
   else
     getVideoName(path, name, i+1)
 
+private def isProgramNative(filename: String): Boolean =
+  if (system_platform == 0 && filename.contains(".exe"))
+  || (system_platform != 0 && !filename.contains(".exe"))
+  then true else false
+
+// private def setRunner(wine: String, cmd: String, native: Boolean): String =
+//   if native then cmd else wine
+
 def groupWineEnvs(env_wine: String, env_dxvk: String, group: Vector[(String, String)] = Vector(), i: Int = 0): Vector[(String, String)] = //maybe replace with pure if statements
     i match
       case 0 =>
@@ -41,19 +49,22 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   val cmd_close = getCloseCmd(cfg)
   val close_on_return = getReturnClose(cfg)
 
+  val wine = getWinePath(cfg)
   val wine_prefix = getWinePrefix(cfg)
   val dxvk_fps = getDxvkFramerate(cfg)
   val wine_envs = groupWineEnvs(wine_prefix, dxvk_fps)
 
+  val is_program_native = isProgramNative(File(path).getName())
+  val runner = if is_program_native then cmd else wine
   val parentpath = File(path).getParent()
 
   val cmdexec =
-    if cmd == "" then
+    if runner == "" then
       Seq(path)
     else if steamRunEnabled(cfg) then
-      Seq("steam-run", cmd, path)
+      Seq("steam-run", runner, path)
     else
-      Seq(cmd, path)
+      Seq(runner, path)
   if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
   val game =

@@ -21,6 +21,8 @@ Lines in the config file that start with "#" or don't start with an entry option
   * The package "steam-run" must be installed in your system.
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
   * This should be the path to the directory containing ffmpeg and ffplay
+* ```wine``` - The path for the WINE build to launch games with
+  * This option doesn't matter for Windows
 * ```wine_prefix``` - Sets which directory to use as your WINE prefix
   * The prefix directory must already exist
 * ```dxvk_framerate``` - Sets a framerate limit with DXVK
@@ -30,7 +32,9 @@ Lines in the config file that start with "#" or don't start with an entry option
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
 
-Tanuki only assumes the first instances of ```command```, ```sidecommand_start```, ```sidecommand_close``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+Tanuki only assumes the first instances of ```command```, ```wine``` ```sidecommand_start```, ```sidecommand_close``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+
+```wine``` is used for running Windows games on non-Windows systems, while ```command``` is for a custom program to launch games/files/programs with.
 
 ```sidecommand_start``` and ```sidecommand_close``` run in parallel to game execution and closure and are not whitespace-safe, but you can pass CLI arguments to them and so build a full command.
 
@@ -39,7 +43,7 @@ Tanuki only assumes the first instances of ```command```, ```sidecommand_start``
 ### Config example:
 
 ```
-command=wine
+wine=wine
 
 game=Touhou 7:/path/to/touhou 7/th7.exe
 data=Touhou 7 Data:/path/to/touhou 7
@@ -53,7 +57,7 @@ Tanuki is cross-platform, but the Touhou games are only distributed for x86 Wind
 
 To run your Touhou games with WINE, add the following setting to your config.txt:
 ```
-command=wine
+wine=wine
 ```
 This setting will make Tanuki run your games with your system's wine. Note that it must then be installed. You can also add a custom wine fork that you downloaded by specifying the path to it.
 
@@ -61,7 +65,7 @@ I personally recommend you download and use [Wine-GE](https://github.com/Gloriou
 
 If you download a custom WINE build, assuming the path to your custom wine build is "/path/to/custom-wine/bin/wine", you can add to your config.txt:
 ```
-command=/path/to/custom-wine/bin/wine
+wine=/path/to/custom-wine/bin/wine
 ```
 
 You can also specify a custom WINE prefix with this setting:
