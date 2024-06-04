@@ -7,6 +7,7 @@ import tanuki.data.*
 import tanuki.quotes.*
 import tanuki.recorder.*
 
+import bananatui.*
 import ffscala.*
 import java.io.File
 import scala.sys.exit
@@ -18,15 +19,15 @@ val yellow = foreground("yellow")
 def tui_title() =
   while true do
     val quote = getRandomQuote()
+    val title = s"$yellow[Tanuki Launcher]$default version 0.7.1\n\n$quote"
     val text = //revamp this with my new banantui instead
-      s"$yellow[Tanuki Launcher]$default version 0.7.1\n\n$quote\n\n"
+      s"$title\n\n"
       + s"${green}0:$default Exit"
       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
       + s"\n${green}3:$default Record video only"
-      + s"\n\n${green}4:$default View screenshots\n${green}5:$default Compress screenshots"
-      + s"\n\n${green}6:$default Configure launcher\n${green}7:$default Configure video recording"
-      + s"\n${green}8:$default View recorded footage\n"
-      + s"\n${green}9:$default Backup scorefiles\n"
+      + s"\n${green}4:$default Manage Touhou data"
+      + s"\n\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
+      + s"\n${green}7:$default View recorded footage\n"
     val answer = readLoop(text, 9)
     answer match
       case 0 =>
@@ -39,22 +40,27 @@ def tui_title() =
         if rec_isRecordingSupported() then
           recordGameplay(waitconfirm = false)
       case 4 =>
-        tui_ssview()
+        tui_manageData(title)
       case 5 =>
-        tui_ssconv()
-      case 6 =>
         val cfg = tui_configure()
         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
         writeConfig(cfg, overwrite)
-      case 7 =>
+      case 6 =>
         tui_configureRecording()
-      case 8 =>
+      case 7 =>
         if rec_configExists() then
           tui_movieMenu()
         else
           pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
-      case 9 =>
-        tui_backupScore()
+
+def tui_manageData(title: String) =
+  val opts = Vector("View screenshots", "Compress screenshots", "Backup scorefiles")
+  val choice = chooseOption(opts, title)
+  if choice != 0 then
+    choice match
+      case 1 => tui_ssview()
+      case 2 => tui_ssconv()
+      case 3 => tui_backupScore()
 
 
 def tui_noffmpeg(): Boolean =
@@ -97,7 +103,7 @@ private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List
     val names = games.map(x => parseEntry(x)(0))
     val paths = games.map(x => parseEntry(x)(1))
 
-    val answer = readLoop_list(names, s"Choose a game to play\n\n${green}${0}:${default} Exit\n\n")
+    val answer = chooseOption(names, s"Choose a game to play")
     if answer != 0 then
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
 
@@ -113,7 +119,7 @@ def tui_chooseDataDir(manualdata: List[String] = List()): String =
   val names = datas.map(x => parseEntry(x)(0))
   val paths = datas.map(x => parseEntry(x)(1))
 
-  val answer = readLoop_list(names)
+  val answer = chooseOption(names)
   if answer != 0 then
     paths(answer-1)
   else
@@ -121,7 +127,7 @@ def tui_chooseDataDir(manualdata: List[String] = List()): String =
 
 def tui_ssdir(path: String): String =
   val dirs = getScreenshotDirs(path)
-  val answer = readLoop_list(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder\n\n${green}${0}:${default} Exit\n\n")
+  val answer = chooseOption(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder")
   if answer != 0 then
     s"$path/${dirs(answer-1)}"
   else
@@ -130,7 +136,7 @@ def tui_ssdir(path: String): String =
 def tui_ssimage(dir: String): String =
   if dir != "" then
     val images = listScreenshots(dir)
-    val answer = readLoop_list(images, s"Choose a screenshot\n\n${green}${0}:${default} Exit\n\n")
+    val answer = chooseOption(images, s"Choose a screenshot")
     if answer != 0 then
       s"$dir/${images(answer-1)}"
     else
@@ -154,7 +160,7 @@ def tui_ssview() =
 
 //incompatible with the other functions, not using for now
 // def tui_ssoptions(path: String, image: String) =
-//   val answer = readLoop_list(List("Convert", "Crop"), s"What would you like to do with this screenshot?\n\n${green}${0}:${default} Exit\n\n")
+//   val answer = chooseOption(List("Convert", "Crop"), s"What would you like to do with this screenshot?")
 //   if answer == 1 then
 //     println("a") //finish
 //     //tui_ssconv(path, image)

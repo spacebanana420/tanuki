@@ -1,5 +1,6 @@
 package tanuki.tui
 
+import bananatui.*
 import tanuki.config.*
 import java.io.File
 import scala.sys.exit
@@ -25,7 +26,7 @@ def tui_noentries(entries: Seq[String]): Boolean =
   else
     false
 
-def tui_configure(fullconfig: Boolean = true): List[String] =
+def tui_configure(fullconfig: Boolean = true): Vector[String] =
   def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
     val path = readUserInput("Type the full path to your game's executable")
@@ -46,14 +47,14 @@ def tui_configure(fullconfig: Boolean = true): List[String] =
     else
       false
 
-  def menu(l: List[String] = List()): List[String] =
-    val text = getList(List("Game", "Data"),s"Choose the entry type to add\n\n${green}${0}:${default} Done\n\n")
-    spawnAndRead(text) match
-      case "0" =>
+  def menu(l: Vector[String] = Vector()): Vector[String] =
+    val choice = chooseOption(Vector("Game", "Data"),s"Choose the entry type to add", "Done")
+    choice match
+      case 0 =>
         l
-      case "1" =>
+      case 1 =>
         menu(l :+ addGame())
-      case "2" =>
+      case 2 =>
         menu(l :+ addData())
       case _ =>
         menu(l)
@@ -80,8 +81,8 @@ def tui_configure(fullconfig: Boolean = true): List[String] =
         ""
 
     if askSteamRun() then
-      List(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
+      Vector(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
     else
-      List(command, startcmd, closecmd) ++ cfg
+      Vector(command, startcmd, closecmd) ++ cfg
   else
     cfg

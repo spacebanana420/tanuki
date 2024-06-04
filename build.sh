@@ -1,2 +1,2 @@
 echo "Building Tanuki"
-scalac src/*.scala src/*/*.scala src/*/*/*.scala -d tanuki.jar
+scalac src/*.scala src/*/*.scala src/*/*/*.scala -d build/tanuki.jar

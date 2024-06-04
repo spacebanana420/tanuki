@@ -5,6 +5,7 @@ import tanuki.config.*
 import tanuki.tui.*
 import tanuki.recorder.*
 
+import bananatui.*
 import java.io.File
 import scala.sys.process.*
 import ffscala.capture.*

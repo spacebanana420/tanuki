@@ -1,6 +1,6 @@
 package tanuki.misc
 
-private def findMatch(find: String, supported: List[String], exact_match: Boolean, i: Int = 0): Boolean =
+private def findMatch(find: String, supported: Seq[String], exact_match: Boolean, i: Int = 0): Boolean =
   if i >= supported.length then
     false
   else if (find == supported(i) && exact_match) || (find.contains(supported(i)) && !exact_match) then
@@ -9,5 +9,5 @@ private def findMatch(find: String, supported: List[String], exact_match: Boolea
     findMatch(find, supported, exact_match, i+1)
 
 
-def belongsToList(find: String, supported: List[String]): Boolean = findMatch(find, supported, true)
-def similarInList(find: String, supported: List[String]): Boolean = findMatch(find, supported, false)
+def belongsToList(find: String, supported: Seq[String]): Boolean = findMatch(find, supported, true)
+def similarInList(find: String, supported: Seq[String]): Boolean = findMatch(find, supported, false)

@@ -4,6 +4,7 @@ import tanuki.{ffmpeg_installed, system_platform, recording_supported}
 import tanuki.recorder.*
 import tanuki.runner.*
 
+import bananatui.*
 import ffscala.*
 import ffscala.capture.*
 import java.io.File
@@ -31,7 +32,7 @@ def tui_configureRecording() =
   val acodecs = List("pcm", "mp3", "aac")
   //val acodecs_mp4 = List("flac", "mp3", "opus", "aac")
 
-  val ans_vc = readLoop_list(vcodecs, s"Choose a video encoder\n\n${green}${0}:${default} Default (x264)\n\n")
+  val ans_vc = chooseOption(vcodecs, s"Choose a video encoder", s"Default (x264)")
   val vcodec =
     if ans_vc != 0 then
       vcodecs(ans_vc-1) match
@@ -50,7 +51,7 @@ def tui_configureRecording() =
       tui_dshowSetup_video()
     else
       tui_x11Setup()
-  val ans_ac = readLoop_list(acodecs, s"Choose an audio encoder\n\n${green}${0}:${default} Default (pcm)\n\n")
+  val ans_ac = chooseOption(acodecs, s"Choose an audio encoder\n\n", s"Default (pcm)")
   val acodec =
     if ans_ac != 0 then
       acodecs(ans_ac-1) match
@@ -83,8 +84,8 @@ def tui_configureRecording() =
     else
       ""
 
-  val output = readLoop_dir("Type the path to store your video recordings (default: the current path of Tanuki)")
-  val delay = readLoop_int("Type the recording delay (in seconds)\nMax duration: 60")
+  val output = chooseOption_dir("Type the path to store your video recordings (default: the current path of Tanuki)")
+  val delay = readInt("Type the recording delay (in seconds)\nMax duration: 60")
   rec_writeConfig(output, delay, vcodec, acodec, vcapture, acapture, crop, scale, normalize)
 
 ////Video encoder setup////
@@ -115,7 +116,7 @@ def tui_QSVSetup(): List[String] =
 
   pressToContinue("You chose the QSV H.264 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
-  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
+  val bitrate = readInt(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
   val preset = setup_getPreset(title, "QSV", "fast", presets)
   
   List("qsv", preset, bitrate.toString)
@@ -127,7 +128,7 @@ def tui_QSV265Setup(): List[String] =
 
   pressToContinue("You chose the QSV H.265 encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
-  val bitrate = readLoop_int(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
+  val bitrate = readInt(s"${title}Input the video bitrate (in kilobits persecond)\nHigher means more quality and bigger file\n")
   val preset = setup_getPreset(title, "QSV", "faster", presets)
   val pixfmt = setup_getPixfmt(title, "yuyv422", pixfmts)
 
@@ -138,7 +139,7 @@ def tui_QSVMJPEGSetup(): List[String] =
   val pixfmts = List("nv12", "yuyv422")
   pressToContinue("You chose the QSV MJPEG encoder\nThis hardware encoder requires an Intel GPU to work, so make sure that's what you're using")
   
-  val q = readLoop_byte(s"${title}Input the video quality (from 1 to 100)\nHigher means more quality and bigger file\n")
+  val q = readByte(s"${title}Input the video quality (from 1 to 100)\nHigher means more quality and bigger file\n")
   val pixfmt = setup_getPixfmt(title, "yuyv422", pixfmts)
   val quality = if q < 1 then 1 else if q > 100 then 100 else q 
 
@@ -152,7 +153,7 @@ def tui_NVENCSetup(): List[String] =
   pressToContinue("You chose the NVENC H.264 encoder"
   +"\nThis hardware encoder requires an NVIDIA GPU to work, so make sure that's what you're using")
 
-  val preset = readLoop_list(presets, s"${title}Choose an NVENC preset\n\n${green}${0}:${default} Default (medium)\n\n")
+  val preset = chooseOption(presets, s"${title}Choose an NVENC preset", s"Default (medium)")
   val bitrate = setup_getBitrate(title)
   val pixfmt = setup_getPixfmt(title, "yuv420p", pixfmts)
 
@@ -176,7 +177,7 @@ def tui_mjpegSetup(): List[String] =
     s"${title}Input the quality value (from 1 to 120) (Default: 1)" +
     s"\n\nHigher value means lower quality and file size"
 
-  val quality = readLoop_short(ask)
+  val quality = readShort(ask)
   val pixfmt = setup_getPixfmt(title, "yuvj444p", pixfmts)
   
   val final_quality: Short =
@@ -191,7 +192,7 @@ def tui_mjpegSetup(): List[String] =
 def tui_pcmSetup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
   val depths = List("16bit", "24bit")
-  val d = readLoop_list(depths, s"${title}Choose the audio bit depth\n\n${green}${0}:${default} Default (16bit)\n\n")
+  val d = chooseOption(depths, s"${title}Choose the audio bit depth", s"Default (16bit)")
   val depth =
     if d == 0 || d == 1 then "16"
     else "24"
@@ -199,17 +200,17 @@ def tui_pcmSetup(): List[String] =
 
 def tui_opusSetup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
-  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
+  val bitrate = readInt(s"${title}Input the audio bitrate (in kilobits per second)")
   List("opus", bitrate.toString)
 
 def tui_mp3Setup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
-  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
+  val bitrate = readInt(s"${title}Input the audio bitrate (in kilobits per second)")
   List("mp3", bitrate.toString)
 
 def tui_aacSetup(): List[String] =
   val title = s"$green[Audio configuration]$default\n\n"
-  val bitrate = readLoop_int(s"${title}Input the audio bitrate (in kilobits per second)")
+  val bitrate = readInt(s"${title}Input the audio bitrate (in kilobits per second)")
   List("aac", bitrate.toString)
 
 ////Capture setup////
@@ -217,9 +218,9 @@ def tui_aacSetup(): List[String] =
 def tui_x11Setup(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
 
-  val w = readLoop_int(s"${title}Input the capture resolution's width")
-  val h = readLoop_int(s"${title}Input the capture resolution's height")
-  val fps = readLoop_int(s"${title}Input the capture resolution's framerate")
+  val w = readInt(s"${title}Input the capture resolution's width")
+  val h = readInt(s"${title}Input the capture resolution's height")
+  val fps = readInt(s"${title}Input the capture resolution's framerate")
   val safemode =
     if fps != 60 then
       askPrompt(
@@ -234,7 +235,7 @@ def tui_pulseSetup(): List[String] =
   val title = s"$green[Audio capture]$default\n\n"
   
   val sources = getSources_pulse()
-  val ans = readLoop_list(sources, s"${title}Choose the audio input source to use\n\n${green}${0}:${default} Default (system's default))\n\n")
+  val ans = chooseOption(sources, s"${title}Choose the audio input source to use", s"Default (system's default)")
   val input =
     if ans == 0 then "default"
     else sources(ans-1)
@@ -244,7 +245,7 @@ def tui_ossSetup(): List[String] = //merge with the one above
   val title = s"$green[Audio capture]$default\n\n"
   
   val sources = getSources_oss()
-  val ans = readLoop_list(sources, s"${title}Choose the audio input source to use\n\n${green}${0}:${default} Default (system's default))\n\n")
+  val ans = chooseOption(sources, s"${title}Choose the audio input source to use", s"Default (system's default)")
   val input =
     if ans == 0 then "default"
     else sources(ans-1)
@@ -254,10 +255,10 @@ def tui_dshowSetup_video(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
   val sources = getSources_dshow_v()
 
-  val ans = readLoop_list(sources, s"${title}Choose the video input source to use\n\n${green}${0}:${default} Default (${sources(0)}))\n\n")
-  val w = readLoop_int(s"${title}Input the capture resolution's width")
-  val h = readLoop_int(s"${title}Input the capture resolution's height")
-  val fps = readLoop_int(s"${title}Input the capture resolution's framerate")
+  val ans = chooseOption(sources, s"${title}Choose the video input source to use", s"Default (${sources(0)})")
+  val w = readInt(s"${title}Input the capture resolution's width")
+  val h = readInt(s"${title}Input the capture resolution's height")
+  val fps = readInt(s"${title}Input the capture resolution's framerate")
 
   val input =
     if ans == 0 then sources(0)
@@ -268,7 +269,7 @@ def tui_dshowSetup_audio(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
   val sources = getSources_dshow_a()
 
-  val ans = readLoop_list(sources, s"${title}Choose the audio input source to use\n\n${green}${0}:${default} Default (${sources(0)}))\n\n")
+  val ans = chooseOption(sources, s"${title}Choose the audio input source to use", s"Default (${sources(0)})")
   val input =
     if ans == 0 then sources(0)
     else sources(ans-1)
@@ -278,12 +279,12 @@ def tui_dshowSetup_audio(): List[String] =
 
 def tui_filterCrop(): List[String] =
   val title = s"$green[Crop filter]$default\n\n"
-  val w = readLoop_int("Input the crop width")
-  val h = readLoop_int("Input the crop height")
+  val w = readInt("Input the crop width")
+  val h = readInt("Input the crop height")
   List(w.toString, h.toString)
 
 def tui_filterScale(): List[String] =
   val title = s"$green[Scale filter]$default\n\n"
-  val w = readLoop_int("Input the scale width")
-  val h = readLoop_int("Input the scale height")   
+  val w = readInt("Input the scale width")
+  val h = readInt("Input the scale height")
   List(w.toString, h.toString)

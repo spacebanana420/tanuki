@@ -1,44 +1,19 @@
-package tanuki.tui
+package bananatui
 
 import java.io.File
 import scala.sys.process.*
 import scala.io.StdIn.readLine
 
-//ANSI escape codes, that's where the magic strings come from
+//The magic strings come from ANSI escape codes
+//These functions here are more related to printing, colors, clearing, etc
+//For reading user input, check out userinput.scala
 
-def readUserInput(message: String = ""): String =
-  if message != "" then
-    println(message)
-  readLine()
+//Note: on Windows, the default terminal that is used with powershell does not support ANSI, so colors will not work, clearing, etc
 
-def spawnAndRead(message: String): String = readUserInput(s"\u001B[3J\u001B[1J\u001B[H$message")
-
-def pressToContinue(message: String = ""): String = readUserInput(message + "\n\nPress enter to continue")
-
-// def clear() = { //test windows support
-//   if File("C:").isDirectory == false then
-//     List[String]("clear").!
-//   else
-//     List[String]("cmd", "/c", "cls").!
-// }
-
-def spawnScreen(ui: String) =
+def spawnScreen(ui: String) = // Clears the screen and prints a text
   print(s"\u001B[3J\u001B[1J\u001B[H$ui")
 
-def askPrompt(ui: String, clear: Boolean = true): Boolean =
-//   val yellow = foreground("yellow")
-//   val default = foreground("default")
-  val answer =
-    if clear then
-      spawnAndRead(s"$ui ${yellow}(y/n)$default\n").toLowerCase
-    else
-      readUserInput(s"$ui ${yellow}(y/n)$default\n").toLowerCase
-  if answer == "yes" || answer == "y" then
-    true
-  else
-    false
-
-def clear() = print("\u001B[3J\u001B[1J\u001B[H")
+def clear() = print("\u001B[3J\u001B[1J\u001B[H") // Clears the screen
 
 def saveScreen() = print("\u001B[?47h")
 
@@ -50,9 +25,9 @@ def moveCursor(mode: String, lines: Int) =
   else
     print(s"\u001B[${lines}B")
 
-def clearBelowCursor(lines: Int) = print(s"\u001B[${lines}A\u001B[0K")
+def clearBelowCursor(lines: Int) = print(s"\u001B[0K")
 
-def printStatus(msg: String, isError: Boolean = true) =
+def printStatus(msg: String, isError: Boolean = true) = // Error handling
   val default = foreground("default")
   if isError then
     val red = foreground("red")

@@ -9,7 +9,7 @@ def createConfig() =
   if system_platform == 1 || system_platform == 2 then
     config.write("command=wine".getBytes())
 
-def writeConfig(cfg: List[String], append: Boolean = true) =
+def writeConfig(cfg: Seq[String], append: Boolean = true) =
   def createStr(str: String = "", i: Int = 0): String =
     if i >= cfg.length then
       str

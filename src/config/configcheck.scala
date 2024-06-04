@@ -1,6 +1,6 @@
 package tanuki.config
 
-import tanuki.tui.printStatus
+import bananatui.*
 import java.io.File
 import scala.io.Source
 
