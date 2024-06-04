@@ -9,7 +9,7 @@ import java.io.File
 import scala.util.Sorting.quickSort
 
 def tui_movieMenu(): Unit =
-  if !tui_noffmpeg() then
+  if !tui_noffplay() then
     val output = rec_getOutputArg()
     val videos = File(output)
       .list()

@@ -1,6 +1,6 @@
 package tanuki.tui
 
-import tanuki.ffmpeg_installed
+import tanuki.{ffmpeg_installed, ffplay_installed, system_platform}
 import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
@@ -66,6 +66,18 @@ def tui_manageData(title: String) =
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
     val text = s"FFmpeg wasn't found in your system!\nFFmpeg is required for this functionality!"
+    pressToContinue(text)
+    true
+  else
+    false
+
+def tui_noffplay(): Boolean =
+  if !ffplay_installed then
+    val text =
+      if system_platform == 4 then //freebsd stuff
+        s"FFplay wasn't found in your system!\nFFmpeg is required for this functionality!\nOn FreeBSD, to make use of FFplay, FFmpeg must be build from source with SDL support enabled|"
+      else
+        s"FFplay wasn't found in your system!\nFFplay is required for this functionality! It comes with FFmpeg by default for most systems."
     pressToContinue(text)
     true
   else
@@ -152,7 +164,7 @@ def tui_ssview() =
       viewLoop(dir)
   
   val datas = getDatas(readConfig())
-  if !tui_noffmpeg() && !tui_noentries(datas) then
+  if !tui_noffplay() && !tui_noentries(datas) then
     val entry = tui_chooseDataDir(datas)
     if entry != "" then
       val dir = tui_ssdir(entry)
