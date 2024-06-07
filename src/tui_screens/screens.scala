@@ -11,6 +11,7 @@ import bananatui.*
 import ffscala.*
 import java.io.File
 import scala.sys.exit
+import sys.process.*
 
 val green = foreground("green")
 val default = foreground("default")
@@ -61,6 +62,23 @@ def tui_manageData(title: String) =
       case 1 => tui_ssview()
       case 2 => tui_ssconv()
       case 3 => tui_backupScore()
+
+// def tui_configureTanuki(title: String) =
+//   val is_linux = system_platform == 1 || system_platform == 2
+//   val opts =
+//     if is_linux then
+//       Vector("Configure game launcher", "Configure video recording", "Open Tanuki configuration")
+//     else
+//       Vector("Configure game launcher", "Configure video recording")
+//   val choice = chooseOption(opts, title)
+//   if choice != 0 then
+//     choice match
+//       case 1 =>
+//         val cfg = tui_configure()
+//         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
+//         writeConfig(cfg, overwrite)
+//       case 2 => tui_configureRecording()
+//       case 3 => if is_linux then Vector("xdg-open", "config.txt").!
 
 
 def tui_noffmpeg(): Boolean =

@@ -41,6 +41,13 @@ def video_setUtvideo(pixfmt: String): List[String] =
 def video_setMjpeg(quality: Short, pixfmt: String): List[String] =
   setVideoEncoder("mjpeg") ++ setQuality(quality) ++ setPixFmt(pixfmt)
 
+def video_setPNG(pred: Byte): List[String] =
+  val pred_arg = pred match
+    case 0 => "none"
+    case 1 => "up"
+    case _ =>  "mixed"
+  setVideoEncoder("png") ++ png_setPred(pred_arg) ++ setPixFmt("rgb24")
+
 /////AUDIO/////
 
 def audio_setPCM(depth: Byte): List[String] =

@@ -51,27 +51,6 @@ private def getFirstValue(cfg: Seq[String], setting: String, i: Int = 0): String
     else
       getFirstValue(cfg, setting, i+1)
 
-
-def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
-//def getNativeGames(cfg: Seq[String]): List[String] = getValues(cfg, "native-game=")
-def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
-
-def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
-def getWinePath(cfg: Seq[String]): String = getFirstValue(cfg, "wine=")
-def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
-
-def getWinePrefix(cfg: Seq[String]): String =
-  val prefix = getFirstValue(cfg, "wine_prefix=")
-  if File(prefix).isDirectory() then prefix else ""
-
-def getDxvkFramerate(cfg: Seq[String]): String = getFirstValue(cfg, "dxvk_framerate=")
-def getReturnClose(cfg: Seq[String]): Boolean =
-  val toggle_str = getFirstValue(cfg, "return_closegame=").toLowerCase()
-  if toggle_str == "yes" || toggle_str == "true" then true else false
-
-def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
-def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
-
 private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = List(), i: Int = 0): List[String] =
   if i >= cmd.length then
     if arg == "" then cmdl else cmdl :+ arg

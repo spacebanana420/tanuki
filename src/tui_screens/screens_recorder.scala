@@ -44,6 +44,7 @@ def tui_configureRecording() =
         case "utvideo" => tui_utvideoSetup()
         case "mjpeg" => tui_mjpegSetup()
         case "mjpegqsv" => tui_QSVMJPEGSetup()
+        case "png" => tui_pngSetup()
     else
       tui_x264Setup()
   val vcapture =
@@ -186,6 +187,21 @@ def tui_mjpegSetup(): List[String] =
     else quality
 
   List("mjpeg", final_quality.toString, pixfmt)
+
+def tui_pngSetup(): List[String] =
+  val title =
+    s"$green[PNG configuration]$default\n\n" +
+    s"Choose the comrpession quality" +
+    s"\nThis does not affect picture quality, but does affect CPU usage and file size"
+  val qualities = List("Low", "Medium", "High")
+
+  pressToContinue("Warning: PNG encoding is heavy, and video file sizes are very large\nIt's ideal to record at lower framerates or resolutions")
+  val quality = chooseOption(qualities, title, s"Default (high)")
+  val final_quality =
+    if quality == 0 then 2
+    else quality - 1
+
+  List("png", final_quality.toString)
 
 ////Audeo encoder setup////
 

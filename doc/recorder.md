@@ -67,6 +67,8 @@ If you are experiencing stuttering or frame drops, your encoding is too heavy. I
   * MJPEG, GPU-based encoder, extremely fast, very fast decode, requires an Intel GPU, lossy compression.
 * utvideo
   * Huffman, lossless RGB, great for video editing performance, extremely large files
+* png
+  * PNG encoding, great for simplicity and wide support, but heavy encoding and large files
 
 ### Audio
 * pcm (default)
@@ -93,6 +95,8 @@ Utvideo is a lossless intraframe codec. Encoding speed is somewhere around x264 
 MJPEG is a lossy intraframe encoder that implements JPEG image encoding in video. Encoding speed is probably faster than utvideo and x264 ultrafast. File size is reasonable. Decoding speed is very fast, like utvideo.
 
 QSV also offers a variant for MJPEG. Encoding speed is extremely fast, the fastest of all encoding solutions available here.
+
+PNG is a heavy format and requires reasonable CPU power for video encoding, and the resulting video files are very large, though it doesn't cost me to add it to the list, and it might be of use to you. You might want to store a series of screenshots later, all composed together into a video, to then extract them as PNG images. In that case, PNG encoding is a good choice.
 
 As for audio, PCM is uncompressed audio, while mp3 and opus are lossy. If you want a fully faithful audio capture without quality loss, use PCM. If you want wide platform support as well as a lower digital footprint, use mp3 or aac.
 

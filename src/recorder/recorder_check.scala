@@ -69,6 +69,9 @@ private def vcodec_ok(cfg: Seq[String]): Boolean =
       case "mjpeg" =>
         vcodec(1).toShort
         if vcodec.length == 3 then true else false
+      case "png" =>
+        vcodec(1).toByte
+        if vcodec.length == 2 then true else false
       case _ => false
   catch
     case e: Exception => false
