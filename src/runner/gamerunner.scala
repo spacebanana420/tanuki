@@ -40,15 +40,16 @@ def groupWineEnvs(env_wine: String, env_dxvk: String, group: Vector[(String, Str
 def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg: Seq[String] = List()) =
   val cfg = readConfig()
 
-  val cmd = getCommand(cfg)
+  lazy val cmd = getCommand(cfg)
+  lazy val wine = getWinePath(cfg)
+
   val cmd_start = getStartCmd(cfg)
   val cmd_close = getCloseCmd(cfg)
   val close_on_return = getReturnClose(cfg)
 
-  val wine = getWinePath(cfg)
   val wine_prefix = getWinePrefix(cfg)
   val dxvk_fps = getDxvkFramerate(cfg)
-  val wine_envs = groupWineEnvs(wine_prefix, dxvk_fps)
+  lazy val wine_envs = groupWineEnvs(wine_prefix, dxvk_fps)
 
   val is_program_native = isProgramNative(File(path).getName())
   val runner = if is_program_native then cmd else wine

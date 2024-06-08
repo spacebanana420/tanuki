@@ -7,7 +7,7 @@
 Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards. Tanuki can also be used to launch any game, not just Touhou games, and it has features worthy of a WINE helper.
 
 <p align="center">
-<img src="images/tanuki.png" width="500"/>
+<img src="images/tanuki.png" width="450"/>
 </p>
 
 Tanuki has many extra features, such as screen and audio recording, Touhou scorefile backup, viewing and compressing screenshots, etc.
@@ -20,7 +20,7 @@ If you have Scala 3 in your system, download ```tanuki.jar```
 
 If you just have Java in your system, download ```tanuki-java.jar```
 
-If you are running an x86_64 Linux system, download ```tanuki-linux-x86_64```
+If you are running an x86_64 Linux system, download ```tanuki-linux-x86_64.zip```
 
 # Requirements & how to use
 
@@ -28,6 +28,7 @@ Tanuki requires the following to work:
 * Scala 3 or Java 11 or later (unless running the native Linux binary)
 * FFmpeg (optional, for screen recording, video playback and screenshot functionality)
 * FFplay (optional, for viewing video and images)
+  * FFplay comes with FFmpeg for most platforms
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.
 
