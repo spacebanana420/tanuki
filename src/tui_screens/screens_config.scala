@@ -1,5 +1,6 @@
 package tanuki.tui
 
+import tanuki.system_platform
 import bananatui.*
 import tanuki.config.*
 import java.io.File
@@ -12,21 +13,19 @@ def tui_configerror() =
     println("Quitting Tanuki...")
     exit()
   else
-    val cfg = tui_configure()
-    writeConfig(cfg, false)
+    tui_configure(true)
 
 def tui_noentries(entries: Seq[String]): Boolean =
   if entries.length == 0 then
     val text = "No entries have been found!\nWould you like to add some to your configuration?"
     val answer = askPrompt(text)
     if answer then
-      val cfg = tui_configure(false)
-      writeConfig(cfg, true)
+      tui_configure(false)
     true
   else
     false
 
-def tui_configure(fullconfig: Boolean = true): Vector[String] =
+def tui_configure(overwrite: Boolean) =
   def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
     val path = readUserInput("Type the full path to your game's executable")
@@ -47,42 +46,53 @@ def tui_configure(fullconfig: Boolean = true): Vector[String] =
     else
       false
 
-  def menu(l: Vector[String] = Vector()): Vector[String] =
-    val choice = chooseOption(Vector("Game", "Data"),s"Choose the entry type to add", "Done")
+  def makeOption(title: String, setting: String): String =
+    val ans = readUserInput(title)
+    if ans != "" then
+      s"$setting=$ans"
+    else
+      ""
+
+  def menu(cfg_settings: Vector[String] = Vector()): Vector[String] =
+    val default_opt = if cfg_settings.length == 0 then "Cancel" else "Done"
+    val choice = chooseOption(Vector("Game", "Data"),s"Choose the entry type to add", default_opt)
     choice match
       case 0 =>
-        l
+        cfg_settings
       case 1 =>
-        menu(l :+ addGame())
+        menu(cfg_settings :+ addGame())
       case 2 =>
-        menu(l :+ addData())
+        menu(cfg_settings :+ addData())
       case _ =>
-        menu(l)
+        menu(cfg_settings)
 
   val cfg = menu()
-  if fullconfig then
-    val command =
-      val ans = readUserInput(s"Type the command/program to launch Touhou with or leave it blank to disable")
-      if ans != "" then
-        s"command=$ans"
-      else
-        ""
-    val startcmd =
-      val ans = readUserInput(s"Type the command to run before launching Touhou or leave it blank to disable")
-      if ans != "" then
-        s"sidecommand_start=$ans"
-      else
-        ""
-    val closecmd =
-      val ans = readUserInput(s"Type the command to run after closing Touhou or leave it blank to disable")
-      if ans != "" then
-        s"sidecommand_close=$ans"
-      else
-        ""
+  if cfg.length != 0 then
+    val fullcfg =
+      if overwrite then
+        val command =
+          val title = "Type the command/program to launch your native games with or leave it blank to disable"
+          makeOption(title, "command")
 
-    if askSteamRun() then
-      Vector(command, startcmd, closecmd, "use_steam-run=true") ++ cfg
-    else
-      Vector(command, startcmd, closecmd) ++ cfg
-  else
-    cfg
+        val wine =
+          if system_platform != 0 then
+            val title = "Type the command/path to the WINE helper or leave it blank to disable\nIf you have wine installed in your system, you can type \"wine\""
+            makeOption(title, "wine")
+          else ""
+
+        val startcmd =
+          val title = "Type a command to run before launching the game or leave it blank to disable"
+          makeOption(title, "sidecommand_start")
+
+        val closecmd =
+          val title = "Type a command to run after launching the game or leave it blank to disable"
+          makeOption(title, "sidecommand_close")
+
+        if askSteamRun() then
+          Vector(command, wine, startcmd, closecmd, "use_steam-run=true") ++ cfg
+        else
+          Vector(command, wine, startcmd, closecmd) ++ cfg
+      else
+        cfg
+//     val overwrite = askPrompt("Would you like to overwrite the old configuration?")
+    writeConfig(fullcfg, overwrite)

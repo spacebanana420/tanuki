@@ -43,9 +43,7 @@ def tui_title() =
       case 4 =>
         tui_manageData(title)
       case 5 =>
-        val cfg = tui_configure()
-        val overwrite = askPrompt("Would you like to overwrite the old configuration?")
-        writeConfig(cfg, overwrite)
+        tui_configure(true)
       case 6 =>
         tui_configureRecording()
       case 7 =>
@@ -73,12 +71,9 @@ def tui_manageData(title: String) =
 //   val choice = chooseOption(opts, title)
 //   if choice != 0 then
 //     choice match
-//       case 1 =>
-//         val cfg = tui_configure()
-//         val overwrite = askPrompt("Would you like to overwrite the old configuration?")
-//         writeConfig(cfg, overwrite)
+//       case 1 => tui_configure(true, true)
 //       case 2 => tui_configureRecording()
-//       case 3 => if is_linux then Vector("xdg-open", "config.txt").!
+//       case 3 => Vector("xdg-open", "config.txt").!
 
 
 def tui_noffmpeg(): Boolean =
@@ -93,7 +88,7 @@ def tui_noffplay(): Boolean =
   if !ffplay_installed then
     val text =
       if system_platform == 4 then //freebsd stuff
-        s"FFplay wasn't found in your system!\nFFmpeg is required for this functionality!\nOn FreeBSD, to make use of FFplay, FFmpeg must be build from source with SDL support enabled|"
+        s"FFplay wasn't found in your system!\nFFmpeg is required for this functionality!\nOn FreeBSD, to make use of FFplay, FFmpeg must be build from source with SDL support enabled!"
       else
         s"FFplay wasn't found in your system!\nFFplay is required for this functionality! It comes with FFmpeg by default for most systems."
     pressToContinue(text)
