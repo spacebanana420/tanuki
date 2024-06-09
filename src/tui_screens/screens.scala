@@ -1,11 +1,12 @@
 package tanuki.tui
 
-import tanuki.{ffmpeg_installed, ffplay_installed, system_platform}
+import tanuki.{ffmpeg_installed, ffplay_installed, system_platform, platformcheck}
 import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
 import tanuki.quotes.*
 import tanuki.recorder.*
+import tanuki.misc.xdg_open
 
 import bananatui.*
 import ffscala.*
@@ -19,18 +20,18 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val quote = getRandomQuote()
-    val title = s"$yellow[Tanuki Launcher]$default version 0.8\n\n$quote"
-    val text = //revamp this with my new banantui instead
-      s"$title\n\n"
-      + s"${green}0:$default Exit"
-      + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
-      + s"\n${green}3:$default Record video"
-      + s"\n${green}4:$default Manage Touhou data"
-      + s"\n\n${green}5:$default Configure launcher\n${green}6:$default Configure video recording"
-      + s"\n${green}7:$default View recorded footage\n"
-    val answer = readLoop(text, 9)
-    answer match
+    val title = s"$yellow[Tanuki Launcher]$default version 0.8.1\n\n${getRandomQuote()}"
+    val options = Vector("Play", "Play and record", "Record video", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
+//     val text = //revamp this with my new banantui instead
+//       s"$title\n\n"
+//       + s"${green}0:$default Exit"
+//       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
+//       + s"\n${green}3:$default Record video"
+//       + s"\n${green}4:$default Manage Touhou data"
+//       + s"\n${green}5:$default View recorded footage"
+//       + s"\n\n${green}6:$default Configure Tanuki"
+//     val answer = readLoop(text, 9)
+    chooseOption(options, title) match
       case 0 =>
         exit()
       case 1 =>
@@ -43,38 +44,39 @@ def tui_title() =
       case 4 =>
         tui_manageData(title)
       case 5 =>
-        tui_configure(true)
-      case 6 =>
-        tui_configureRecording()
-      case 7 =>
         if rec_configExists() then
           tui_movieMenu()
         else
           pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
+      case 6 =>
+        tui_configureTanuki(title)
+      case 7 => platformcheck.printSystemInfo(title)
 
-def tui_manageData(title: String) =
+def tui_manageData(title: String): Unit =
   val opts = Vector("View screenshots", "Compress screenshots", "Backup scorefiles")
-  val choice = chooseOption(opts, title)
+  val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
     choice match
       case 1 => tui_ssview()
       case 2 => tui_ssconv()
       case 3 => tui_backupScore()
+    tui_manageData(title)
 
-// def tui_configureTanuki(title: String) =
-//   val is_linux = system_platform == 1 || system_platform == 2
-//   val opts =
-//     if is_linux then
-//       Vector("Configure game launcher", "Configure video recording", "Open Tanuki configuration")
-//     else
-//       Vector("Configure game launcher", "Configure video recording")
-//   val choice = chooseOption(opts, title)
-//   if choice != 0 then
-//     choice match
-//       case 1 => tui_configure(true, true)
-//       case 2 => tui_configureRecording()
-//       case 3 => Vector("xdg-open", "config.txt").!
-
+def tui_configureTanuki(title: String): Unit =
+  val xdg_supported = system_platform != 0 && system_platform != 3
+  val opts =
+    if xdg_supported then
+      Vector("Configure games and runners", "Configure video recording", "Open Tanuki configuration", "Open Video Configuration")
+    else
+      Vector("Configure games and runners", "Configure video recording")
+  val choice = chooseOption(opts, title, "Return")
+  if choice != 0 then
+    choice match
+      case 1 => tui_configure(true)
+      case 2 => tui_configureRecording()
+      case 3 => xdg_open("config.txt")
+      case 4 => xdg_open("video_config.txt")
+    tui_configureTanuki(title)
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
@@ -161,7 +163,7 @@ def tui_ssdir(path: String): String =
 def tui_ssimage(dir: String): String =
   if dir != "" then
     val images = listScreenshots(dir)
-    val answer = chooseOption(images, s"Choose a screenshot")
+    val answer = chooseOption_h(images, 3, "Choose a screenshot")
     if answer != 0 then
       s"$dir/${images(answer-1)}"
     else

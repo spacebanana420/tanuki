@@ -2,6 +2,7 @@ package tanuki
 
 import tanuki.tui.*
 import tanuki.config.*
+import bananatui.{foreground, pressToContinue, clear}
 import ffscala.checkFFmpeg
 import java.io.File
 
@@ -59,3 +60,19 @@ object platformcheck:
       play_done = true
     }
     while !peg_done && !play_done do Thread.sleep(20)
+
+  def printSystemInfo(title: String) =
+    val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
+
+    def convertBool(b: Boolean): String = if true then s"${green}yes${default}" else s"${red}no${default}"
+
+    val text =
+      s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
+      + s"Arch: $green${System.getProperty("os.arch")}$default\n"
+      + s"Java version: $green${System.getProperty("java.version")}$default\n"
+      + s"FFmpeg support: ${convertBool(ffmpeg_installed)}\n"
+      + s"FFplay support: ${convertBool(ffplay_installed)}\n"
+      + s"Video recording support: ${convertBool(recording_supported)}"
+    clear()
+    pressToContinue(text)
+
