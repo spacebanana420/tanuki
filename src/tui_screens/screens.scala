@@ -159,11 +159,17 @@ def tui_chooseDataDir(manualdata: List[String] = List()): String =
 
 def tui_ssdir(path: String): String =
   val dirs = getScreenshotDirs(path)
-  val answer = chooseOption(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder")
-  if answer != 0 then
-    s"$path/${dirs(answer-1)}"
-  else
-    ""
+  dirs.length match
+    case 0 =>
+      pressToContinue(s"No snapshot directories were found in $path!")
+      ""
+    case 1 => s"$path/${dirs(0)}"
+    case _ =>
+      val answer = chooseOption(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder")
+      if answer != 0 then
+        s"$path/${dirs(answer-1)}"
+      else
+        ""
 
 def tui_ssimage(dir: String): String =
   if dir != "" then

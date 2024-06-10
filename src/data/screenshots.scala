@@ -3,17 +3,17 @@ package tanuki.data
 import tanuki.misc.*
 import java.io.File
 
-def getScreenshotDirs(path: String): List[String] =
+def getScreenshotDirs(path: String): Vector[String] =
   File(path)
     .list()
     .filter(x => File(s"$path/$x").isDirectory() && isScreenshotDir(s"$path/$x"))
-    .toList
+    .toVector //remember to replace this
 
-def listScreenshots(path: String, include_png: Boolean = true): List[String] =
+def listScreenshots(path: String, include_png: Boolean = true): Vector[String] =
   File(path)
     .list()
     .filter(x => isScreenshot(x, path, include_png))
-    .toList
+    .toVector //remember to replace this
 
 private def isScreenshot(name: String, path: String, include_png: Boolean = true): Boolean =
   if include_png then
@@ -34,17 +34,17 @@ private def isScreenshotDir(path: String): Boolean =
   hasImageFiles(File(path).list())
 
 //unfinished and unused for now
-def ssTemplate(game: String): List[Int] =
+def ssTemplate(game: String): Vector[Int] =
   game match
     case "6-8" =>
-      List(36, 132, 377, 304)
+      Vector(36, 132, 377, 304)
     case "9" =>
-      List(49, 158, 545, 275)
+      Vector(49, 158, 545, 275)
     case "10-12" =>
-      List(33, 150, 380, 271)
-    case "13" => List()
-    case "modernbubble" => List()
-    case "highres1" => List()
-    case "highres2" => List()
+      Vector(33, 150, 380, 271)
+    case "13" => Vector()
+    case "modernbubble" => Vector()
+    case "highres1" => Vector()
+    case "highres2" => Vector()
 
 //def guessThGame(): List[Int] =
