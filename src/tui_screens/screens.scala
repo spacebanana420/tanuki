@@ -6,7 +6,7 @@ import tanuki.config.*
 import tanuki.data.*
 import tanuki.quotes.*
 import tanuki.recorder.*
-import tanuki.misc.xdg_open
+import tanuki.misc.{xdg_open, xdg_supported}
 
 import bananatui.*
 import ffscala.*
@@ -31,7 +31,7 @@ def tui_title() =
 //       + s"\n${green}5:$default View recorded footage"
 //       + s"\n\n${green}6:$default Configure Tanuki"
 //     val answer = readLoop(text, 9)
-    chooseOption(options, title) match
+    chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
         exit()
       case 1 =>
@@ -53,19 +53,24 @@ def tui_title() =
       case 7 => platformcheck.printSystemInfo(title)
 
 def tui_manageData(title: String): Unit =
-  val opts = Vector("View screenshots", "Compress screenshots", "Backup scorefiles")
+  val opts =
+    if xdg_supported(system_platform) then
+      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "Open data folder")
+    else
+      Vector("View screenshots", "Compress screenshots", "Backup scorefiles")
+
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
     choice match
       case 1 => tui_ssview()
       case 2 => tui_ssconv()
       case 3 => tui_backupScore()
+      case 4 => tui_ss_openfolder()
     tui_manageData(title)
 
 def tui_configureTanuki(title: String): Unit =
-  val xdg_supported = system_platform != 0 && system_platform != 3
   val opts =
-    if xdg_supported then
+    if xdg_supported(system_platform) then
       Vector("Configure games and runners", "Configure video recording", "Open Tanuki configuration", "Open Video Configuration")
     else
       Vector("Configure games and runners", "Configure video recording")
@@ -185,17 +190,6 @@ def tui_ssview() =
       val dir = tui_ssdir(entry)
       viewLoop(dir)
 
-//incompatible with the other functions, not using for now
-// def tui_ssoptions(path: String, image: String) =
-//   val answer = chooseOption(List("Convert", "Crop"), s"What would you like to do with this screenshot?")
-//   if answer == 1 then
-//     println("a") //finish
-//     //tui_ssconv(path, image)
-//   else if answer == 2 then
-//     println("a") //temp
-//     //tui_sscrop(image)
-//     //finish
-
 def tui_ssconv() =
   val datas = getDatas(readConfig())
   if !tui_noffmpeg() && !tui_noentries(datas) then
@@ -213,4 +207,7 @@ def tui_ssconv() =
           screenshot_convert(x, ssdir)
         pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
 
-//def tui_sscrop(image: String) =
+def tui_ss_openfolder() =
+  val datas = getDatas(readConfig())
+  val entry = tui_chooseDataDir(datas)
+  if entry != "" then xdg_open(entry)

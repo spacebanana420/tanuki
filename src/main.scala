@@ -59,7 +59,7 @@ object platformcheck:
       ffplay_installed = checkFFmpeg(ffplay_path)
       play_done = true
     }
-    while !peg_done && !play_done do Thread.sleep(20)
+    while !peg_done && !play_done do Thread.sleep(10)
 
   def printSystemInfo(title: String) =
     val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
@@ -70,6 +70,7 @@ object platformcheck:
       s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
       + s"Arch: $green${System.getProperty("os.arch")}$default\n"
       + s"Java version: $green${System.getProperty("java.version")}$default\n"
+      + s"Java class version: $green${System.getProperty("java.class.version")}$default\n"
       + s"FFmpeg support: ${convertBool(ffmpeg_installed)}\n"
       + s"FFplay support: ${convertBool(ffplay_installed)}\n"
       + s"Video recording support: ${convertBool(recording_supported)}"

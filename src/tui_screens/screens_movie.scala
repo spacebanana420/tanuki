@@ -20,7 +20,7 @@ def tui_movieMenu(): Unit =
       pressToContinue(s"No video files have been found in the directory $output!")
     else
       val t = s"$green[Gensokyo cinema]$default\nChoose a video to play"
-      val video = chooseOption_h(videos.toVector, size = 2, title = t) //replace toVector, it lowers speed
+      val video = chooseOption_h(videos.toVector, 2, t, "Return") //replace toVector, it lowers speed
       if video != 0 then
         println(
           s"\nPlaying $green${videos(video-1)}$default...\n\n"

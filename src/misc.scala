@@ -15,6 +15,7 @@ private def findMatch(find: String, supported: Seq[String], exact_match: Boolean
 def belongsToList(find: String, supported: Seq[String]): Boolean = findMatch(find, supported, true)
 def similarInList(find: String, supported: Seq[String]): Boolean = findMatch(find, supported, false)
 
+def xdg_supported(os: Byte): Boolean = os != 0 && os != 3
 
 def xdg_open(path: String): Boolean =
   try
