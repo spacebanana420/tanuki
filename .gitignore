@@ -8,14 +8,9 @@ metals.*
 scala-cli.json
 .scala-build
 .dsp
-*.mov
-*.mp4
 .vscode
 .idea
 footage
-tanuki-linux-x86_64
-tanuki
-tanuki-native
 build
 *.zip
 *.7z
