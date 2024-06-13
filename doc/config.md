@@ -8,6 +8,7 @@ Lines in the config file that start with "#" or don't start with an entry option
 
 ### Supported options:
 
+#### General settings
 * ```game``` - Add a Touhou game entry.
   * The path must lead to a file.
 * ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
@@ -21,18 +22,19 @@ Lines in the config file that start with "#" or don't start with an entry option
   * The package "steam-run" must be installed in your system.
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
   * This should be the path to the directory containing ffmpeg and ffplay
+* ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
+  * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
+
+#### WINE settings
 * ```wine``` - The path for the WINE build to launch games with
-  * This option doesn't matter for Windows
 * ```wine_prefix``` - Sets which directory to use as your WINE prefix
   * The prefix directory must already exist
 * ```dxvk_framerate``` - Sets a framerate limit with DXVK
   * This only works if your WINE prefix has DXVK enabled, Tanuki does not configure this
-* ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
-  * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 
 The ```game``` and ```data``` entries require a name and a path, separated by ```:```. The order of the entries does not matter.
 
-Tanuki only assumes the first instances of ```command```, ```wine``` ```sidecommand_start```, ```sidecommand_close``` and ```use_steam-run```. There's no need to write multiple entries of these options in the config.
+Some options, like ```command``` and ```wine``` are only read once, while multiple entries of options like ```game``` are supported.
 
 ```wine``` is used for running Windows games on non-Windows systems, while ```command``` is for a custom program to launch games/files/programs with.
 
@@ -86,7 +88,7 @@ use_steam-run=true
 
 It seems that the Xfce desktop does not automatically disable or bypass its compositor and desktop vsync when a fullscreen game is launched. It lets you, however, manually disable it, either through the GUI settings or through a command.
 
-With this following configuration, Xfce's compositor will disable when you start a Touhou game and re-enable once you come back to the main menu:
+With this following configuration, Xfce's compositor will disable when you start a game and re-enable once you come back to the main menu:
 
 ```
 sidecommand_start=xfconf-query -c xfwm4 -p /general/use_compositing -s false
