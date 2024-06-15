@@ -20,7 +20,7 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.8.1\n\n${getRandomQuote()}"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.8.2\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and record", "Record video", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
 //     val text = //revamp this with my new banantui instead
 //       s"$title\n\n"
@@ -55,9 +55,9 @@ def tui_title() =
 def tui_manageData(title: String): Unit =
   val opts =
     if xdg_supported(system_platform) then
-      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "Open data folder")
+      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "View replays", "Open data folder")
     else
-      Vector("View screenshots", "Compress screenshots", "Backup scorefiles")
+      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "View replays")
 
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
@@ -65,7 +65,8 @@ def tui_manageData(title: String): Unit =
       case 1 => tui_ssview()
       case 2 => tui_ssconv()
       case 3 => tui_backupScore()
-      case 4 => tui_ss_openfolder()
+      case 4 => listReplays()
+      case 5 => tui_ss_openfolder()
     tui_manageData(title)
 
 def tui_configureTanuki(title: String): Unit =
