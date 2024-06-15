@@ -23,8 +23,7 @@ object threplay:
     if i >= replay.length || strlen >= length then str
     else
       val c = replay(i).toChar
-      if c != ' ' then getValue(replay, i+1, length, str + c, strlen + 1)
-      else getValue(replay, i+1, length, str, strlen + 1)
+      getValue(replay, i+1, length, str + c, strlen + 1)
 
   def openReplay(path: String): Array[Byte] =
     val replay = FileInputStream(path).readAllBytes()

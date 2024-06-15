@@ -3,6 +3,7 @@ package tanuki.data
 import bananatui.*
 import tanuki.tui.tui_chooseDataDir
 import java.io.File
+import scala.util.Sorting.quickSort
 
 
 private def mkOption(name: String, path: String): String =
@@ -26,6 +27,7 @@ def listReplays(): String =
       File(s"$datadir/$rdir").list()
       .filter(x => x.contains(".rpy"))
       .map(x => mkOption(x, s"$datadir/$rdir/$x"))
+    quickSort(replays)
     val chosenreplay = chooseOption_array(replays, "The following replays have been found")
     s"$datadir/$rdir/$chosenreplay"
   else ""
