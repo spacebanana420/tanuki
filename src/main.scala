@@ -71,8 +71,8 @@ object platformcheck:
       + s"Arch: $green${System.getProperty("os.arch")}$default\n"
       + s"Java version: $green${System.getProperty("java.version")}$default\n"
       + s"Java class version: $green${System.getProperty("java.class.version")}$default\n"
-      + s"FFmpeg support: ${convertBool(ffmpeg_installed)}\n"
-      + s"FFplay support: ${convertBool(ffplay_installed)}\n"
+      + s"FFmpeg installed: ${convertBool(ffmpeg_installed)}\n"
+      + s"FFplay installed: ${convertBool(ffplay_installed)}\n"
       + s"Video recording support: ${convertBool(recording_supported)}"
     clear()
     pressToContinue(text)
