@@ -13,21 +13,23 @@ private def mkOption(name: String, path: String): String =
 
 def listReplays(): String =
   val datadir = tui_chooseDataDir()
-  val replay_dirs = File(datadir).list().filter(x => x.contains("replay"))
-  val rdir =
-    if replay_dirs.length == 0 then
-      pressToContinue("No replay files have been found!")
-      ""
-    else if replay_dirs.length == 1 then replay_dirs(0)
-    else
-      val title = "The following replay directories were found\nChoose one"
-      chooseOption_astring(replay_dirs, title, "Cancel")
-  if rdir != "" then
-    val replays =
-      File(s"$datadir/$rdir").list()
-      .filter(x => x.contains(".rpy"))
-      .map(x => mkOption(x, s"$datadir/$rdir/$x"))
-    quickSort(replays)
-    val chosenreplay = chooseOption_array(replays, "The following replays have been found")
-    s"$datadir/$rdir/$chosenreplay"
+  if datadir != "" then
+    val replay_dirs = File(datadir).list().filter(x => x.contains("replay"))
+    val rdir =
+      if replay_dirs.length == 0 then
+        pressToContinue("No replay files have been found!")
+        ""
+      else if replay_dirs.length == 1 then replay_dirs(0)
+      else
+        val title = "The following replay directories were found\nChoose one"
+        chooseOption_astring(replay_dirs, title, "Cancel")
+    if rdir != "" then
+      val replays =
+        File(s"$datadir/$rdir").list()
+        .filter(x => x.contains(".rpy"))
+        .map(x => mkOption(x, s"$datadir/$rdir/$x"))
+      quickSort(replays)
+      val chosenreplay = chooseOption_array(replays, "The following replays have been found")
+      s"$datadir/$rdir/$chosenreplay"
+    else ""
   else ""
