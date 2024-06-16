@@ -64,7 +64,7 @@ object platformcheck:
   def printSystemInfo(title: String) =
     val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
 
-    def convertBool(b: Boolean): String = if true then s"${green}yes${default}" else s"${red}no${default}"
+    def convertBool(b: Boolean): String = if b then s"${green}yes${default}" else s"${red}no${default}"
 
     val text =
       s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
