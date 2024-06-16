@@ -59,12 +59,6 @@ private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = Lis
   else
     parseCommand(cmd, arg + cmd(i), cmdl, i+1)
 
-def steamRunEnabled(cfg: Seq[String]): Boolean =
-  if getFirstValue(cfg, "use_steam-run=") == "true" then
-    true
-  else
-    false
-
 def parseEntry(entry: String, e1: String = "", e2: String = "", i: Int = 0, first: Boolean = true): List[String] =
   if i >= entry.length then
     List(e1, e2)

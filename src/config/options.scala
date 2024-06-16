@@ -22,5 +22,9 @@ def getReturnClose(cfg: Seq[String]): Boolean =
   val toggle_str = getFirstValue(cfg, "return_closegame=").toLowerCase()
   if toggle_str == "yes" || toggle_str == "true" then true else false
 
+def steamRunEnabled(cfg: Seq[String]): Boolean =
+  val steamrun = getFirstValue(cfg, "use_steam-run=").toLowerCase()
+  steamrun == "true" || steamrun == "yes"
+
 def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
 def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
