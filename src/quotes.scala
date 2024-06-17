@@ -77,7 +77,10 @@ def getRandomQuote(): String =
     "\"Oh, I'm so lonely.\" ~ Kogasa Tatara, Touhou 12",
     "\"I want to create a world where humans and youkai live as equals.\" ~ Byakuren Hijiri, Touhou 12",
     "\"Better prepare myself for the worst.\" ~ Marisa Kirisame, Touhou 12",
-    "\"You poor thing... Live strong.\" ~ Doremy Sweet, Touhou 16.5"
+    "\"You poor thing... Live strong.\" ~ Doremy Sweet, Touhou 16.5",
+    "\"This won't result in a conversation. Is your brain rotten?\" ~ Marisa Kirisame, Touhou 13",
+    "\"Whaaaaat?!! I'm dyiiiiing!\" ~ Yoshika Miyako, Touhou 13",
+    "\"Yes, yes, we get it, you're already dead.\" ~ Youmu Konpaku, Touhou 13"
     )
   val i = round(random() * (quotes.length-1)).toInt
   quotes(i)

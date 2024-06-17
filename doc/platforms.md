@@ -1,6 +1,6 @@
 # Tanuki's platform support
 
-Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic and CPU-agnostic. But Touhou games are compiled for x86 CPUs, and so Tanuki as a WINE helper or Touhou launcher can only be useful for x86 machines.
+Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic and CPU-agnostic, but Touhou games are compiled for x86 CPUs, and so Tanuki as Touhou launcher can only be useful for x86 machines.
 
 ### Tanuki's software requirements
 
@@ -12,6 +12,7 @@ Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic 
 * DXVK (optional, for setting dxvk_framerate in Tanuki's configuration)
   * Tanuki does not configure DXVK for the user
 * steam-run (optional, for NixOS only and only if you run third-party wine binaries)
+* xdg-utils (optional, for opening directories and configs with your default desktop application) (not available for Windows or MacOS)
 
 Depending on the JAR you download, you either require Scala 3 to be in your system or just Java.
 
@@ -22,7 +23,7 @@ Depending on the JAR you download, you either require Scala 3 to be in your syst
 
 These operating systems are officially supported by me. If there's something wrong with them, please let me know, I'll look into the problem ASAP.
 
-On Windows, it's not recommended that you run Tanuki with the default terminal that comes with powershell, because it does not support ANSI escape codes, and so the interface don't work properly at all.
+On Windows, it's not recommended that you run Tanuki with the default terminal that comes with Powershell, because it does not support ANSI escape codes, and so the interface don't work properly at all.
 
 On FreeBSD, in order to view images and videos, you must build the FFmpeg port with SDL support enabled to have FFplay, the **FFmpeg binary pkg does not provide FFplay**!
 

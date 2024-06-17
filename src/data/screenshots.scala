@@ -42,9 +42,10 @@ def ssTemplate(game: String): Vector[Int] =
       Vector(49, 158, 545, 275)
     case "10-12" =>
       Vector(33, 150, 380, 271)
-    case "13" => Vector()
-    case "modernbubble" => Vector()
-    case "highres1" => Vector()
-    case "highres2" => Vector()
+    case "13" =>
+      Vector(21, 173, 409, 181)
+    case "14-18" =>
+      Vector(69, 277, 755, 338)
+    case "19" => Vector()
 
 //def guessThGame(): List[Int] =
