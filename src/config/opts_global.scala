@@ -5,11 +5,6 @@ import java.io.File
 import java.io.FileOutputStream
 import scala.io.Source
 
-def getGames(cfg: Seq[String]): List[String] = getValues(cfg, "game=")
-def getGames_cmd(cfg: Seq[String]): List[String] = getValues(cfg, "game_cmd=")
-//def getNativeGames(cfg: Seq[String]): List[String] = getValues(cfg, "native-game=")
-def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
-
 def getRunner(cfg: Seq[String]): String = getFirstValue(cfg, "runner=")
 def getWinePath(cfg: Seq[String]): String = getFirstValue(cfg, "wine=")
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
@@ -30,18 +25,6 @@ def steamRunEnabled(cfg: Seq[String]): Boolean =
 def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
 def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
 
-def gamecmd_getname(entry: String, name: String = "", i: Int = 0): String =
-  if i >= entry.length || entry(i) == ':' then name
-  else gamecmd_getname(entry, name + entry(i), i+1)
-
-def gamecmd_getcmd(entry: String, arg: String = "", cmd: Vector[String] = Vector(), i: Int = 0): Vector[String] =
-  if i >= entry.length then
-    if arg == "" then cmd else cmd :+ arg
-  else if entry(i) == ':' then
-    gamecmd_getcmd(entry, "", cmd :+ arg, i+1)
-  else
-    gamecmd_getcmd(entry, arg + entry(i), cmd, i+1)
-
 def get_screenshot_delay(cfg: Seq[String]): Int =
   val delay_str = getFirstValue(cfg, "screenshot_delay=")
   try delay_str.toInt
@@ -53,4 +36,4 @@ def get_screenshot_format(cfg: Seq[String]): String =
 
 def get_screenshot_path(cfg: Seq[String]): String =
   val path = getFirstValue(cfg, "screenshot_path=")
-  if path != "" && File(path).isDirectory() then path else "."
+  if path != "" && File(path).isDirectory() && File(path).canWrite() then path else "."

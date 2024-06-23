@@ -60,9 +60,11 @@ def tanukiss_takeScreenshot() =
     val ssfmt = get_screenshot_format(cfg)
     val ss_name = generate_name("tanuki-screenshot", ss_path, ssfmt)
     val fullpath = s"$ss_path/$ss_name.$ssfmt"
+    pressToContinue(ssfmt)
     val ss_args =
       ssfmt match
         case "avif" =>
+          setVideoEncoder("av1")
           av1_stillPicture()
           ++ av1_setDeadline("good")
           ++ av1_setcpu_used(6)
@@ -74,6 +76,10 @@ def tanukiss_takeScreenshot() =
     val capture_mode = if system_platform == 0 then "gdigrab" else "x11grab"
     val input = if system_platform == 0 then "" else "0.0"
 
+    if ssdelay > 0 then
+      println(s"Taking a screenshot in $ssdelay milliseconds")
+      Thread.sleep(ssdelay)
+    println("Capturing and saving screenshot...")
     val status = takeScreenshot(capture_mode, input, fullpath, args = ss_args)
     if status == 0 then pressToContinue(s"Screenshot successfully taken in $fullpath")
     else pressToContinue("Tanuki failed to take a screenshot!")

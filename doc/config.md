@@ -28,6 +28,12 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 
+* ```screenshot_format``` - The format to encode Tanuki screenshots into.
+  * Supported formats are `png`, `jpg` and `avif`
+* ```screenshot_delay``` - The delay (in milliseconds) for Tanuki to take a screenshot.
+* ```screenshot_path``` - The path to save Tanuki screenshots into.
+  * If the path doesn't point to a directory with write permissions, Tanuki's directory is chosen.
+
 #### WINE settings
 * ```wine``` - The path for the WINE build to launch games with
 * ```wine_prefix``` - Sets which directory to use as your WINE prefix
