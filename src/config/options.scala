@@ -41,3 +41,16 @@ def gamecmd_getcmd(entry: String, arg: String = "", cmd: Vector[String] = Vector
     gamecmd_getcmd(entry, "", cmd :+ arg, i+1)
   else
     gamecmd_getcmd(entry, arg + entry(i), cmd, i+1)
+
+def get_screenshot_delay(cfg: Seq[String]): Int =
+  val delay_str = getFirstValue(cfg, "screenshot_delay=")
+  try delay_str.toInt
+  catch case e: Exception => 0
+
+def get_screenshot_format(cfg: Seq[String]): String =
+  val fmt = getFirstValue(cfg, "screenshot_format=").toLowerCase()
+  if fmt == "jpg" || fmt == "avif" then fmt else "png"
+
+def get_screenshot_path(cfg: Seq[String]): String =
+  val path = getFirstValue(cfg, "screenshot_path=")
+  if path != "" && File(path).isDirectory() then path else "."
