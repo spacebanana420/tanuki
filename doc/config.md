@@ -6,16 +6,15 @@ You can configure this file from within the launcher, or you can manually write 
 
 Lines in the config file that start with "#" or don't start with an entry option are ignored.
 
-### Supported options:
-
-#### Entry settings
+### Entry settings
 * ```game``` - Add a Touhou game entry.
   * The path must lead to a file.
 * ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
   * The path must lead to a directory.
 * ```game_cmd``` - Command entry, as alternative to running game entries.
+  * Commands are not whitespace-safe, and using quotation marks doesn't make it safe.
 
-#### Global settings
+### Global settings
 * ```runner``` - Adds a command to launch all games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
@@ -29,12 +28,13 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 
 * ```screenshot_format``` - The format to encode Tanuki screenshots into.
-  * Supported formats are `png`, `jpg` and `avif`
+  * Supported formats are `png`, `jpg` and `avif`. Defaults to png.
 * ```screenshot_delay``` - The delay (in milliseconds) for Tanuki to take a screenshot.
+  * Disabled by default.
 * ```screenshot_path``` - The path to save Tanuki screenshots into.
   * If the path doesn't point to a directory with write permissions, Tanuki's directory is chosen.
 
-#### WINE settings
+### WINE settings
 * ```wine``` - The path for the WINE build to launch games with
 * ```wine_prefix``` - Sets which directory to use as your WINE prefix
   * The prefix directory must already exist

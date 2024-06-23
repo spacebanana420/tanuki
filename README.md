@@ -4,13 +4,11 @@
 <img src="images/leaf.png" width="120"/>
 </p>
 
-Tanuki Launcher is a cross-platform launcher for the Touhou Project games. It supports all games from Touhou 6 onwards. Tanuki can also be used to launch any game, not just Touhou games, and it has features worthy of a WINE helper.
+Tanuki Launcher is a cross-platform game launcher and WINE helper primarily made for the Touhou Project games. It supports all games from Touhou 6 onwards. Tanuki can also be used to launch any game, not just Touhou games, and it has an extra set of features, such as screen and audio recording, taking screenshots, Touhou scorefile backup, viewing and compressing Touhou screenshots, etc.
 
 <p align="center">
 <img src="images/tanuki.png" width="450"/>
 </p>
-
-Tanuki has many extra features, such as screen and audio recording, Touhou scorefile backup, viewing and compressing screenshots, etc.
 
 # Download
 
@@ -40,11 +38,11 @@ Tanuki's OS support extends to all operating systems with WINE support + Windows
 
 [Full configuration information](doc/config.md)
 
-To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
+To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where Tanuki is.
 
 You can configure this file from within the launcher, or you can manually write your config text file.
 
-The configuration also supports settings for command execution, etc.
+Many more settings are available in the configuration documentation.
 
 ### Config example:
 
