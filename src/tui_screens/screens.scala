@@ -20,37 +20,31 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.8.2\n\n${getRandomQuote()}"
-    val options = Vector("Play", "Play and record", "Record video", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
-//     val text = //revamp this with my new banantui instead
-//       s"$title\n\n"
-//       + s"${green}0:$default Exit"
-//       + s"\n\n${green}1:$default Play\n${green}2:$default Play and record"
-//       + s"\n${green}3:$default Record video"
-//       + s"\n${green}4:$default Manage Touhou data"
-//       + s"\n${green}5:$default View recorded footage"
-//       + s"\n\n${green}6:$default Configure Tanuki"
-//     val answer = readLoop(text, 9)
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9\n\n${getRandomQuote()}"
+    val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
         exit()
       case 1 =>
-        tui_play()
+        tui_play(title)
       case 2 =>
-        tui_play(true)
-      case 3 => //finish this
+        tui_play_record(title)
+      case 3 =>
+        launchCommand(title)
+      case 4 => //finish this
         if rec_isRecordingSupported() then
           recordGameplay(waitconfirm = false)
-      case 4 =>
-        tui_manageData(title)
       case 5 =>
+        tui_manageData(title)
+      case 6 =>
         if rec_configExists() then
           tui_movieMenu()
         else
           pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
-      case 6 =>
+      case 7 =>
         tui_configureTanuki(title)
-      case 7 => platformcheck.printSystemInfo(title)
+      case 8 =>
+        platformcheck.printSystemInfo(title)
 
 def tui_manageData(title: String): Unit =
   val opts =
@@ -104,39 +98,21 @@ def tui_noffplay(): Boolean =
   else
     false
 
-def tui_play(record: Boolean = false) =
-  def everythingOk(i: Int = 0): Boolean = //replace with rec_isRecordingSupported()
-    if i >= 3 then
-      true
-    else
-      val ok =
-        i match
-          case 0 => !tui_noffmpeg()
-          case 1 => rec_configExists()
-          case 2 => tui_supportedOS()
-
-      if ok then everythingOk(i+1)
-      else
-        if i == 1 then tui_recmissingconfig()
-        false
-
-  if record && everythingOk() then
-    val reccfg = rec_readConfig()
-    if rec_isConfigOk(reccfg) then
-      tui_play_generic(true, reccfg)
-    else
-      tui_recconfigerror()
-  else if !record then
-    tui_play_generic()
+def tui_play_record(title: String) =
+  val rec_cfg = rec_readConfig()
+  if rec_isRecordingSupported(rec_cfg) then
+    tui_play(title, true, rec_cfg)
+  else
+    tui_recconfigerror()
 
 
-private def tui_play_generic(record: Boolean = false, reccfg: Seq[String] = List()) =
+def tui_play(title: String, record: Boolean = false, reccfg: Seq[String] = List()) =
   val games = getGames(readConfig())
   if !tui_noentries(games) then
     val names = games.map(x => parseEntry(x)(0))
     val paths = games.map(x => parseEntry(x)(1))
 
-    val answer = chooseOption(names, s"Choose a game to play")
+    val answer = chooseOption(names, s"$title\n\nChoose a game to play")
     if answer != 0 then
       println(s"Launching ${names(answer-1)}\n\nGirls are now praying, please wait warmly...")
 
@@ -149,6 +125,7 @@ def tui_chooseDataDir(manualdata: List[String] = List()): String =
       getDatas(readConfig())
     else
       manualdata
+
   val names = datas.map(x => parseEntry(x)(0))
   val paths = datas.map(x => parseEntry(x)(1))
 

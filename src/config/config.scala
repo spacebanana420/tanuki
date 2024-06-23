@@ -11,9 +11,10 @@ def configExists(): Boolean = File("config.txt").exists()
 def readConfig(): Vector[String] =
   val settings =
     Vector(
-    "game=", "data=", "wine=", "command=", "use_steam-run=",
+    "game=", "game_cmd=", "data=", "wine=", "command=", "use_steam-run=",
     "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=",
-    "dxvk_framerate=", "wine_prefix=", "return_closegame="
+    "dxvk_framerate=", "wine_prefix=", "return_closegame=",
+    "screenshot_delay="
     )
   val src = Source.fromFile("config.txt")
   val cfg = src
@@ -51,7 +52,7 @@ private def getFirstValue(cfg: Seq[String], setting: String, i: Int = 0): String
     else
       getFirstValue(cfg, setting, i+1)
 
-private def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = List(), i: Int = 0): List[String] =
+def parseCommand(cmd: String, arg: String = "", cmdl: List[String] = List(), i: Int = 0): List[String] =
   if i >= cmd.length then
     if arg == "" then cmdl else cmdl :+ arg
   else if cmd(i) == ' ' then

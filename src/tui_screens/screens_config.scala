@@ -31,10 +31,16 @@ def tui_configure(overwrite: Boolean) =
     val path = readUserInput("Type the full path to your game's executable")
     s"game=$name:$path"
 
+
   def addData(): String =
-    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10 replays)")
-    val path = readUserInput("Type the full path to your game's executable")
+    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
+    val path = readUserInput("Type the full path to the directory")
     s"data=$name:$path"
+
+  def addGamecmd(): String =
+    val name = readUserInput("Type the name of your game entry to add (for example: Open Github)")
+    val path = readUserInput("Type the command (for example: firefox https://github.com)")
+    s"game_cmd=$name:$path"
 
   def askSteamRun(): Boolean =
     if File("/nix/store").isDirectory() then
@@ -55,7 +61,7 @@ def tui_configure(overwrite: Boolean) =
 
   def menu(cfg_settings: Vector[String] = Vector()): Vector[String] =
     val default_opt = if cfg_settings.length == 0 then "Cancel" else "Done"
-    val choice = chooseOption(Vector("Game", "Data"),s"Choose the entry type to add", default_opt)
+    val choice = chooseOption(Vector("Game", "Data", "Command"),s"Choose the entry type to add", default_opt)
     choice match
       case 0 =>
         cfg_settings
@@ -63,6 +69,8 @@ def tui_configure(overwrite: Boolean) =
         menu(cfg_settings :+ addGame())
       case 2 =>
         menu(cfg_settings :+ addData())
+      case 3 =>
+        menu(cfg_settings :+ addGamecmd())
       case _ =>
         menu(cfg_settings)
 

@@ -84,25 +84,6 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   if cmd_close.length != 0 then
     cmd_close.run(ProcessLogger(line => ()))
   if close_on_return then game.destroy()
-
-// private def standbyInput(): Boolean =
-//   val record_ready =
-//     ffmpeg_installed
-//     && recording_supported
-//     && rec_configExists()
-//     && rec_isConfigOk()
-
-//   val ans =
-//     if record_ready then
-//       readUserInput("\nPress enter to return to the main menu\nOr press R + enter to start recording")
-//     else readUserInput("\nPress enter to return to the main menu")
-
-//   if !record_ready then
-//     false
-//   else if ans == "r" || ans == "R" then
-//     true
-//   else
-//     false
   
 def recordGameplay(cfg: Seq[String] = List(), gamename: String = "", waitconfirm: Boolean = true) =
   val captureargs = rec_getCaptureArgs(cfg)

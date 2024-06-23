@@ -66,6 +66,8 @@ object platformcheck:
     catch
       case e: Exception => false
 
+  def wineVersion(path: String): String = Vector(path, "--version").!!
+
   def check() =
     var peg_done = false; var play_done = false; var wine_done = false
     Future {

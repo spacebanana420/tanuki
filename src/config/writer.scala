@@ -7,7 +7,7 @@ import java.io.FileOutputStream
 def createConfig() = 
   val config = FileOutputStream("config.txt")
   if system_platform == 1 || system_platform == 2 then
-    config.write("command=wine".getBytes())
+    config.write("wine=wine".getBytes())
 
 def writeConfig(cfg: Seq[String], append: Boolean = true) =
   def createStr(str: String = "", i: Int = 0): String =

@@ -6,7 +6,7 @@ import tanuki.misc.similarInList
 
 import java.io.File
 
-def rec_isRecordingSupported(): Boolean = //this is a mess, rework this later
+def rec_isRecordingSupported(cfg: Seq[String] = Vector()): Boolean = //this is a mess, rework this later
   def everythingOk(i: Int = 0): Boolean =
     if i >= 3 then
       true
@@ -22,12 +22,12 @@ def rec_isRecordingSupported(): Boolean = //this is a mess, rework this later
         if i == 1 then tui_recmissingconfig()
         false
 
-  if everythingOk() && rec_isConfigOk() then
+  if rec_isConfigOk(cfg) && everythingOk() then
     true
   else
     false
 
-def rec_isConfigOk(config: Seq[String] = List()): Boolean =
+def rec_isConfigOk(config: Seq[String] = Vector()): Boolean =
   val cfg =
     if config.length == 0 then
       rec_readConfig()
