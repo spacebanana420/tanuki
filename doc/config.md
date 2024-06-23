@@ -16,7 +16,7 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```game_cmd``` - Command entry, as alternative to running game entries.
 
 #### Global settings
-* ```command``` - Add a command entry to use a program to launch the games with.
+* ```runner``` - Adds a command to launch all games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
 * ```sidecommand_start``` - Command that runs before launching a game.

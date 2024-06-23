@@ -11,7 +11,7 @@ def configExists(): Boolean = File("config.txt").exists()
 def readConfig(): Vector[String] =
   val settings =
     Vector(
-    "game=", "game_cmd=", "data=", "wine=", "command=", "use_steam-run=",
+    "game=", "game_cmd=", "data=", "wine=", "runner=", "use_steam-run=",
     "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=",
     "dxvk_framerate=", "wine_prefix=", "return_closegame=",
     "screenshot_delay="

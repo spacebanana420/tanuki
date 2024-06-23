@@ -10,7 +10,7 @@ def getGames_cmd(cfg: Seq[String]): List[String] = getValues(cfg, "game_cmd=")
 //def getNativeGames(cfg: Seq[String]): List[String] = getValues(cfg, "native-game=")
 def getDatas(cfg: Seq[String]): List[String] = getValues(cfg, "data=")
 
-def getCommand(cfg: Seq[String]): String = getFirstValue(cfg, "command=")
+def getRunner(cfg: Seq[String]): String = getFirstValue(cfg, "runner=")
 def getWinePath(cfg: Seq[String]): String = getFirstValue(cfg, "wine=")
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 
