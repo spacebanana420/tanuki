@@ -60,7 +60,6 @@ def tanukiss_takeScreenshot() =
     val ssfmt = get_screenshot_format(cfg)
     val ss_name = generate_name("tanuki-screenshot", ss_path, ssfmt)
     val fullpath = s"$ss_path/$ss_name.$ssfmt"
-    pressToContinue(ssfmt)
     val ss_args =
       ssfmt match
         case "avif" =>
