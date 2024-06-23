@@ -8,11 +8,14 @@ Lines in the config file that start with "#" or don't start with an entry option
 
 ### Supported options:
 
-#### General settings
+#### Entry settings
 * ```game``` - Add a Touhou game entry.
   * The path must lead to a file.
 * ```data``` - Add a data entry, for where your screenshots, replays, scorefiles, etc are.
   * The path must lead to a directory.
+* ```game_cmd``` - Command entry, as alternative to running game entries.
+
+#### Global settings
 * ```command``` - Add a command entry to use a program to launch the games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.

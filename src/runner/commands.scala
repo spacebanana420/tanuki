@@ -11,10 +11,12 @@ private def getcommand(line: String, name: String): List[String] =
 
 def launchCommand(title: String) =
   val entries = getGames_cmd(readConfig())
-  if !tui_noentries(entries) then //replace the noentries with a command-specific one
+  if !tui_noentries(entries) then
     val names = entries.map(x => gamecmd_getname(x))
 
     val answer = chooseOption(names, s"$title\n\nChoose a command to run")
     if answer != 0 then
-      val cmd = getcommand(entries(answer-1), names(answer-1))
-      cmd.run(ProcessLogger(line => ()))
+      try
+        val cmd = getcommand(entries(answer-1), names(answer-1))
+        cmd.run(ProcessLogger(line => ()))
+      catch case e: Exception => pressToContinue("There was an error running the command!")

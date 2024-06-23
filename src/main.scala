@@ -82,7 +82,7 @@ object platformcheck:
       wine_installed = checkWINE()
       wine_done = true
     }
-    while !peg_done || !play_done || !wine_done do Thread.sleep(10)
+    while !peg_done || !play_done || !wine_done do Thread.sleep(2)
 
   def printSystemInfo(title: String) =
     val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
