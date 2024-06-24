@@ -15,7 +15,18 @@ hwaccel: String = "", quiet: Boolean = true, exec: String = "ffmpeg"): Int =
   catch
     case e: Exception => -1
 
-def takeScreenshot(mode: String, i: String, output: String, showmouse: Boolean = false,
+def takeScreenshot(
+output: String, captureargs: List[String], args: List[String] = List(),
+filters: List[String] = List(), quiet: Boolean = true, exec: String = "ffmpeg"): Int =
+  val filter_args = mkFilterArgs(filters)
+  val base = getBaseArgs(exec, quiet)
+  try
+    val cmd: List[String] = base ++ captureargs ++ List("-frames:v", "1") ++ args ++ filter_args :+ output
+    cmd.!<
+  catch
+    case e: Exception => -1
+
+def takeScreenshot_auto(mode: String, i: String, output: String, showmouse: Boolean = false,
 args: List[String] = List(), filters: List[String] = List(),
 quiet: Boolean = true, exec: String = "ffmpeg"): Int =
   val path =
@@ -37,6 +48,7 @@ quiet: Boolean = true, exec: String = "ffmpeg"): Int =
 
   val arg_base = getBaseArgs(exec, quiet)
   val filter_args = mkFilterArgs(filters)
+
   val cmd: List[String] =
       arg_base ++ arg_mode ++ arg_mouse ++ processDesktopInput(i, mode) ++ List("-frames:v", "1") ++ args ++ filter_args :+ path
   try cmd.!

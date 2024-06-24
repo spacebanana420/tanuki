@@ -79,6 +79,6 @@ def tanukiss_takeScreenshot() =
       println(s"Taking a screenshot in $ssdelay milliseconds")
       Thread.sleep(ssdelay)
     println("Capturing and saving screenshot...")
-    val status = takeScreenshot(capture_mode, input, fullpath, args = ss_args)
+    val status = takeScreenshot_auto(capture_mode, input, fullpath, args = ss_args)
     if status == 0 then pressToContinue(s"Screenshot successfully taken in $fullpath")
     else pressToContinue("Tanuki failed to take a screenshot!")
