@@ -20,7 +20,7 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9.2\n\n${getRandomQuote()}"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9.1\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Take Screenshot", "View Screenshots\n", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
