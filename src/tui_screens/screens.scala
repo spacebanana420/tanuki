@@ -20,8 +20,8 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9\n\n${getRandomQuote()}"
-    val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Take Screenshot\n", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9.1\n\n${getRandomQuote()}"
+    val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Take Screenshot", "View Screenshots\n", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
         exit()
@@ -37,15 +37,18 @@ def tui_title() =
       case 5 =>
         tanukiss_takeScreenshot()
       case 6 =>
-        tui_manageData(title)
+        if !ffplay_installed then pressToContinue("You require FFplay to be installed to view your screenshots from Tanuki!")
+        else tanukiss_viewScreenshots(title)
       case 7 =>
+        tui_manageData(title)
+      case 8 =>
         if rec_configExists() then
           tui_movieMenu()
         else
           pressToContinue("The file video_config.txt was not found!\nYou need it to watch your recorded footage!")
-      case 8 =>
-        tui_configureTanuki(title)
       case 9 =>
+        tui_configureTanuki(title)
+      case 10 =>
         platformcheck.printSystemInfo(title)
 
 def tui_manageData(title: String): Unit =

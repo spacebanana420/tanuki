@@ -2,8 +2,9 @@ package tanuki.runner
 
 import tanuki.{ffmpeg_path, ffplay_path, system_platform, recording_supported, ffmpeg_installed}
 import tanuki.config.*
-import bananatui.pressToContinue
+import bananatui.*
 import ffscala.capture.*, ffscala.*
+import scala.util.Sorting.quickSort
 
 import java.io.File
 import scala.sys.process.*
@@ -82,3 +83,23 @@ def tanukiss_takeScreenshot() =
     val status = takeScreenshot_auto(capture_mode, input, fullpath, args = ss_args)
     if status == 0 then pressToContinue(s"Screenshot successfully taken in $fullpath")
     else pressToContinue("Tanuki failed to take a screenshot!")
+
+def tanukiss_viewScreenshots(title: String): Unit =
+  def isImage(name: String): Boolean =
+    if name.contains(".png") || name.contains(".avif") || name.contains(".jpg") then true
+    else false
+
+  val cfg = readConfig()
+  val ss_path = get_screenshot_path(cfg)
+  val screenshots =
+    File(ss_path).list()
+    .filter(x => File(s"$ss_path/$x").isFile() && isImage(x))
+  if screenshots.length == 0 then pressToContinue(s"No screenshots have been found in $ss_path!")
+  else
+    quickSort(screenshots)
+    val image = chooseOption_hs(screenshots.toVector, 2, s"$title\n\nChoose a screenshot\nYou can toggle fullscreen by pressing F in the image viewer and you can quit by pressing ESC or Q\n") //remove toVector later
+    if image != "" then
+      execplay(s"$ss_path/$image", setWindowTitle("Tanuki Screenshot"))
+      tanukiss_viewScreenshots(title)
+
+
