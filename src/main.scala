@@ -98,7 +98,7 @@ object platformcheck:
       + s"FFmpeg installed: ${convertBool(ffmpeg_installed)}\n"
       + s"FFplay installed: ${convertBool(ffplay_installed)}\n"
       + s"WINE enabled: ${convertBool(wine_installed)}\n"
-      + s"Screenshot support: ${convertBool(recording_supported)}"
+      + s"Screenshot support: ${convertBool(recording_supported)}\n"
       + s"Video recording support: $rec_str"
     clear()
     pressToContinue(text)
