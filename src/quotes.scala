@@ -10,10 +10,12 @@ def getRandomQuote(): String =
     // Touhou 7
     "\"The dead do not speak.\" ~ Sakuya Izayoi, Touhou 7",
     "\"What the hell am I doing here?\" ~ Marisa Kirisame, Touhou 7",
+    "\"Ahh, it's getting a lot warmer.\" ~ Marisa Kirisame, Touhou 7",
     "\"Shut up, deceased one.\" ~ Sakuya Izayoi, Touhou 7",
     "\"Why not get put to sleep at an animal shelter?\" ~ Sakuya Izayoi, Touhou 7",
     "\"Anyways, have you seen a cat around these parts, by any chance?\" ~ Ran Yakumo, Touhou 7",
     "\"Ah, so you're the human who gave Chen a hard time?\" ~ Ran Yakumo, Touhou 7",
+    "\"...sob sob...\" ~ Ran Yakumo, Touhou 7",
     "\"Preparations are fun? You're a weirdo.\" ~ Marisa Kirisame, Touhou 7",
     
     // Touhou 8
@@ -95,6 +97,7 @@ def getRandomQuote(): String =
     
     // Touhou 17
     "\"Do you want me to arrange a visit to the Netherworld for you?\" ~ Youmu Konpaku, Touhou 17",
+    "\"Fu fu fu.\" ~ Keiki Haniyasushin, Touhou 17",
     
     // Touhou 18
     "\"Oh, I'm so sorry. I forgot.\" ~ Chimata Tenkyuu, Touhou 18",
