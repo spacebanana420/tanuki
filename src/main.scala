@@ -89,10 +89,12 @@ object platformcheck:
     while !peg_done || !play_done || !wine_done || !windows_done do Thread.sleep(2)
 
   def printSystemInfo(title: String) =
-    val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
+    val green = foreground("green"); val yellow = foreground("yellow"); val red = foreground("red"); val default = foreground("default")
 
     def convertBool(b: Boolean): String = if b then s"${green}yes${default}" else s"${red}no${default}"
+    def colorify(s: String, color: String): String = s"$color$s$default"
 
+    val rec_str = if system_platform == 0 then colorify("Experimental", yellow) else convertBool(recording_supported)
     val text =
       s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
       + s"Arch: $green${System.getProperty("os.arch")}$default\n"
@@ -101,7 +103,7 @@ object platformcheck:
       + s"FFmpeg installed: ${convertBool(ffmpeg_installed)}\n"
       + s"FFplay installed: ${convertBool(ffplay_installed)}\n"
       + s"WINE enabled: ${convertBool(wine_installed)}\n"
-      + s"Video recording support: ${convertBool(recording_supported)}"
+      + s"Video recording support: $rec_str"
     clear()
     pressToContinue(text)
 
