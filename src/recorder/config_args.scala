@@ -16,14 +16,14 @@ def rec_getCaptureArgs(config: Seq[String] = List()): List[String] =
   val acapture = rec_getacapture(cfg)
 
   val vcapture_args =
-    if vcapture(0) == "dshow" then
-      capture_dshow_v(vcapture(1), vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toInt)
+    if vcapture(0) == "gdigrab" then
+      capture_windows_v(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt)
     else
       capture_x11(vcapture(1).toInt, vcapture(2).toInt, vcapture(3).toInt, vcapture(4).toBoolean)
   val acapture_args =
     acapture(0) match
       case "dshow" =>
-        capture_dshow_a(acapture(1))
+        capture_windows_a(acapture(1))
       case "pulse" =>
         capture_pulse(acapture(1))
       case _ =>

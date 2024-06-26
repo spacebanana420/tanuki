@@ -3,25 +3,13 @@ package tanuki.recorder
 import ffscala.*
 import ffscala.capture.*
 
-// def supportedCodecs(): List[String] =
-//   List
-//     (
-//     "x264", "utvideo", "cfhd", "mjpeg"
-//     )
-//
-// def supportedColor(): List[String] =
-//   List
-//     (
-//     "rgb24", "yuv420p", "yuv422p", "yuv444p"
-//     )
-
 /////VIDEO/////
 
 def video_setx264(preset: String, crf: Byte, pixfmt: String): List[String] =
   setVideoEncoder("x264") ++ x264_setPreset(preset) ++ setCRF(crf) ++ setPixFmt(pixfmt)
 
 def video_setx264rgb(preset: String, crf: Byte): List[String] =
-  setVideoEncoder("x264rgb") ++ x264_setPreset(preset) ++ setCRF(crf) //++ setPixFmt("rgb24")
+  setVideoEncoder("x264rgb") ++ x264_setPreset(preset) ++ setCRF(crf)
 
 def video_setQSV(preset: String, bitrate: Int): List[String] =
   setVideoEncoder("qsv") ++ qsv_setPreset(preset) ++ setVideoBitrate(bitrate) ++ setPixFmt("nv12")
@@ -69,7 +57,7 @@ def audio_setaac(bitrate: Int): List[String] =
 
 /////CAPTURE/////
 
-def getSources_dshow_v(): List[String] = listSources("dshow_video")
+// def getSources_dshow_v(): List[String] = listSources("dshow_video")
 
 def getSources_pulse(): List[String] = listSources("pulse")
 
@@ -83,10 +71,10 @@ def capture_x11(w: Int, h: Int, fps: Int, safemode: Boolean): List[String] =
   else
     x11grab_captureVideo("0.0", fps, false, width = w, height = h)
 
-def capture_dshow_v(input: String, w: Int, h: Int, fps: Int): List[String] =
-  dshow_captureVideo(input, fps, w, h)
+def capture_windows_v(w: Int, h: Int, fps: Int): List[String] =
+  gdigrab_captureVideo(fps, width = w, height = h)
 
-def capture_dshow_a(input: String): List[String] =
+def capture_windows_a(input: String): List[String] =
   dshow_captureAudio(input, 48000, 2, 24) //improve on ffscala
 
 def capture_pulse(input: String): List[String] = captureAudio("pulse", input)

@@ -102,9 +102,9 @@ private def vcapture_ok(cfg: Seq[String]): Boolean =
       case "x11grab" =>
         vcapture(1).toInt; vcapture(2).toInt; vcapture(3).toInt; vcapture(4).toBoolean
         if vcapture.length == 5 then true else false
-      case "dshow" =>
-        vcapture(2).toInt; vcapture(3).toInt; vcapture(4).toInt
-        if vcapture.length == 5 then true else false
+      case "gdigrab" =>
+        vcapture(1).toInt; vcapture(2).toInt; vcapture(3).toInt
+        if vcapture.length == 4 then true else false
       case _ => false
   catch
     case e: Exception => false

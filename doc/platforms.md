@@ -19,19 +19,21 @@ Depending on the JAR you download, you either require Scala 3 to be in your syst
 ### Officially supported systems
 * Linux-based systems
 * FreeBSD
-* Windows
 
 These operating systems are officially supported by me. If there's something wrong with them, please let me know, I'll look into the problem ASAP.
-
-On Windows, it's not recommended that you run Tanuki with the default terminal that comes with Powershell, because it does not support ANSI escape codes, and so the interface don't work properly at all.
 
 On FreeBSD, in order to view images and videos, you must build the FFmpeg port with SDL support enabled to have FFplay, the **FFmpeg binary pkg does not provide FFplay**!
 
 ### Theoretically/partially supported systems
+* Windows
 * MacOS
 * NetBSD
+* OpenBSD
+* Other *BSDs, unixes and the sorts
 
-I don't guarantee support on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE.
+I don't guarantee support on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE (except Windows).
+
+On Windows, it's not recommended that you run Tanuki with the default terminal that comes with Powershell, because it does not support ANSI escape codes, and so the interface don't work properly at all.
 
 More information on video recording support can be seen in the [recorder documentation](recorder.md).
 

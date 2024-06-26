@@ -21,7 +21,7 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9.3\n\n${getRandomQuote()}"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9.2\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "View Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
@@ -72,9 +72,9 @@ def tui_manageData(title: String): Unit =
 def tui_configureTanuki(title: String): Unit =
   val opts =
     if xdg_supported(system_platform) then
-      Vector("Configure Games and Runners", "Configure Video Recording", "Open Tanuki Configuration", "Open Video Configuration")
+      Vector("Configure Tanuki", "Configure Video Recording", "Open Tanuki Configuration", "Open Video Configuration")
     else
-      Vector("Configure Games and Runners", "Configure Video Recording")
+      Vector("Configure Tanuki", "Configure Video Recording")
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
     choice match

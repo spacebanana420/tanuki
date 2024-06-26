@@ -26,24 +26,23 @@ def tui_noentries(entries: Seq[String]): Boolean =
   else
     false
 
-def tui_configure(overwrite: Boolean) =
-  def addGame(): String =
+private def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
     val path = readUserInput("Type the path to your game's executable")
     s"game=$name:$path"
 
 
-  def addData(): String =
+private def addData(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10 data)")
     val path = readUserInput("Type the path to the directory")
     s"data=$name:$path"
 
-  def addGamecmd(): String =
+private def addGamecmd(): String =
     val name = readUserInput("Type the name of your command entry to add (for example: Open Github)")
     val path = readUserInput("Type the command (for example: firefox https://github.com)")
     s"game_cmd=$name:$path"
 
-  def askSteamRun(): Boolean =
+private def askSteamRun(): Boolean =
     if File("/nix/store").isDirectory() then
       val usesteamrun = askPrompt(s"It seems you are using NixOS\nIf you are running a custom third party wine build, it might not work out of the box\nWould you like to enable the use of steam-run to fix this?")
       if usesteamrun then
@@ -53,6 +52,26 @@ def tui_configure(overwrite: Boolean) =
     else
       false
 
+private def configureSS(): String =
+  val fmts = Vector("png", "jpg", "avif")
+  val f = chooseOption_string(fmts, "Choose an image format", "Default (png)")
+  val format = if f == "" then "png" else f
+  val delay = readInt("Type the delay to take screenshots in milliseconds or type 0 to disable")
+  val path = chooseOption_dir("Type the path to store your screenshots or leave it blank to use Tanuki's directory")
+
+  val opt1 = s"screenshot_format=$format"
+  val opt2 = if delay > 0 then s"\nscreenshot_delay=$delay" else ""
+  val opt3 = s"\nscreenshot_path=$path"
+  s"$opt1$opt2$opt3" //improve later
+
+private def configureFFmpeg(): String =
+  val ffmpeg_path = readUserInput("Type the path to FFmpeg or leave it blank to use the system FFmpeg")
+  val ffplay_path = readUserInput("Type the path to FFplay or leave it blank to use the system FFmpeg")
+  val arg_peg = if ffmpeg_path == "" then "" else s"ffmpeg_path=$ffmpeg_path"
+  val arg_play = if ffplay_path == "" then "" else s"ffplay_path=$ffplay_path"
+  if ffmpeg_path != "" && ffplay_path != "" then s"$arg_peg\n$arg_play" else s"$arg_peg$arg_play"
+
+def tui_configure(overwrite: Boolean) =
   def makeOption(title: String, setting: String): String =
     val ans = readUserInput(title)
     if ans != "" then
@@ -60,28 +79,33 @@ def tui_configure(overwrite: Boolean) =
     else
       ""
 
-  def menu(cfg_settings: Vector[String] = Vector()): Vector[String] =
+  def menu(cfg_settings: Vector[String] = Vector(), screenshot: String = "", ffmpeg: String = ""): Vector[String] =
     val default_opt = if cfg_settings.length == 0 then "Cancel" else "Done"
-    val choice = chooseOption(Vector("Game", "Data", "Command"),s"Choose the entry type to add", default_opt)
+    val opts = Vector("Add game entry", "Add data entry", "Add command entry", "Configure Tanuki's screenshotter", "Configure FFmpeg/FFplay")
+
+    val choice = chooseOption(opts, s"Choose what to configure", default_opt)
     choice match
       case 0 =>
-        cfg_settings
+        cfg_settings :+ screenshot :+ ffmpeg
       case 1 =>
-        menu(cfg_settings :+ addGame())
+        menu(cfg_settings :+ addGame(), screenshot, ffmpeg)
       case 2 =>
-        menu(cfg_settings :+ addData())
+        menu(cfg_settings :+ addData(), screenshot, ffmpeg)
       case 3 =>
-        menu(cfg_settings :+ addGamecmd())
+        menu(cfg_settings :+ addGamecmd(), screenshot, ffmpeg)
+      case 4 =>
+        menu(cfg_settings, configureSS(), ffmpeg)
+      case 5 =>
+        menu(cfg_settings, screenshot, configureFFmpeg())
       case _ =>
         menu(cfg_settings)
 
   val cfg = menu()
   if cfg.length != 0 then
     val fullcfg =
-      if overwrite then
         val command =
           val title = "Type the command/program to launch your native games with or leave it blank to disable"
-          makeOption(title, "command")
+          makeOption(title, "runner")
 
         val wine =
           if system_platform != Platform.Windows then
@@ -101,7 +125,13 @@ def tui_configure(overwrite: Boolean) =
           Vector(command, wine, startcmd, closecmd, "use_steam-run=true") ++ cfg
         else
           Vector(command, wine, startcmd, closecmd) ++ cfg
-      else
-        cfg
 //     val overwrite = askPrompt("Would you like to overwrite the old configuration?")
-    writeConfig(fullcfg, overwrite)
+    if overwrite then
+      writeConfig(fullcfg, false)
+    else
+      val cfg = readConfig()
+      val keep_games = getGames(cfg).map(x => s"game=$x") :+ "\n"
+      val keep_datas = getGames_cmd(cfg).map(x => s"game_cmd=$x") :+ "\n"
+      val keep_cmds = getDatas(cfg).map(x => s"data=$x") :+ "\n"
+      writeConfig(keep_games ++ keep_datas ++ keep_cmds ++ fullcfg, false)
+    pressToContinue("Configuration finished!")

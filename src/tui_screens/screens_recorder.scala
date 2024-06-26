@@ -49,7 +49,7 @@ def tui_configureRecording() =
       tui_x264Setup()
   val vcapture =
     if system_platform == Platform.Windows then
-      tui_dshowSetup_video()
+      tui_windowsSetup_video()
     else
       tui_x11Setup()
   val ans_ac = chooseOption(acodecs, s"Choose an audio encoder\n\n", s"Default (pcm)")
@@ -267,19 +267,14 @@ def tui_ossSetup(): List[String] = //merge with the one above
     else sources(ans-1)
   List("oss", input)
  
-def tui_dshowSetup_video(): List[String] =
+def tui_windowsSetup_video(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
-  val sources = getSources_dshow_v()
 
-  val ans = chooseOption(sources, s"${title}Choose the video input source to use", s"Default (${sources(0)})")
   val w = readInt(s"${title}Input the capture resolution's width")
   val h = readInt(s"${title}Input the capture resolution's height")
   val fps = readInt(s"${title}Input the capture resolution's framerate")
 
-  val input =
-    if ans == 0 then sources(0)
-    else sources(ans-1)
-  List("dshow", input, w.toString, h.toString, fps.toString)
+  List("gdigrab", w.toString, h.toString, fps.toString)
 
 def tui_dshowSetup_audio(): List[String] =
   val title = s"$green[Video capture]$default\n\n"
