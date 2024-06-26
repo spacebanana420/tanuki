@@ -17,13 +17,20 @@ def rec_readConfig(): Vector[String] =
     "vcodec=", "acodec=", "vcapture=", "acapture=",
     "crop=", "scale=", "loudnorm="
     )
-  val src = Source.fromFile("video_config.txt")
-  val cfg = src
-    .getLines()
-    .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
-    .toVector
-  src.close()
-  cfg
+  
+  val fileExist = File("video_config.txt").isFile()
+
+  if(fileExist == true) then
+    val src = Source.fromFile("video_config.txt")
+    
+    val cfg = src
+      .getLines()
+      .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
+      .toVector
+    src.close()
+    cfg
+  else
+    Vector()
 
 private def find(cfg: Seq[String], setting: String, i: Int = 0): Int =
   def startsWith(line: String, tmp: String = "", i: Int = 0): Boolean =

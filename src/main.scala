@@ -17,7 +17,7 @@ var ffmpeg_installed = false
 var ffplay_installed = false //handled by platformcheck
 
 val system_platform = platformcheck.getPlatform()
-val recording_supported = system_platform != Platform.MacOS
+var recording_supported = system_platform != Platform.MacOS
 
 @main def main() =
   platformcheck.check()
