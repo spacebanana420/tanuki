@@ -98,7 +98,7 @@ object platformcheck:
     def convertBool(b: Boolean): String = if b then s"${green}yes${default}" else s"${red}no${default}"
     def colorify(s: String, color: String): String = s"$color$s$default"
 
-    val rec_str = if system_platform == 0 then colorify("Experimental", yellow) else convertBool(recording_supported)
+    val rec_str = if system_platform == Platform.Windows then colorify("Experimental", yellow) else convertBool(recording_supported)
     val text =
       s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
       + s"Arch: $green${System.getProperty("os.arch")}$default\n"
