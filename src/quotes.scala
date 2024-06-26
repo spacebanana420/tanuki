@@ -4,9 +4,9 @@ import scala.math.{random, round}
 def getRandomQuote(): String =
   val quotes =
     Vector(
-	// Touhou 6
-	"\"How cold of you.\" ~ Marisa Kirisame, Touhou 6",
-	
+    // Touhou 6
+    "\"How cold of you.\" ~ Marisa Kirisame, Touhou 6",
+    
     // Touhou 7
     "\"The dead do not speak.\" ~ Sakuya Izayoi, Touhou 7",
     "\"What the hell am I doing here?\" ~ Marisa Kirisame, Touhou 7",
@@ -15,13 +15,13 @@ def getRandomQuote(): String =
     "\"Anyways, have you seen a cat around these parts, by any chance?\" ~ Ran Yakumo, Touhou 7",
     "\"Ah, so you're the human who gave Chen a hard time?\" ~ Ran Yakumo, Touhou 7",
     "\"Preparations are fun? You're a weirdo.\" ~ Marisa Kirisame, Touhou 7",
-	
-	// Touhou 8
-	"\"My god, jelly donuts are so scary.\" ~ Fujiwara no Mokou, Touhou 8",
+    
+    // Touhou 8
+    "\"My god, jelly donuts are so scary.\" ~ Fujiwara no Mokou, Touhou 8",
     "\"Now, bitch, get out of the way!\" ~ Marisa Kirisame, Touhou 8",
-	
-	// Touhou 9
-	"\"Well, I'm alive.\" ~ Marisa Kirisame, Touhou 9",
+    
+    // Touhou 9
+    "\"Well, I'm alive.\" ~ Marisa Kirisame, Touhou 9",
     "\"I don't intend to tell lies.\" ~ Marisa Kirisame, Touhou 9",
     "\"Are there any fools who want to commit suicide~?\" ~ Komachi Onozuka, Touhou 9 ",
     "\"Well, it'll eventually get better.\" ~ Komachi Onozuka, Touhou 9",
@@ -36,18 +36,18 @@ def getRandomQuote(): String =
     "\"You're so loud in the morning.\" ~ Cirno, Touhou 9",
     "\"Go do your work! Stop slacking off all the time!\" ~ Reimu Hakurei, Touhou 9",
     "\"I'm sorry! I won't do it anymore. I'll seriously work, so~!\" ~ Komachi Onozuka, Touhou 9",
-	
-	// Touhou 9  (Spell card message)
+    
+    // Touhou 9  (Spell card message)
     "\"Heaven knows, Earth knows. I know, you know.\" ~ Shiki Eiki's spell card message, Touhou 9",
     "\"Go with the flow.\" ~ Reimu's spell card message, Touhou 9",
     "\"Sing your heart out.\" ~ Mystia Lorelei's spell card message, Touhou 9",
     "\"Happiness and misfortune come together.\" ~ Yuuka's spell card message, Touhou 9",
     "\"Dying is loss in death, living is profit in life.\" ~ Komachi's spell card message, Touhou 9",
-	
-	// Touhou 10
+    
+    // Touhou 10
     "\"Ayayayaya...\" ~ Aya Shameimaru, Touhou 10",
-	
-	// Touhou 12
+    
+    // Touhou 12
     "\"Boo!\" ~ Kogasa Tatara, Touhou 12",
     "\"Of course, I'm a god.\" ~ Sanae Kochiya, Touhou 12",
     "\"Ah! The mouse! I see you're still alive!\" ~ Sanae Kochiya, Touhou 12",
@@ -55,9 +55,9 @@ def getRandomQuote(): String =
     "\"Oh, I'm so lonely.\" ~ Kogasa Tatara, Touhou 12",
     "\"I want to create a world where humans and youkai live as equals.\" ~ Byakuren Hijiri, Touhou 12",
     "\"Better prepare myself for the worst.\" ~ Marisa Kirisame, Touhou 12",
-	
-	// Touhou 13
-	"\"What's a divine spirit? Does it taste good?\" ~ Kyouko Kasodani, Touhou 13",
+    
+    // Touhou 13
+    "\"What's a divine spirit? Does it taste good?\" ~ Kyouko Kasodani, Touhou 13",
     "\"Gensokyo sure is mysterious...\" ~ Sanae Kochiya, Touhou 13",
     "\"'Twas a rousing hurlyburly. Thou hast mine gratitude!\" ~ Mononobe no Futo, Touhou 13",
     "\"Sorry, but I'm afraid that I'm already half-dead.\" ~ Youmu Konpaku, Touhou 13",
@@ -67,14 +67,14 @@ def getRandomQuote(): String =
     "\"Now attempt to defeat me! And lay bare your own desire!\" ~ Toyosatomimi no Miko, Touhou 13",
     "\"This won't result in a conversation. Is your brain rotten?\" ~ Marisa Kirisame, Touhou 13",
     "\"Whaaaaat?!! I'm dyiiiiing!\" ~ Yoshika Miyako, Touhou 13",
-    "\"Yes, yes, we get it, you're already dead.\" ~ Youmu Konpaku, Touhou 13"
-	
-	// Touhou 14
-	"\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
-	"\"I started wanting to cut something, like a neck...\" ~ Sakuya Izayoi, Touhou 14",
-	
-	// Touhou 15
-	"\"Whoops, said that out loud. Nothing, it was nothing.\" ~ Reisen Udongein Inaba, Touhou 15",
+    "\"Yes, yes, we get it, you're already dead.\" ~ Youmu Konpaku, Touhou 13",
+    
+    // Touhou 14
+    "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
+    "\"I started wanting to cut something, like a neck...\" ~ Sakuya Izayoi, Touhou 14",
+    
+    // Touhou 15
+    "\"Whoops, said that out loud. Nothing, it was nothing.\" ~ Reisen Udongein Inaba, Touhou 15",
     "\"I do not particularly intend to fight her. For now.\" ~ Junko, Touhou 15",
     "\"I kinda get it, but I kinda don't.\" ~ Marisa Kirisame, Touhou 15",
     "\"Ah, now I'm truly flying through space.\" ~ Sanae Kochiya, Touhou 15",
@@ -85,22 +85,22 @@ def getRandomQuote(): String =
     "\"I guess this means everyone's relying on me, huh?\" ~ Sanae Kochiya, Touhou 15",
     "\"...it's still too early to speak.\" ~ Sagume Kishin, Touhou 15",
     "\"It's my job, after all. I have to do it.\" ~ Reisen Udongein Inaba, Touhou 15",
-	
+    
     // Touhou 16
     "\"Grhrhgh...\" ~ Aunn Komano, Touhou 16",
-	"\"I live my life doing whatever I want.\" ~ Marisa Kirisame, Touhou 16",
-	
-	// Touhou 16.5
-	"\"You poor thing... Live strong.\" ~ Doremy Sweet, Touhou 16.5",
-	
-	// Touhou 17
+    "\"I live my life doing whatever I want.\" ~ Marisa Kirisame, Touhou 16",
+    
+    // Touhou 16.5
+    "\"You poor thing... Live strong.\" ~ Doremy Sweet, Touhou 16.5",
+    
+    // Touhou 17
     "\"Do you want me to arrange a visit to the Netherworld for you?\" ~ Youmu Konpaku, Touhou 17",
-	
-	// Touhou 18
+    
+    // Touhou 18
     "\"Oh, I'm so sorry. I forgot.\" ~ Chimata Tenkyuu, Touhou 18",
-	"\"I've got some nice cards! Buy something for the road?\" ~ Mike Goutokuji, Touhou 18",
-	
-	// Touhou 19
+    "\"I've got some nice cards! Buy something for the road?\" ~ Mike Goutokuji, Touhou 18",
+    
+    // Touhou 19
     "\"Th-the shrine maiden!? Oh, how did I run into this menace.\" ~ Nazrin, Touhou 19",
     "\"Well, I'm not so rusty that I'd lose to a mouse.\" ~ Marisa Kirisame, Touhou 19",
     "\"Why are all shrine maidens so violent?\" ~ Aunn Komano, Touhou 19",
