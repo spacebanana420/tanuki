@@ -88,7 +88,7 @@ def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
     val text = 
       if system_platform == Platform.Windows then
-        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality! If FFmpeg is not in your system's $PATH, then you must specify the path to it in Tanuki's config."
+        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality! If FFmpeg is not in your system's PATH, then you must specify the path to it in Tanuki's config."
       else
         s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality!"
     pressToContinue(text)
