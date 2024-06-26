@@ -1,0 +1,3 @@
+[submodule "src/bananatui"]
+	path = src/bananatui
+	url = https://github.com/spacebanana420/bananatui
