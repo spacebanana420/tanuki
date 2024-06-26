@@ -3,6 +3,7 @@ package tanuki.tui
 import tanuki.system_platform
 import bananatui.*
 import tanuki.config.*
+import tanuki.Platform
 import java.io.File
 import scala.sys.exit
 
@@ -83,7 +84,7 @@ def tui_configure(overwrite: Boolean) =
           makeOption(title, "command")
 
         val wine =
-          if system_platform != 0 then
+          if system_platform != Platform.Windows then
             val title = "Type the command/path to the WINE helper or leave it blank to disable\nIf you have wine installed in your system, you can type \"wine\""
             makeOption(title, "wine")
           else ""

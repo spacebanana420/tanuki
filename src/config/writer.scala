@@ -1,12 +1,14 @@
 package tanuki.config
 
 import tanuki.system_platform
+import tanuki.Platform
+
 import java.io.File
 import java.io.FileOutputStream
 
 def createConfig() = 
   val config = FileOutputStream("config.txt")
-  if system_platform == 1 || system_platform == 2 then
+  if system_platform == Platform.NixOS || system_platform == Platform.Linux then
     config.write("wine=wine".getBytes())
 
 def writeConfig(cfg: Seq[String], append: Boolean = true) =

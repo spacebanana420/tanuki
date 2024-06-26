@@ -3,7 +3,7 @@ package tanuki.tui
 import tanuki.{ffmpeg_installed, system_platform, recording_supported}
 import tanuki.recorder.*
 import tanuki.runner.*
-
+import tanuki.Platform
 import bananatui.*
 import ffscala.*
 import ffscala.capture.*
@@ -48,7 +48,7 @@ def tui_configureRecording() =
     else
       tui_x264Setup()
   val vcapture =
-    if system_platform == 0 then
+    if system_platform == Platform.Windows then
       tui_dshowSetup_video()
     else
       tui_x11Setup()
@@ -64,8 +64,8 @@ def tui_configureRecording() =
       tui_pcmSetup()
   val acapture =
     system_platform match
-      case 0 => tui_dshowSetup_audio()
-      case 4 => tui_ossSetup()
+      case Platform.Windows => tui_dshowSetup_audio()
+      case Platform.FreeBSD => tui_ossSetup()
       case _ => tui_pulseSetup()
       
   val crop = 

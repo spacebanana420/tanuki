@@ -6,6 +6,8 @@ import bananatui.*
 import ffscala.capture.*, ffscala.*
 import scala.util.Sorting.quickSort
 
+import tanuki.Platform
+
 import java.io.File
 import scala.sys.process.*
 
@@ -74,8 +76,8 @@ def tanukiss_takeScreenshot() =
           setQuality(quality)
         case _ =>
           png_setPred("mixed")
-    val capture_mode = if system_platform == 0 then "gdigrab" else "x11grab"
-    val input = if system_platform == 0 then "" else "0.0"
+    val capture_mode = if system_platform == Platform.Windows then "gdigrab" else "x11grab"
+    val input = if system_platform == Platform.Windows then "" else "0.0"
 
     if ssdelay > 0 then
       println(s"Taking a screenshot in $ssdelay milliseconds")
