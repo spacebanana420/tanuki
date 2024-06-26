@@ -88,9 +88,9 @@ def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
     val text = 
       if system_platform == Platform.Windows then
-        s"FFmpeg wasn't found in your system!\nFFmpeg is required for this functionality! Make sure it's in the working directory or in your path!"
+        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality! If FFmpeg is not in your system's $PATH, then you must specify the path to it in Tanuki's config."
       else
-        s"FFmpeg wasn't found in your system!\nFFmpeg is required for this functionality!"
+        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality!"
     pressToContinue(text)
     true
   else
@@ -110,8 +110,7 @@ def tui_noffplay(): Boolean =
 
 def tui_play_record(title: String) =
   val rec_cfg = rec_readConfig()
-
-  if(rec_cfg.length != 0) then
+  if rec_cfg.length != 0 then
     if rec_isRecordingSupported(rec_cfg) then
       tui_play(title, true, rec_cfg)
     else
