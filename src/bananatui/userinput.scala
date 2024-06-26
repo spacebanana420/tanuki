@@ -13,9 +13,9 @@ def readUserInput(message: String = ""): String =
     println(message)
   readLine()
 
-def spawnAndRead(message: String): String = readUserInput(s"\u001B[3J\u001B[1J\u001B[H$message") // Clears the screen and readUserInput
+def spawnAndRead(message: String): String = readUserInput(s"\u001B[3J\u001B[1J\u001B[H$message")
 
-def askPrompt(ui: String, clear: Boolean = true): Boolean = // User input for a Yes/No question
+def askPrompt(ui: String, clear: Boolean = true): Boolean =
   val yellow = foreground("yellow")
   val default = foreground("default")
   val answer =
@@ -77,6 +77,11 @@ txt: String = "", i: Int = 0
     else
       val line = s"${foreground("green")}${i+1}:${foreground("default")} ${l(i)}\t\t"
       formList_long(l, size, title, first, current + 1, txt + line, i+1)
+
+private def findStringMatch(opts: Seq[String], key: String, i: Int = 0): Int =
+  if i >= opts.length then -1
+  else if opts(i) == key then i
+  else findStringMatch(opts, key, i+1)
 
 def readLoop(txt: String, maxval: Int): Int =
   val answer = answerToNumber(spawnAndRead(txt))

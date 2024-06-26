@@ -2,7 +2,7 @@ package tanuki
 
 import tanuki.tui.*
 import tanuki.config.*
-import bananatui.{foreground, pressToContinue, clear}
+import bananatui.{foreground, pressToContinue, clear, windows_enableANSI}
 import ffscala.checkFFmpeg
 import java.io.File
 import scala.sys.process.*
@@ -69,7 +69,7 @@ object platformcheck:
   def wineVersion(path: String): String = Vector(path, "--version").!!
 
   def check() =
-    var peg_done = false; var play_done = false; var wine_done = false
+    var peg_done = false; var play_done = false; var wine_done = false; var windows_done = false
     Future {
       ffmpeg_installed = checkFFmpeg(ffmpeg_path)
       peg_done = true
@@ -79,10 +79,14 @@ object platformcheck:
       play_done = true
     }
     Future {
-      wine_installed = checkWINE()
+      if system_platform != 0 then wine_installed = checkWINE()
       wine_done = true
     }
-    while !peg_done || !play_done || !wine_done do Thread.sleep(2)
+    Future {
+      if system_platform == 0 then windows_enableANSI()
+      windows_done = true
+    }
+    while !peg_done || !play_done || !wine_done || !windows_done do Thread.sleep(2)
 
   def printSystemInfo(title: String) =
     val green = foreground("green"); val red = foreground("red"); val default = foreground("default")
