@@ -17,7 +17,7 @@ var ffmpeg_installed = false
 var ffplay_installed = false //handled by platformcheck
 
 val system_platform = platformcheck.getPlatform()
-val recording_supported = system_platform != 3
+val recording_supported = system_platform != Platform.MacOS
 
 @main def main() =
   platformcheck.check()
@@ -27,14 +27,18 @@ val recording_supported = system_platform != 3
   else
     tui_configerror()
 
+enum Platform:
+  case Windows, NixOS, Linux, MacOS, FreeBSD, Unknown
+  //0,1,2,3,4, 5
+
 object platformcheck:
-  def getPlatform(): Byte =
+  def getPlatform(): Platform =
     val platform = System.getProperty("os.name")
-    if platform.contains("Windows") then 0
-    else if platform.contains("Linux") then if File("/nix/store").isDirectory() then 1 else 2
-    else if platform.contains("Mac") then 3
-    else if platform.contains("FreeBSD") then 4
-    else 5
+    if platform.contains("Windows") then Platform.Windows
+    else if platform.contains("Linux") then if File("/nix/store").isDirectory() then Platform.NixOS else Platform.Linux
+    else if platform.contains("Mac") then Platform.MacOS
+    else if platform.contains("FreeBSD") then Platform.FreeBSD
+    else Platform.Unknown
 
   def getFFmpeg(exec: String): String =
     def findExec(dir: String, files: Array[String], i: Int = 0): String =
@@ -56,7 +60,7 @@ object platformcheck:
     val config = readConfig()
     val wine_path = getWinePath(config)
     val cmd =
-      if system_platform == 1 && steamRunEnabled(config) then
+      if system_platform == Platform.NixOS && steamRunEnabled(config) then
         Vector("steam-run", wine_path, "--help")
       else
         Vector(wine_path, "--help")
@@ -79,11 +83,11 @@ object platformcheck:
       play_done = true
     }
     Future {
-      if system_platform != 0 then wine_installed = checkWINE()
+      if system_platform != Platform.Windows then wine_installed = checkWINE()
       wine_done = true
     }
     Future {
-      if system_platform == 0 then windows_enableANSI()
+      if system_platform == Platform.Windows then windows_enableANSI()
       windows_done = true
     }
     while !peg_done || !play_done || !wine_done || !windows_done do Thread.sleep(2)
@@ -94,7 +98,7 @@ object platformcheck:
     def convertBool(b: Boolean): String = if b then s"${green}yes${default}" else s"${red}no${default}"
     def colorify(s: String, color: String): String = s"$color$s$default"
 
-    val rec_str = if system_platform == 0 then colorify("Experimental", yellow) else convertBool(recording_supported)
+    val rec_str = if system_platform == Platform.Windows then colorify("Experimental", yellow) else convertBool(recording_supported)
     val text =
       s"$title\n\nOS: $green${System.getProperty("os.name")}$default version $green${System.getProperty("os.version")}$default\n"
       + s"Arch: $green${System.getProperty("os.arch")}$default\n"

@@ -4,6 +4,7 @@ import tanuki.{ffmpeg_path, ffplay_path, recording_supported, system_platform}
 import tanuki.config.*
 import tanuki.tui.*
 import tanuki.recorder.*
+import tanuki.Platform
 
 import bananatui.*
 import java.io.File
@@ -20,7 +21,7 @@ private def getVideoName(path: String, name: String = "tanuki-video", i: Int = 0
 
 private def isProgramNative(filename: String): Boolean =
   val windows_related = filename.contains(".exe") || filename.contains(".lnk") || filename.contains(".msi")
-  if system_platform == 0 || !windows_related then true else false
+  if system_platform == Platform.Windows || !windows_related then true else false
 
 def groupWineEnvs(env_wine: String, env_dxvk: String, group: Vector[(String, String)] = Vector(), i: Int = 0): Vector[(String, String)] = //maybe replace with pure if statements
     i match
@@ -65,7 +66,7 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   if cmd_start.length != 0 then
     cmd_start.run(ProcessLogger(line => ()))
   val game =
-    if system_platform != 0 && native_runner != "" then
+    if system_platform != Platform.Windows && native_runner != "" then
       wine_envs.length match
         case 1 =>
           Process(cmdexec, File(parentpath), wine_envs(0)).run(ProcessLogger(line => ()))

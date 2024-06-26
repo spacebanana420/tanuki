@@ -1,6 +1,7 @@
 package tanuki.tui
 
 import tanuki.{ffmpeg_installed, ffplay_installed, system_platform, platformcheck}
+import tanuki.Platform
 import tanuki.runner.*
 import tanuki.config.*
 import tanuki.data.*
@@ -21,7 +22,7 @@ val yellow = foreground("yellow")
 def tui_title() =
   while true do
     val title = s"$yellow[Tanuki Launcher]$default version 0.9.3\n\n${getRandomQuote()}"
-    val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Take Screenshot", "View Screenshots\n", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")
+    val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "View Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
         exit()
@@ -54,9 +55,9 @@ def tui_title() =
 def tui_manageData(title: String): Unit =
   val opts =
     if xdg_supported(system_platform) then
-      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "View replays", "Open data folder")
+      Vector("View Screenshots", "Compress Screenshots", "Backup Scorefiles", "View Replays", "Open Data Folder")
     else
-      Vector("View screenshots", "Compress screenshots", "Backup scorefiles", "View replays")
+      Vector("View Screenshots", "Compress Screenshots", "Backup Scorefiles", "View Replays")
 
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
@@ -71,9 +72,9 @@ def tui_manageData(title: String): Unit =
 def tui_configureTanuki(title: String): Unit =
   val opts =
     if xdg_supported(system_platform) then
-      Vector("Configure games and runners", "Configure video recording", "Open Tanuki configuration", "Open Video Configuration")
+      Vector("Configure Games and Runners", "Configure Video Recording", "Open Tanuki Configuration", "Open Video Configuration")
     else
-      Vector("Configure games and runners", "Configure video recording")
+      Vector("Configure Games and Runners", "Configure Video Recording")
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
     choice match
@@ -85,7 +86,11 @@ def tui_configureTanuki(title: String): Unit =
 
 def tui_noffmpeg(): Boolean =
   if !ffmpeg_installed then
-    val text = s"FFmpeg wasn't found in your system!\nFFmpeg is required for this functionality!"
+    val text = 
+      if system_platform == Platform.Windows then
+        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality! If FFmpeg is not in your system's $PATH, then you must specify the path to it in Tanuki's config."
+      else
+        s"FFmpeg wasn't found in your system.\nFFmpeg is required for this functionality!"
     pressToContinue(text)
     true
   else
@@ -94,7 +99,7 @@ def tui_noffmpeg(): Boolean =
 def tui_noffplay(): Boolean =
   if !ffplay_installed then
     val text =
-      if system_platform == 4 then //freebsd stuff
+      if system_platform == Platform.FreeBSD then //freebsd stuff
         s"FFplay wasn't found in your system!\nFFmpeg is required for this functionality!\nOn FreeBSD, to make use of FFplay, FFmpeg must be build from source with SDL support enabled!"
       else
         s"FFplay wasn't found in your system!\nFFplay is required for this functionality! It comes with FFmpeg by default for most systems."
@@ -105,10 +110,13 @@ def tui_noffplay(): Boolean =
 
 def tui_play_record(title: String) =
   val rec_cfg = rec_readConfig()
-  if rec_isRecordingSupported(rec_cfg) then
-    tui_play(title, true, rec_cfg)
+  if rec_cfg.length != 0 then
+    if rec_isRecordingSupported(rec_cfg) then
+      tui_play(title, true, rec_cfg)
+    else
+      tui_recconfigerror()
   else
-    tui_recconfigerror()
+    tui_recmissingconfig()
 
 
 def tui_play(title: String, record: Boolean = false, reccfg: Seq[String] = List()) =
