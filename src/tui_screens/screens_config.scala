@@ -28,17 +28,17 @@ def tui_noentries(entries: Seq[String]): Boolean =
 def tui_configure(overwrite: Boolean) =
   def addGame(): String =
     val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
-    val path = readUserInput("Type the full path to your game's executable")
+    val path = readUserInput("Type the path to your game's executable")
     s"game=$name:$path"
 
 
   def addData(): String =
-    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10)")
-    val path = readUserInput("Type the full path to the directory")
+    val name = readUserInput("Type the name of your game entry to add (for example: Touhou 10 data)")
+    val path = readUserInput("Type the path to the directory")
     s"data=$name:$path"
 
   def addGamecmd(): String =
-    val name = readUserInput("Type the name of your game entry to add (for example: Open Github)")
+    val name = readUserInput("Type the name of your command entry to add (for example: Open Github)")
     val path = readUserInput("Type the command (for example: firefox https://github.com)")
     s"game_cmd=$name:$path"
 
@@ -89,11 +89,11 @@ def tui_configure(overwrite: Boolean) =
           else ""
 
         val startcmd =
-          val title = "Type a command to run before launching the game or leave it blank to disable"
+          val title = "Type a command to run before launching your games or leave it blank to disable"
           makeOption(title, "sidecommand_start")
 
         val closecmd =
-          val title = "Type a command to run after launching the game or leave it blank to disable"
+          val title = "Type a command to run after launching your games or leave it blank to disable"
           makeOption(title, "sidecommand_close")
 
         if askSteamRun() then

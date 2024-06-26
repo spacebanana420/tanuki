@@ -79,7 +79,7 @@ object platformcheck:
       play_done = true
     }
     Future {
-      wine_installed = checkWINE()
+      if system_platform != 0 then wine_installed = checkWINE()
       wine_done = true
     }
     while !peg_done || !play_done || !wine_done do Thread.sleep(2)

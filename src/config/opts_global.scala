@@ -6,7 +6,9 @@ import java.io.FileOutputStream
 import scala.io.Source
 
 def getRunner(cfg: Seq[String]): String = getFirstValue(cfg, "runner=")
-def getWinePath(cfg: Seq[String]): String = getFirstValue(cfg, "wine=")
+def getWinePath(cfg: Seq[String]): String =
+  val path = getFirstValue(cfg, "wine=")
+  if path != "" then path else "wine"
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 
 def getWinePrefix(cfg: Seq[String]): String =
@@ -37,3 +39,13 @@ def get_screenshot_format(cfg: Seq[String]): String =
 def get_screenshot_path(cfg: Seq[String]): String =
   val path = getFirstValue(cfg, "screenshot_path=")
   if path != "" && File(path).isDirectory() && File(path).canWrite() then path else "."
+
+// def get_screenshot_reducedview(cfg: Seq[String]): Boolean =
+//   val setting = getFirstValue(cfg, "screenshot_reducedview=").toLowerCase()
+//   setting == "yes" || setting == "true"
+
+def get_screenshot_jpg_quality(cfg: Seq[String]): Short =
+  try
+    val q = getFirstValue(cfg, "screenshot_jpg_quality=").toShort
+    if q >= 1 && q <= 20 then q else 1
+  catch case e: Exception => 1
