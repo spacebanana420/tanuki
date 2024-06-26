@@ -19,7 +19,6 @@ val default = foreground("default")
 val yellow = foreground("yellow")
 
 def tui_title() =
-  if system_platform == 0 then Vector("cmd", "/c", "echo", "").! //quick hack to enable ansi support on windows
   while true do
     val title = s"$yellow[Tanuki Launcher]$default version 0.9.3\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and record", "Run command\n", "Record video", "Take Screenshot", "View Screenshots\n", "Manage Touhou data", "View recorded footage", "Configure Tanuki", "Show runtime info")

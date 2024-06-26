@@ -8,11 +8,7 @@ def isConfigOk(): Boolean =
   val cfg = readConfig()
   val games = getGames(cfg)
   val datas = getDatas(cfg)
-
-  if check_paths(games, true) && check_paths(datas, false) then
-    true
-  else
-    false
+  check_paths(games, true) && check_paths(datas, false)
 
 private def check_paths(entries: List[String], isGame: Boolean, i: Int = 0): Boolean =
   def isPathCorrect(path: String): Boolean =
