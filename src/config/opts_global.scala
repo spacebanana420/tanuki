@@ -6,10 +6,13 @@ import java.io.FileOutputStream
 import scala.io.Source
 
 def getRunner(cfg: Seq[String]): String = getFirstValue(cfg, "runner=")
+
 def getWinePath(cfg: Seq[String]): String =
   val path = getFirstValue(cfg, "wine=")
   if path != "" then path else "wine"
+
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
+def getFFplayPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffplay_path=")
 
 def getWinePrefix(cfg: Seq[String]): String =
   val prefix = getFirstValue(cfg, "wine_prefix=")
@@ -29,7 +32,9 @@ def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg
 
 def get_screenshot_delay(cfg: Seq[String]): Int =
   val delay_str = getFirstValue(cfg, "screenshot_delay=")
-  try delay_str.toInt
+  try
+    val num = delay_str.toInt
+    if num > 0 then num else 0
   catch case e: Exception => 0
 
 def get_screenshot_format(cfg: Seq[String]): String =

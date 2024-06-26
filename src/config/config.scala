@@ -12,7 +12,7 @@ def readConfig(): Vector[String] =
   val settings =
     Vector(
     "game=", "game_cmd=", "data=", "wine=", "runner=", "use_steam-run=",
-    "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=",
+    "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=", "ffplay_path=",
     "dxvk_framerate=", "wine_prefix=", "return_closegame=",
     "screenshot_delay=", "screenshot_path=", "screenshot_format=", //"screenshot_reducedview=",
     "screenshot_jpg_quality="

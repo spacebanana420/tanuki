@@ -14,7 +14,7 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```game_cmd``` - Command entry, as alternative to running game entries.
   * Commands are not whitespace-safe, and using quotation marks doesn't make it safe.
 
-### Global settings
+### Common global settings
 * ```runner``` - Adds a command to launch all games with.
   * The command does not support multiplte CLI arguments, it's just the program's name or the path to it.
   * Only 1 command is supported and is used for all game entries.
@@ -22,11 +22,12 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
-* ```ffmpeg_path``` - Sets the path to look for the ffmpeg and ffplay executables
-  * This should be the path to the directory containing ffmpeg and ffplay
 * ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
+* ```ffmpeg_path``` - Sets the path to look for the ffmpeg executable
+* ```ffplay_path``` - Sets the path to look for the ffplay executable
 
+### Screenshot settings
 * ```screenshot_format``` - The format to encode Tanuki screenshots into.
   * Supported formats are `png`, `jpg` and `avif`. Defaults to png.
 * ```screenshot_delay``` - The delay (in milliseconds) for Tanuki to take a screenshot.

@@ -10,8 +10,8 @@ import scala.sys.process.*
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-val ffmpeg_path = platformcheck.getFFmpeg("ffmpeg")
-val ffplay_path = platformcheck.getFFmpeg("ffplay")
+val ffmpeg_path = platformcheck.getFFmpeg(true)
+val ffplay_path = platformcheck.getFFmpeg(false)
 var wine_installed = false
 var ffmpeg_installed = false
 var ffplay_installed = false //handled by platformcheck
@@ -40,21 +40,12 @@ object platformcheck:
     else if platform.contains("FreeBSD") then Platform.FreeBSD
     else Platform.Unknown
 
-  def getFFmpeg(exec: String): String =
-    def findExec(dir: String, files: Array[String], i: Int = 0): String =
-      if i >= files.length then ""
-      else if files(i).contains(exec) && File(s"$dir/${files(i)}").canExecute() then
-        File(s"$dir/${files(i)}").getAbsolutePath()
-      else findExec(dir, files, i+1)
-
+  def getFFmpeg(peg: Boolean): String =
+    val cmd = if peg then "ffmpeg" else "ffplay"
     if configExists() then
-      val path = getFFmpegPath(readConfig())
-      if File(path).isDirectory() then
-        val ffpath = findExec(path, File(path).list())
-        if ffpath == "" then exec else ffpath
-      else exec
-    else exec
-
+      val exec = if peg then getFFmpegPath(readConfig()) else getFFplayPath(readConfig())
+      if exec != "" && File(exec).isFile() then exec else cmd
+    else cmd
 
   def checkWINE(): Boolean =
     val config = readConfig()

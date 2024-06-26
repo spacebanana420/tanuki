@@ -66,7 +66,7 @@ private def configureSS(): String =
 
 private def configureFFmpeg(): String =
   val ffmpeg_path = readUserInput("Type the path to FFmpeg or leave it blank to use the system FFmpeg")
-  val ffplay_path = readUserInput("Type the path to FFplay or leave it blank to use the system FFmpeg")
+  val ffplay_path = readUserInput("Type the path to FFplay or leave it blank to use the system FFplay")
   val arg_peg = if ffmpeg_path == "" then "" else s"ffmpeg_path=$ffmpeg_path"
   val arg_play = if ffplay_path == "" then "" else s"ffplay_path=$ffplay_path"
   if ffmpeg_path != "" && ffplay_path != "" then s"$arg_peg\n$arg_play" else s"$arg_peg$arg_play"
