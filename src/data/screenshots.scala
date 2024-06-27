@@ -48,4 +48,86 @@ def ssTemplate(game: String): Vector[Int] =
       Vector(69, 277, 755, 338)
     case "19" => Vector()
 
+def tui_ssdir(path: String): String =
+  val dirs = getScreenshotDirs(path)
+  dirs.length match
+    case 0 =>
+      pressToContinue(s"No snapshot directories were found in $path!")
+      ""
+    case 1 => s"$path/${dirs(0)}"
+    case _ =>
+      val answer = chooseOption(dirs, s"The following screenshot folders in $path were found\nChoose a screenshot folder")
+      if answer != 0 then
+        s"$path/${dirs(answer-1)}"
+      else
+        ""
+
+def tui_ssimage(dir: String): String =
+  if dir != "" then
+    val images = listScreenshots(dir)
+    val answer = chooseOption_h(images, 3, "Choose a screenshot")
+    if answer != 0 then
+      s"$dir/${images(answer-1)}"
+    else
+      ""
+  else
+    ""
+
+def tui_ssview() =
+  def viewLoop(dir: String): Unit =
+    val ssimage = tui_ssimage(dir)
+    if ssimage != "" then
+      screenshot_view(ssimage)
+      viewLoop(dir)
+
+  val datas = getDatas(readConfig())
+  if !tui_noffplay() && !tui_noentries(datas) then
+    val entry = tui_chooseDataDir(datas)
+    if entry != "" then
+      val dir = tui_ssdir(entry)
+      viewLoop(dir)
+
+def tui_ssconv() =
+  val datas = getDatas(readConfig())
+  if !tui_noffmpeg() && !tui_noentries(datas) then
+    val entry = tui_chooseDataDir(datas)
+    if entry != "" then
+      val ssdir = tui_ssdir(entry)
+      if ssdir != "" then
+        println("Converting all BMP screenshots into PNG copies")
+        val pngdir = File(s"$ssdir/PNG")
+        if !pngdir.isDirectory() then pngdir.mkdir()
+
+        val imgs = listScreenshots(ssdir, false)
+        for x <- imgs do
+          println(s"Compressing image \"$x\"")
+          screenshot_convert(x, ssdir)
+        pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
+
+def tui_sscrop() =
+  def sscrop(dir: String, template: String) =
+    val crop_params = ssTemplate(template)
+    val imgs = listScreenshots(dir, true)
+    for x <- imgs do
+      println(s"Cropping image \"$x\"")
+      screenshot_crop(x, dir, crop_params(0), crop_params(1), crop_params(2), crop_params(3))
+
+  val datas = getDatas(readConfig())
+  if !tui_noffmpeg() && !tui_noentries(datas) then
+    val entry = tui_chooseDataDir(datas)
+    if entry != "" then
+      val ssdir = tui_ssdir(entry)
+      if ssdir != "" then
+        val title = "Choose a crop template\nTanuki will crop the screenshot to focus on the dialog\nDifferent Touhou games have different positionings and scalings of portraits and dialog boxes/bubbles"
+        val template = chooseOption_string(Vector("6-8", "9", "10-12", "13", "14-18"), title, "Cancel")
+        if template != "" then
+          println("Cropping all screenshots")
+          sscrop(ssdir, template)
+          pressToContinue("All screenshots have been cropped!\nTheir copies have been moved into a directory named \"crop\"!")
+
+def tui_ss_openfolder() =
+  val datas = getDatas(readConfig())
+  val entry = tui_chooseDataDir(datas)
+  if entry != "" then xdg_open(entry)
+
 //def guessThGame(): List[Int] =
