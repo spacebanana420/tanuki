@@ -22,10 +22,7 @@ val recording_supported = system_platform != Platform.MacOS
 @main def main() =
   if !configExists() then createConfig()
   platformcheck.check()
-  if isConfigOk() then
-    tui_title()
-  else
-    tui_configerror()
+  if isConfigOk() then tui_title()
 
 enum Platform:
   case Windows, NixOS, Linux, MacOS, FreeBSD, Unknown
