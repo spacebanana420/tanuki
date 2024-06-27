@@ -21,7 +21,7 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9.3\n\n${getRandomQuote()}"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9.4\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "View Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
@@ -55,18 +55,19 @@ def tui_title() =
 def tui_manageData(title: String): Unit =
   val opts =
     if xdg_supported(system_platform) then
-      Vector("View Screenshots", "Compress Screenshots", "Backup Scorefiles", "View Replays", "Open Data Folder")
+      Vector("View Screenshots", "Compress Screenshots", "Crop Screenshots\n", "Backup Scorefiles", "View Replays", "Open Data Folder")
     else
-      Vector("View Screenshots", "Compress Screenshots", "Backup Scorefiles", "View Replays")
+      Vector("View Screenshots", "Compress Screenshots", "Crop Screenshots\n", "Backup Scorefiles", "View Replays")
 
   val choice = chooseOption(opts, title, "Return")
   if choice != 0 then
     choice match
       case 1 => tui_ssview()
       case 2 => tui_ssconv()
-      case 3 => tui_backupScore()
-      case 4 => listReplays()
-      case 5 => tui_ss_openfolder()
+      case 3 => tui_sscrop()
+      case 4 => tui_backupScore()
+      case 5 => listReplays()
+      case 6 => tui_ss_openfolder()
     tui_manageData(title)
 
 def tui_configureTanuki(title: String): Unit =
@@ -198,6 +199,27 @@ def tui_ssconv() =
           println(s"Compressing image \"$x\"")
           screenshot_convert(x, ssdir)
         pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
+
+def tui_sscrop() =
+  def sscrop(dir: String, template: String) =
+    val crop_params = ssTemplate(template)
+    val imgs = listScreenshots(dir, true)
+    for x <- imgs do
+      println(s"Cropping image \"$x\"")
+      screenshot_crop(x, dir, crop_params(0), crop_params(1), crop_params(2), crop_params(3))
+
+  val datas = getDatas(readConfig())
+  if !tui_noffmpeg() && !tui_noentries(datas) then
+    val entry = tui_chooseDataDir(datas)
+    if entry != "" then
+      val ssdir = tui_ssdir(entry)
+      if ssdir != "" then
+        val title = "Choose a crop template\nTanuki will crop the screenshot to focus on the dialog\nDifferent Touhou games have different positionings and scalings of portraits and dialog boxes/bubbles"
+        val template = chooseOption_string(Vector("6-8", "9", "10-12", "13", "14-18"), title, "Cancel")
+        if template != "" then
+          println("Cropping all screenshots")
+          sscrop(ssdir, template)
+          pressToContinue("All screenshots have been cropped!\nTheir copies have been moved into a directory named \"crop\"!")
 
 def tui_ss_openfolder() =
   val datas = getDatas(readConfig())
