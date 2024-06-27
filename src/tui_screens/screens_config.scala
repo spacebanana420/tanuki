@@ -122,10 +122,14 @@ def tui_configure(overwrite: Boolean) =
           val title = "Type a command to run after launching your games or leave it blank to disable"
           makeOption(title, "sidecommand_close")
 
+        val closegame =
+          val title = "Would you like Tanuki to close your game when you return to the main screen?"
+          if askPrompt(title) then "return_closegame=yes" else ""
+
         if askSteamRun() then
-          Vector(command, wine, startcmd, closecmd, "use_steam-run=true") ++ cfg
+          Vector(command, wine, startcmd, closecmd, closegame, "use_steam-run=true") ++ cfg
         else
-          Vector(command, wine, startcmd, closecmd) ++ cfg
+          Vector(command, wine, startcmd, closecmd, closegame) ++ cfg
 //     val overwrite = askPrompt("Would you like to overwrite the old configuration?")
     if overwrite then
       writeConfig(fullcfg, false)
