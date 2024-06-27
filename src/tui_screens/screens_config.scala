@@ -7,15 +7,6 @@ import tanuki.Platform
 import java.io.File
 import scala.sys.exit
 
-// def tui_configerror() =
-//   val text = "There's an error in your config.txt!\nYou might have a setting that isn't configured properly, or a game entry with a path that does not lead to a file, or a data entry with a path that does not lead to a directory!\n\nWould you like to configure Tanuki now and delete the old configuration file?"
-//   val answer = askPrompt(text, false)
-//   if !answer then
-//     println("Quitting Tanuki...")
-//     exit()
-//   else
-//     tui_configure(true)
-
 def tui_noentries(entries: Seq[String]): Boolean =
   if entries.length == 0 then
     val text = "No entries have been found!\nWould you like to add some to your configuration?"

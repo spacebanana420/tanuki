@@ -16,27 +16,6 @@ def reportRecordingIssue(issue: rec_issue) =
     else if issue == rec_issue.is_macos then pressToContinue("Unfortunately, MacOS is not supported by Tanuki's screen recorder")
     else if issue == rec_issue.config_not_ok then pressToContinue("Your video configuration is incorrect! Read the error messages above to see what's wrong")
 
-// def rec_isRecordingSupported(cfg: Seq[String] = Vector()): Boolean = //this is a mess, rework this later
-//   def everythingOk(i: Int = 0): Boolean =
-//     if i >= 3 then
-//       true
-//     else
-//       val ok =
-//         i match
-//           case 0 => !tui_noffmpeg()
-//           case 1 => rec_configExists()
-//           case 2 => tui_supportedOS()
-//
-//       if ok then everythingOk(i+1)
-//       else
-//         if i == 1 then tui_recmissingconfig()
-//         false
-//
-//   if rec_isConfigOk(cfg) && everythingOk() then
-//     true
-//   else
-//     false
-
 def rec_isRecordingSupported(cfg: Seq[String] = Vector(), report: Boolean = true): Boolean =
   val status =
     if !recording_supported then rec_issue.is_macos
