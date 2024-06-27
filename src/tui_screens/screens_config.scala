@@ -86,7 +86,8 @@ def tui_configure(overwrite: Boolean) =
     val choice = chooseOption(opts, s"Choose what to configure", default_opt)
     choice match
       case 0 =>
-        cfg_settings :+ screenshot :+ ffmpeg
+        if screenshot == "" && ffmpeg == "" then cfg_settings
+        else cfg_settings :+ screenshot :+ ffmpeg
       case 1 =>
         menu(cfg_settings :+ addGame(), screenshot, ffmpeg)
       case 2 =>
