@@ -21,7 +21,7 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9.2\n\n${getRandomQuote()}"
+    val title = s"$yellow[Tanuki Launcher]$default version 0.9.3\n\n${getRandomQuote()}"
     val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "View Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
@@ -32,7 +32,7 @@ def tui_title() =
         tui_play_record(title)
       case 3 =>
         launchCommand(title)
-      case 4 => //finish this
+      case 4 =>
         if rec_isRecordingSupported() then
           recordGameplay(waitconfirm = false)
       case 5 =>
@@ -84,7 +84,7 @@ def tui_configureTanuki(title: String): Unit =
       case 4 => xdg_open("video_config.txt")
     tui_configureTanuki(title)
 
-def tui_noffmpeg(): Boolean =
+def tui_noffmpeg() =
   if !ffmpeg_installed then
     val text = 
       if system_platform == Platform.Windows then
@@ -96,7 +96,7 @@ def tui_noffmpeg(): Boolean =
   else
     false
 
-def tui_noffplay(): Boolean =
+def tui_noffplay() =
   if !ffplay_installed then
     val text =
       if system_platform == Platform.FreeBSD then //freebsd stuff
@@ -110,13 +110,8 @@ def tui_noffplay(): Boolean =
 
 def tui_play_record(title: String) =
   val rec_cfg = rec_readConfig()
-  if rec_cfg.length != 0 then
-    if rec_isRecordingSupported(rec_cfg) then
-      tui_play(title, true, rec_cfg)
-    else
-      tui_recconfigerror()
-  else
-    tui_recmissingconfig()
+  if rec_isRecordingSupported(rec_cfg) then
+    tui_play(title, true, rec_cfg)
 
 
 def tui_play(title: String, record: Boolean = false, reccfg: Seq[String] = List()) =

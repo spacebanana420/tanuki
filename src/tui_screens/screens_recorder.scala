@@ -24,8 +24,7 @@ def tui_recconfigerror() =
 
 def tui_recmissingconfig() =
   val text = "No recorder configuration has been found!\nWould you like to configure?"
-  val answer = askPrompt(text)
-  if answer then tui_configureRecording()
+  if askPrompt(text) then tui_configureRecording()
 
 def tui_configureRecording() =
   val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "nvenc", "mjpeg", "mjpegqsv", "utvideo")
