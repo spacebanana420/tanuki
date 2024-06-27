@@ -14,13 +14,13 @@ def defaultTanukiConfig(enable_wine: Boolean): String =
       ""
 
   "# Tanuki Launcher's main configuration file\n# All lines that start with '#' are ignored by Tanuki. To uncomment said lines, you just have to remove the character."
-  + "\nThe example settings below are a fraction of all settings supported by Tanuki. Check the online documentation for more information at https://github.com/spacebanana420/tanuki/blob/main/doc/config.md\n\n"
+  + "\n#The example settings below are a fraction of all settings supported by Tanuki. Check the online documentation for more information at https://github.com/spacebanana420/tanuki/blob/main/doc/config.md\n\n"
   + "#game=Name:/path/to/game\n#Example of setting a game entry"
   + "\n\n#data=Name:/path/to/touhou_game_data\n#This should lead to the directory where you would find your Touhou game's replays, snapshots, scorefile, etc"
   + "\n\n#game_cmd=firefox https://github.com\n#As an alternative to executing games, you can also run commands"
   + wine_str
 
-def createConfig() = 
+def createConfig() =
   val config = FileOutputStream("config.txt")
   val default_setup =
     if system_platform != Platform.Windows then defaultTanukiConfig(true)

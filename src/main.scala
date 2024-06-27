@@ -20,8 +20,8 @@ val system_platform = platformcheck.getPlatform()
 val recording_supported = system_platform != Platform.MacOS
 
 @main def main() =
-  platformcheck.check()
   if !configExists() then createConfig()
+  platformcheck.check()
   if isConfigOk() then
     tui_title()
   else
