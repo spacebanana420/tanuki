@@ -4,7 +4,7 @@ Tanuki is compiled for the Java Virtual Machine, becoming in theory OS-agnostic 
 
 ### Tanuki's software requirements
 
-* Scala 3 or Java 11 or later
+* Scala 3 or Java 11 or later (unless if on x86_64 Linux)
 * FFmpeg (optional, for screen recording and screenshot functionality)
 * FFplay (optional, for viewing video and images)
   * FFplay comes with FFmpeg for most platforms
@@ -33,7 +33,7 @@ On FreeBSD, in order to view images and videos, you must build the FFmpeg port w
 
 I don't guarantee support on these systems, but I believe they might work without hassle, as they support Java, FFmpeg and WINE (except Windows).
 
-On Windows, it's not recommended that you run Tanuki with the default terminal that comes with Powershell, because it does not support ANSI escape codes, and so the interface don't work properly at all.
+On Windows, it's not recommended that you run Tanuki with the default terminal that comes with Powershell, because it does not support ANSI escape codes, and so the interface doesn't work properly at all.
 
 More information on video recording support can be seen in the [recorder documentation](recorder.md).
 
