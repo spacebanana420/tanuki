@@ -80,7 +80,7 @@ def tui_configure(overwrite: Boolean) =
       ""
 
   def menu(cfg_settings: Vector[String] = Vector(), screenshot: String = "", ffmpeg: String = ""): Vector[String] =
-    val default_opt = if cfg_settings.length == 0 then "Cancel" else "Done"
+    val default_opt = if cfg_settings.length == 0 && screenshot == "" && ffmpeg == "" then "Cancel" else "Done"
     val opts = Vector("Add game entry", "Add data entry", "Add command entry", "Configure Tanuki's screenshotter", "Configure FFmpeg/FFplay")
 
     val choice = chooseOption(opts, s"Choose what to configure", default_opt)
