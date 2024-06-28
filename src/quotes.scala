@@ -48,6 +48,8 @@ def getRandomQuote(): String =
     
     // Touhou 10
     "\"Ayayayaya...\" ~ Aya Shameimaru, Touhou 10",
+    "\"Oof...\" ~ Hina Kagiyama, Touhou 10",
+    "\"Oh, are you still here?\" ~ Hina Kagiyama, Touhou 10",
     
     // Touhou 12
     "\"Boo!\" ~ Kogasa Tatara, Touhou 12",
@@ -57,6 +59,11 @@ def getRandomQuote(): String =
     "\"Oh, I'm so lonely.\" ~ Kogasa Tatara, Touhou 12",
     "\"I want to create a world where humans and youkai live as equals.\" ~ Byakuren Hijiri, Touhou 12",
     "\"Better prepare myself for the worst.\" ~ Marisa Kirisame, Touhou 12",
+    "\"Oh, so you're saying to go back to square one! Maybe that's not a bad idea...\" ~ Kogasa Tatara, Touhou 12",
+    "\"Ee! A mouse, a mouse!\" ~ Sanae Kochiya, Touhou 12",
+    "\"A treasury? I like the sound of that.\" ~ Marisa Kirisame, Touhou 12",
+    "\"You're just sorry you lost.\" ~ Marisa Kirisame, Touhou 12",
+    "\"What? You're a magician? You're in the business?\" ~ Marisa Kirisame, Touhou 12",
     
     // Touhou 13
     "\"What's a divine spirit? Does it taste good?\" ~ Kyouko Kasodani, Touhou 13",
@@ -70,6 +77,7 @@ def getRandomQuote(): String =
     "\"This won't result in a conversation. Is your brain rotten?\" ~ Marisa Kirisame, Touhou 13",
     "\"Whaaaaat?!! I'm dyiiiiing!\" ~ Yoshika Miyako, Touhou 13",
     "\"Yes, yes, we get it, you're already dead.\" ~ Youmu Konpaku, Touhou 13",
+    "\"No, uh, I can die.\" ~ Youmu Konpaku, Touhou 13",
     
     // Touhou 14
     "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
