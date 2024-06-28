@@ -36,13 +36,13 @@ private def changeExtension(name: String, i: Int, s: String = "", copy: Boolean 
 
 def screenshot_convert(name: String, path: String) =
   val newname = changeExtension(name, name.length-1)
-  encode(s"$path/$name", s"$path/PNG/$newname", exec=ffmpeg_path)
+  encode(s"$path/$name", s"$path/PNG/$newname", args=png_setPred("mixed"), exec=ffmpeg_path)
 
 def screenshot_crop(name: String, path: String, x: Int, y: Int, w: Int, h: Int) =
   if !File(s"$path/crop").isDirectory() then File(s"$path/crop").mkdir()
   val fcrop = crop(x, y, w, h)
   val newname = changeExtension(name, name.length-1)
-  encode(s"$path/$name", s"$path/crop/$newname", filters=fcrop, exec=ffmpeg_path)
+  encode(s"$path/$name", s"$path/crop/$newname", args=png_setPred("mixed"), filters=fcrop, exec=ffmpeg_path)
 
 
 //the functions below are not related to touhou screenshots
