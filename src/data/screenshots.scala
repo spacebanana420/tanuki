@@ -47,11 +47,11 @@ def ssTemplate(game: String): Vector[Int] =
     case "10-12" =>
       Vector(33, 150, 380, 271)
     case "13" =>
-      Vector(21, 173, 409, 181)
+      Vector(21, 153, 409, 201)
     case "14" =>
-      Vector(69, 277, 755, 338)
+      Vector(69, 267, 755, 348)
     case "15-18" =>
-      Vector(78, 330, 878, 365)
+      Vector(78, 320, 878, 375)
     case "19" => Vector()
 
 def tui_ssdir(path: String): String =
