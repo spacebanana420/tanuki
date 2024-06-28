@@ -29,7 +29,6 @@ def tui_recmissingconfig() =
 def tui_configureRecording() =
   val vcodecs = List("x264", "x264rgb", "qsv", "qsv265", "nvenc", "mjpeg", "mjpegqsv", "utvideo")
   val acodecs = List("pcm", "mp3", "aac")
-  //val acodecs_mp4 = List("flac", "mp3", "opus", "aac")
 
   val ans_vc = chooseOption(vcodecs, s"Choose a video encoder", s"Default (x264)")
   val vcodec =

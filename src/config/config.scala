@@ -15,7 +15,7 @@ def readConfig(): Vector[String] =
     "sidecommand_start=", "sidecommand_close=", "ffmpeg_path=", "ffplay_path=",
     "dxvk_framerate=", "wine_prefix=", "return_closegame=",
     "screenshot_delay=", "screenshot_path=", "screenshot_format=", //"screenshot_reducedview=",
-    "screenshot_jpg_quality="
+    "screenshot_jpg_quality=", "screenshot_png_quality="
     )
   val src = Source.fromFile("config.txt")
   val cfg = src

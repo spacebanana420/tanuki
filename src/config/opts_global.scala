@@ -54,3 +54,15 @@ def get_screenshot_jpg_quality(cfg: Seq[String]): Short =
     val q = getFirstValue(cfg, "screenshot_jpg_quality=").toShort
     if q >= 1 && q <= 20 then q else 1
   catch case e: Exception => 1
+
+def get_screenshot_png_quality(cfg: Seq[String]): String =
+  val q = getFirstValue(cfg, "screenshot_png_quality=").toLowerCase()
+  if q != "high" && q != "medium" && q != "low" then "high"
+  else q
+
+def get_screenshot_png_pred(cfg: Seq[String]): String =
+  val quality = get_screenshot_png_quality(cfg)
+  quality match
+    case "low" => "sub"
+    case "medium" => "avg"
+    case _ => "mixed"

@@ -74,7 +74,8 @@ def tanukiss_takeScreenshot() =
           val quality = get_screenshot_jpg_quality(cfg)
           setQuality(quality)
         case _ =>
-          png_setPred("mixed")
+          val pred = get_screenshot_png_pred(cfg)
+          png_setPred(pred)
     val capture_mode = if system_platform == Platform.Windows then "gdigrab" else "x11grab"
     val input = if system_platform == Platform.Windows then "" else "0.0"
 

@@ -36,6 +36,9 @@ Lines in the config file that start with "#" or don't start with an entry option
   * If the path doesn't point to a directory with write permissions, Tanuki's directory is chosen.
 * ```screenshot_jpg_quality``` - Sets the quality for JPG screenshots, if `screenshot_format` is set to "jpg".
   * Supported values range between 1 and 20. Lower value means better quality and bigger files. 1 and 2 are generally recommended.
+* ```screenshot_png_quality``` - Sets the quality for PNG screenshots, if `screenshot_format` is set to "png".
+  * Supported values: "low", "medium" and "high".
+  * PNG is lossless, and so "quality" here means compression efficiency and not picture quality.
 
 ### WINE settings
 * ```wine``` - The path for the WINE build to launch games with
