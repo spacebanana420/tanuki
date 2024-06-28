@@ -48,8 +48,10 @@ def ssTemplate(game: String): Vector[Int] =
       Vector(33, 150, 380, 271)
     case "13" =>
       Vector(21, 173, 409, 181)
-    case "14-18" =>
+    case "14" =>
       Vector(69, 277, 755, 338)
+    case "15-18" =>
+      Vector(78, 357, 878, 339)
     case "19" => Vector()
 
 def tui_ssdir(path: String): String =
@@ -123,7 +125,7 @@ def tui_sscrop() =
       val ssdir = tui_ssdir(entry)
       if ssdir != "" then
         val title = "Choose a crop template\nTanuki will crop the screenshot to focus on the dialog\nDifferent Touhou games have different positionings and scalings of portraits and dialog boxes/bubbles"
-        val template = chooseOption_string(Vector("6-8", "9", "10-12", "13", "14-18"), title, "Cancel")
+        val template = chooseOption_string(Vector("6-8", "9", "10-12", "13", "14", "15-18"), title, "Cancel")
         if template != "" then
           println("Cropping all screenshots")
           sscrop(ssdir, template)
