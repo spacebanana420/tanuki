@@ -1,6 +1,10 @@
 package tanuki.data
 
 import tanuki.misc.*
+import tanuki.config.*
+import tanuki.tui.*
+import tanuki.runner.{screenshot_view, screenshot_convert, screenshot_crop}
+import bananatui.*
 import java.io.File
 
 def getScreenshotDirs(path: String): Vector[String] =
