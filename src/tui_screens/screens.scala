@@ -21,8 +21,8 @@ val yellow = foreground("yellow")
 
 def tui_title() =
   while true do
-    val title = s"$yellow[Tanuki Launcher]$default version 0.9.4\n\n${getRandomQuote()}"
-    val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "View Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
+    val title = s"$yellow[Tanuki Launcher]$default version 0.10\n\n${getRandomQuote()}"
+    val options = Vector("Play", "Play and Record", "Run Command\n", "Record Video", "Take Screenshot", "Manage Screenshots\n", "Manage Touhou Data", "View Recorded Footage", "Configure Tanuki", "Show Runtime Info")
     chooseOption(options, title, "Quit Tanuki") match
       case 0 =>
         exit()
@@ -38,8 +38,7 @@ def tui_title() =
       case 5 =>
         tanukiss_takeScreenshot()
       case 6 =>
-        if !ffplay_installed then pressToContinue("You require FFplay to be installed to view your screenshots from Tanuki!")
-        else tanukiss_viewScreenshots(title)
+        tui_manageScreenshots(title)
       case 7 =>
         tui_manageData(title)
       case 8 =>
@@ -84,6 +83,20 @@ def tui_configureTanuki(title: String): Unit =
       case 3 => xdg_open("config.txt")
       case 4 => xdg_open("video_config.txt")
     tui_configureTanuki(title)
+
+def tui_manageScreenshots(title: String): Unit =
+  val opts = Vector("View Screenshots", "Crop Screenshots")
+  val choice = chooseOption(opts, title, "Return")
+  if choice != 0 then
+    choice match
+      case 1 =>
+        if !ffplay_installed then pressToContinue("You require FFplay to be installed to view your screenshots from Tanuki!")
+        else tanukiss_viewScreenshots(title)
+      case 2 =>
+        if !ffplay_installed && !ffmpeg_installed then
+          pressToContinue("You require FFmpeg and FFplay to be installed to crop your Tanuki screenshots!")
+        else tanukiss_cropSreenshot()
+    tui_manageScreenshots(title)
 
 def tui_noffmpeg() =
   if !ffmpeg_installed then
