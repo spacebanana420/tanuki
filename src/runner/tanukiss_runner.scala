@@ -33,6 +33,7 @@ def tanukiss_takeScreenshot() =
         case "avif" =>
           setVideoEncoder("av1")
           av1_stillPicture()
+          ++ setRowMT()
           ++ av1_setDeadline("good")
           ++ av1_setcpu_used(6)
           ++ setCRF(0)
