@@ -1,6 +1,6 @@
 package tanuki.tui
 
-import tanuki.{ffmpeg_installed, ffplay_installed, system_platform, platformcheck}
+import tanuki.{ffmpeg_installed, ffplay_installed, ffprobe_installed, system_platform, platformcheck}
 import tanuki.Platform
 import tanuki.runner.*
 import tanuki.config.*
@@ -93,8 +93,8 @@ def tui_manageScreenshots(title: String): Unit =
         if !ffplay_installed then pressToContinue("You require FFplay to be installed to view your screenshots from Tanuki!")
         else tanukiss_viewScreenshots(title)
       case 2 =>
-        if !ffplay_installed && !ffmpeg_installed then
-          pressToContinue("You require FFmpeg and FFplay to be installed to crop your Tanuki screenshots!")
+        if !ffplay_installed || !ffmpeg_installed || !ffprobe_installed then
+          pressToContinue("You require FFmpeg, FFprobe and FFplay to be installed to crop your Tanuki screenshots!")
         else tanukiss_cropSreenshot()
     tui_manageScreenshots(title)
 

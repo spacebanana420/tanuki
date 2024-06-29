@@ -13,6 +13,7 @@ def getWinePath(cfg: Seq[String]): String =
 
 def getFFmpegPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffmpeg_path=")
 def getFFplayPath(cfg: Seq[String]): String = getFirstValue(cfg, "ffplay_path=")
+def getFFprobePath(cfg: Seq[String]): String = getFirstValue(cfg, "ffprobe_path=")
 
 def getWinePrefix(cfg: Seq[String]): String =
   val prefix = getFirstValue(cfg, "wine_prefix=")

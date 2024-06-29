@@ -12,9 +12,11 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 val ffmpeg_path = platformcheck.getFFmpeg(true)
 val ffplay_path = platformcheck.getFFmpeg(false)
+val ffprobe_path = platformcheck.getFFprobe()
 var wine_installed = false
 var ffmpeg_installed = false
-var ffplay_installed = false //handled by platformcheck
+var ffplay_installed = false 
+var ffprobe_installed = false //handled by platformcheck
 
 val system_platform = platformcheck.getPlatform()
 val recording_supported = system_platform != Platform.MacOS
@@ -43,6 +45,12 @@ object platformcheck:
       val exec = if peg then getFFmpegPath(readConfig()) else getFFplayPath(readConfig())
       if exec != "" && File(exec).isFile() then exec else cmd
     else cmd
+    
+  def getFFprobe(): String =
+  if configExists() then
+    val exec = getFFprobePath(readConfig())
+    if exec != "" && File(exec).isFile() then exec else "ffprobe"
+  else "ffprobe"
 
   def checkWINE(): Boolean =
     val config = readConfig()
@@ -61,7 +69,8 @@ object platformcheck:
   def wineVersion(path: String): String = Vector(path, "--version").!!
 
   def check() =
-    var peg_done = false; var play_done = false; var wine_done = false; var windows_done = false
+    var peg_done = false; var play_done = false; var probe_done = false
+    var wine_done = false; var windows_done = false
     Future {
       ffmpeg_installed = checkFFmpeg(ffmpeg_path)
       peg_done = true
@@ -78,7 +87,11 @@ object platformcheck:
       if system_platform == Platform.Windows then windows_enableANSI()
       windows_done = true
     }
-    while !peg_done || !play_done || !wine_done || !windows_done do Thread.sleep(2)
+    Future {
+      ffprobe_installed = checkFFmpeg(ffprobe_path)
+      probe_done = true
+    }
+    while !peg_done || !play_done || !probe_done || !wine_done || !windows_done do Thread.sleep(2)
 
   def printSystemInfo(title: String) =
     val green = foreground("green"); val yellow = foreground("yellow"); val red = foreground("red"); val default = foreground("default")

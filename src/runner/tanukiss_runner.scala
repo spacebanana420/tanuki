@@ -1,6 +1,6 @@
 package tanuki.runner
 
-import tanuki.{ffmpeg_path, ffplay_path, system_platform, recording_supported, ffmpeg_installed}
+import tanuki.{ffmpeg_path, ffplay_path, ffprobe_path, system_platform, recording_supported, ffmpeg_installed}
 import tanuki.Platform
 import tanuki.config.*
 import bananatui.*
@@ -104,7 +104,7 @@ private def generic_cropSreenshot(image_path: String, new_image_path: String) = 
         val new_height = if answer > resolution(1) then resolution(1) else answer
         setupCrop(x, y, w, new_height, resolution)
         
-  val resolution = getResolution(image_path) //remember to add ffprobe exec
+  val resolution = getResolution(image_path, exec=ffprobe_path) //remember to add ffprobe exec
   val crop_args = setupCrop(0, 0, 0, 0, resolution)
   encode(image_path, new_image_path, args=png_setPred("mixed"), filters=crop_args, exec=ffmpeg_path)
         

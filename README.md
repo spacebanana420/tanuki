@@ -26,9 +26,7 @@ If you are running an x86_64 Linux system, download ```tanuki-linux-x86_64.zip``
 
 Tanuki requires the following to work:
 * Scala 3 or Java 11 or later (unless running the native Linux binary)
-* FFmpeg (optional, for screen recording, video playback and screenshot functionality)
-* FFplay (optional, for viewing video and images)
-  * FFplay comes with FFmpeg for most platforms
+* FFmpeg (optional, for all functionality related to image and video)
 
 Tanuki's OS support extends to all operating systems with WINE support + Windows.
 

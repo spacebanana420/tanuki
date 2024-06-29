@@ -26,6 +26,7 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg executable
 * ```ffplay_path``` - Sets the path to look for the ffplay executable
+* ```ffprobe_path``` - Sets the path to look for the ffprobe executable
 
 ### Screenshot settings
 * ```screenshot_format``` - The format to encode Tanuki screenshots into.
