@@ -112,6 +112,7 @@ def tanukiss_cropSreenshot() =
   val cfg = readConfig()
   val screenshot_dir = get_screenshot_path(cfg)
   val img = browseScreenshots(screenshot_dir, "Choose a screenshot to manually crop")
-  if !File(s"$screenshot_dir/crop").isDirectory() then File(s"$screenshot_dir/crop").mkdir()
-  val newname = generate_name("tanuki-screenshot-crop", s"$screenshot_dir/crop/", "png")
-  generic_cropSreenshot(s"$screenshot_dir/$img", s"$screenshot_dir/crop/$newname")
+  if img != "" then
+    if !File(s"$screenshot_dir/crop").isDirectory() then File(s"$screenshot_dir/crop").mkdir()
+    val newname = generate_name("tanuki-screenshot-crop", s"$screenshot_dir/crop/", "png")
+    generic_cropSreenshot(s"$screenshot_dir/$img", s"$screenshot_dir/crop/$newname.png")
