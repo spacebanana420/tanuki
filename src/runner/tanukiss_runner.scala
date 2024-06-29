@@ -77,9 +77,13 @@ private def generic_cropSreenshot(image_path: String, new_image_path: String) = 
   def setupCrop(x: Int, y: Int, w: Int, h: Int, resolution: List[Int]): List[String] =
     val title = s"Image's original resolution: $green${resolution(0)}x${resolution(1)}$deflt\nCurrent crop settings:\nx: $green$x$deflt\ny: $green$y$deflt\n\nwidth: $green$w$deflt\nheight: $green$h$deflt"
     val opts = Vector("Preview current configuration", "Change horizontal position", "Change vertical position", "Set width", "Set height")
-    val answer = chooseOption(opts, title, "Done") 
+
+    val no_crop = w == 0 || h == 0 || w == resolution(0) || h == resolution(1)
+    val first_choice = if no_crop then "Cancel" else "Done"
+    val answer = chooseOption(opts, title, first_choice) 
     answer match
-      case 0 => crop(x, y, w, h)
+      case 0 =>
+        if no_crop then List() else crop(x, y, w, h)
       case 1 =>
         execplay(image_path, filters = crop(x, y, w, h), exec=ffplay_path)
         setupCrop(x, y, w, h, resolution)
@@ -105,8 +109,9 @@ private def generic_cropSreenshot(image_path: String, new_image_path: String) = 
         setupCrop(x, y, w, new_height, resolution)
         
   val resolution = getResolution(image_path, exec=ffprobe_path) //remember to add ffprobe exec
-  val crop_args = setupCrop(0, 0, 0, 0, resolution)
-  encode(image_path, new_image_path, args=png_setPred("mixed"), filters=crop_args, exec=ffmpeg_path)
+  val crop_args = setupCrop(0, 0, resolution(0), resolution(1), resolution)
+  if crop_args.length != 0 then
+    encode(image_path, new_image_path, args=png_setPred("mixed"), filters=crop_args, exec=ffmpeg_path)
         
 def tanukiss_cropSreenshot() =
   val cfg = readConfig()
