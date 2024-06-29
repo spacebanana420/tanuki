@@ -75,7 +75,7 @@ def tanukiss_viewScreenshots(title: String): Unit =
 private def generic_cropSreenshot(image_path: String, new_image_path: String) = //ffplay should start and close automatically, do that later
   val green = foreground("green"); val deflt = foreground("default")
   def setupCrop(x: Int, y: Int, w: Int, h: Int, resolution: List[Int]): List[String] =
-    val title = s"Current crop settings:\nx: $green$x$deflt\ny: $green$y$deflt\n\nwidth: $green$w$deflt\nheight: $green$h$deflt"
+    val title = s"Image's original resolution: $green${resolution(0)}x${resolution(1)}$deflt\nCurrent crop settings:\nx: $green$x$deflt\ny: $green$y$deflt\n\nwidth: $green$w$deflt\nheight: $green$h$deflt"
     val opts = Vector("Preview current configuration", "Change horizontal position", "Change vertical position", "Set width", "Set height")
     val answer = chooseOption(opts, title, "Done") 
     answer match
@@ -86,19 +86,23 @@ private def generic_cropSreenshot(image_path: String, new_image_path: String) = 
       case 2 =>
         val title = "Type the numerical value for the starting horizontal point"
         val answer = readInt(title)
-        setupCrop(answer, y, w, h, resolution)
+        val new_x = if answer > resolution(0) then resolution(0) else answer
+        setupCrop(new_x, y, w, h, resolution)
       case 3 =>
         val title = "Type the numerical value for the starting horizontal point"
         val answer = readInt(title)
-        setupCrop(x, answer, w, h, resolution)
+        val new_y = if answer > resolution(1) then resolution(1) else answer
+        setupCrop(x, new_y, w, h, resolution)
       case 4 =>
         val title = "Type the numerical value for the crop width"
         val answer = readInt(title)
-        setupCrop(x, y, answer, h, resolution)
+        val new_width = if answer > resolution(0) then resolution(0) else answer
+        setupCrop(x, y, new_width, h, resolution)
       case 5 =>
         val title = "Type the numerical value for the crop height"
         val answer = readInt(title)
-        setupCrop(x, y, w, answer, resolution)
+        val new_height = if answer > resolution(1) then resolution(1) else answer
+        setupCrop(x, y, w, new_height, resolution)
         
   val resolution = getResolution(image_path) //remember to add ffprobe exec
   val crop_args = setupCrop(0, 0, 0, 0, resolution)
@@ -109,4 +113,5 @@ def tanukiss_cropSreenshot() =
   val screenshot_dir = get_screenshot_path(cfg)
   val img = browseScreenshots(screenshot_dir, "Choose a screenshot to manually crop")
   if !File(s"$screenshot_dir/crop").isDirectory() then File(s"$screenshot_dir/crop").mkdir()
-  generic_cropSreenshot(s"$screenshot_dir/$img", s"$screenshot_dir/crop/$img")
+  val newname = generate_name("tanuki-screenshot-crop", s"$screenshot_dir/crop/", "png")
+  generic_cropSreenshot(s"$screenshot_dir/$img", s"$screenshot_dir/crop/$newname")
