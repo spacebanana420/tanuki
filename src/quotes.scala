@@ -78,6 +78,8 @@ def getRandomQuote(): String =
     "\"Whaaaaat?!! I'm dyiiiiing!\" ~ Yoshika Miyako, Touhou 13",
     "\"Yes, yes, we get it, you're already dead.\" ~ Youmu Konpaku, Touhou 13",
     "\"No, uh, I can die.\" ~ Youmu Konpaku, Touhou 13",
+    "\"Once you've become a corpse, you can't die any further than that.\" ~ Seiga Kaku, Touhou 13",
+    "\"Dumping corpses isn't very admirable behavior, y'know.\" ~ Marisa Kirisame, Touhou 13",
     
     // Touhou 14
     "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
