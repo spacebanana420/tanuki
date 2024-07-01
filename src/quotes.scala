@@ -50,6 +50,11 @@ def getRandomQuote(): String =
     "\"Ayayayaya...\" ~ Aya Shameimaru, Touhou 10",
     "\"Oof...\" ~ Hina Kagiyama, Touhou 10",
     "\"Oh, are you still here?\" ~ Hina Kagiyama, Touhou 10",
+
+    // Touhou 11
+    "\"Blah blah blah blah blah blah. Like that?\" ~ Reimu Hakurei, Touhou 11",
+    "\"Hm, where's that idiot, anyway?\" ~ Reimu Hakurei, Touhou 11",
+    "\"My third eye will tell me whatever you're thinking, no matter how badly you wish it otherwise.\" ~ Satori Komeiji, Touhou 11",
     
     // Touhou 12
     "\"Boo!\" ~ Kogasa Tatara, Touhou 12",
@@ -80,6 +85,7 @@ def getRandomQuote(): String =
     "\"No, uh, I can die.\" ~ Youmu Konpaku, Touhou 13",
     "\"Once you've become a corpse, you can't die any further than that.\" ~ Seiga Kaku, Touhou 13",
     "\"Dumping corpses isn't very admirable behavior, y'know.\" ~ Marisa Kirisame, Touhou 13",
+    "\"Thou needest not play at humility.\" ~ Mononobe no Futo, Touhou 13",
     
     // Touhou 14
     "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
