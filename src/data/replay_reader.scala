@@ -1,8 +1,11 @@
 package tanuki.data
 
 import java.io.{FileInputStream, FileOutputStream}
+
 import scala.concurrent.Future
-import concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object threplay:
   private def isVersionHeader(replay: Array[Byte], keyword: String, i: Int, txt: String = ""): Boolean =
@@ -52,15 +55,19 @@ object threplay:
     getValue(replay, i + "Date ".length, 14)
 
   def getReplayProperties(replay: Array[Byte]): Vector[String] =
-    var name = ""; var chara = ""; var rank = ""; var date = "";
-    var name_done = false; var chara_done = false; var rank_done = false; var date_done = false;
+    //var name = ""; var chara = ""; var rank = ""; var date = "";
+    //var name_done = false; var chara_done = false; var rank_done = false; var date_done = false;
 
-    Future{name = getReplayName(replay); name_done = true}
-    Future{chara = getReplayCharacter(replay); chara_done = true}
-    Future{rank = getReplayRank(replay); rank_done = true}
-    Future{date = getReplayDate(replay); date_done = true}
+    val f1 = Future{getReplayName(replay)}
+    val f2 = Future{getReplayCharacter(replay)}
+    val f3 = Future{getReplayRank(replay)}
+    val f4 = Future{getReplayDate(replay)}
 
-    while !name_done || !chara_done || !rank_done || !date_done do Thread.sleep(1)
+    //while !name_done || !chara_done || !rank_done || !date_done do Thread.sleep(1)
+    val name = Await.result(f1, Duration.Inf)
+    val chara = Await.result(f2, Duration.Inf)
+    val rank = Await.result(f3, Duration.Inf)
+    val date = Await.result(f4, Duration.Inf)
     Vector(name, chara, rank, date)
 
 

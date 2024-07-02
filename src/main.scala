@@ -8,6 +8,8 @@ import java.io.File
 import scala.sys.process.*
 
 import scala.concurrent.Future
+import scala.concurrent.Await
+import scala.concurrent.duration.Duration
 import scala.concurrent.ExecutionContext.Implicits.global
 
 val ffmpeg_path = platformcheck.getFFmpeg(true)
@@ -69,29 +71,13 @@ object platformcheck:
   def wineVersion(path: String): String = Vector(path, "--version").!!
 
   def check() =
-    var peg_done = false; var play_done = false; var probe_done = false
-    var wine_done = false; var windows_done = false
-    Future {
-      ffmpeg_installed = checkFFmpeg(ffmpeg_path)
-      peg_done = true
-    }
-    Future {
-      ffplay_installed = checkFFmpeg(ffplay_path)
-      play_done = true
-    }
-    Future {
-      if system_platform != Platform.Windows then wine_installed = checkWINE()
-      wine_done = true
-    }
-    Future {
-      if system_platform == Platform.Windows then windows_enableANSI()
-      windows_done = true
-    }
-    Future {
-      ffprobe_installed = checkFFmpeg(ffprobe_path)
-      probe_done = true
-    }
-    while !peg_done || !play_done || !probe_done || !wine_done || !windows_done do Thread.sleep(2)
+    val f1 = Future {ffmpeg_installed = checkFFmpeg(ffmpeg_path)}
+    val f2 = Future {ffplay_installed = checkFFmpeg(ffplay_path)}
+    val f3 = Future {if system_platform != Platform.Windows then wine_installed = checkWINE()}
+    val f4 = Future {if system_platform == Platform.Windows then windows_enableANSI()}
+    val f5 = Future {ffprobe_installed = checkFFmpeg(ffprobe_path)}
+    Await.ready(f1, Duration.Inf); Await.ready(f2, Duration.Inf); Await.ready(f3, Duration.Inf)
+    Await.ready(f4, Duration.Inf); Await.ready(f5, Duration.Inf)
 
   def printSystemInfo(title: String) =
     val green = foreground("green"); val yellow = foreground("yellow"); val red = foreground("red"); val default = foreground("default")
@@ -107,6 +93,7 @@ object platformcheck:
       + s"Java class version: $green${System.getProperty("java.class.version")}$default\n"
       + s"FFmpeg installed: ${convertBool(ffmpeg_installed)}\n"
       + s"FFplay installed: ${convertBool(ffplay_installed)}\n"
+      + s"FFprobe installed: ${convertBool(ffprobe_installed)}\n"
       + s"WINE enabled: ${convertBool(wine_installed)}\n"
       + s"Screenshot support: ${convertBool(recording_supported)}\n"
       + s"Video recording support: $rec_str"
