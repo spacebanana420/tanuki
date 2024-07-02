@@ -24,7 +24,9 @@ def tanukiss_takeScreenshot() =
   else
     val cfg = readConfig()
     val ss_path = get_screenshot_path(cfg)
-    val ssdelay = get_screenshot_delay(cfg)
+    val ssdelay =
+      if get_screenshot_manual_delay(cfg) then readInt("Type the delay for Tanuki to screenshot (in milliseconds)")
+      else get_screenshot_delay(cfg)
     val ssfmt = get_screenshot_format(cfg)
     val ss_name = generate_name("tanuki-screenshot", ss_path, ssfmt)
     val fullpath = s"$ss_path/$ss_name.$ssfmt"

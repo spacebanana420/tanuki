@@ -38,6 +38,10 @@ def get_screenshot_delay(cfg: Seq[String]): Int =
     if num > 0 then num else 0
   catch case e: Exception => 0
 
+def get_screenshot_manual_delay(cfg: Seq[String]): Boolean =
+  val fmt = getFirstValue(cfg, "screenshot_manual_delay=").toLowerCase()
+  fmt == "yes" || fmt == "true"
+
 def get_screenshot_format(cfg: Seq[String]): String =
   val fmt = getFirstValue(cfg, "screenshot_format=").toLowerCase()
   if fmt == "jpg" || fmt == "avif" then fmt else "png"

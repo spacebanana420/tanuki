@@ -33,6 +33,9 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Supported formats are `png`, `jpg` and `avif`. Defaults to png.
 * ```screenshot_delay``` - The delay (in milliseconds) for Tanuki to take a screenshot.
   * Disabled by default.
+* ```screenshot_manual_delay``` - Set to "yes" or "true" to set a delay manually every time you want to take a screenshot.
+  * Disabled by default.
+  * Ignores `screenshot_delay`.
 * ```screenshot_path``` - The path to save Tanuki screenshots into.
   * If the path doesn't point to a directory with write permissions, Tanuki's directory is chosen.
 * ```screenshot_jpg_quality``` - Sets the quality for JPG screenshots, if `screenshot_format` is set to "jpg".
