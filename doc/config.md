@@ -22,7 +22,7 @@ Lines in the config file that start with "#" or don't start with an entry option
 * ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
 * ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
-* ```return_closegame``` - If set to "yes" or "true", then the game will close if you "press enter to return to the main menu"
+* ```return_closegame``` - If set to `yes` or `true`, then the game will close if you "press enter to return to the main menu"
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
 * ```ffmpeg_path``` - Sets the path to look for the ffmpeg executable
 * ```ffplay_path``` - Sets the path to look for the ffplay executable
@@ -33,7 +33,7 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Supported formats are `png`, `jpg` and `avif`. Defaults to png.
 * ```screenshot_delay``` - The delay (in milliseconds) for Tanuki to take a screenshot.
   * Disabled by default.
-* ```screenshot_manual_delay``` - Set to "yes" or "true" to set a delay manually every time you want to take a screenshot.
+* ```screenshot_manual_delay``` - Set to `yes` or `true` to set a delay manually every time you want to take a screenshot.
   * Disabled by default.
   * Ignores `screenshot_delay`.
 * ```screenshot_path``` - The path to save Tanuki screenshots into.
@@ -47,7 +47,7 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Default value is "high".
 
 ### Touhou data settings
-*```thss_skip_duplicates``` - If set to "true" or "yes", Touhou screenshots that were already cropped or converted will be skipped during those respective tasks.
+*```thss_skip_duplicates``` - If set to `yes` or `true`, Touhou screenshots that were already cropped or converted will be skipped during those respective tasks.
   * By default it's disabled.
   
 ### WINE settings
