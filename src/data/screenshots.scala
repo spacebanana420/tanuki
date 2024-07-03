@@ -107,6 +107,8 @@ def tui_ssview() =
 def tui_ssconv() =
   val cfg = readConfig()
   val datas = getDatas(cfg)
+  val skip_duplicates = thss_skip_duplicates(readConfig())
+
   if !tui_noffmpeg() && !tui_noentries(datas) then
     val ssdir = chooseTouhouData(cfg)
     if ssdir != "" then
@@ -117,16 +119,17 @@ def tui_ssconv() =
       val imgs = listScreenshots(ssdir, false)
       for x <- imgs do
         println(s"Compressing image \"$x\"")
-        screenshot_convert(x, ssdir)
+        screenshot_convert(x, ssdir, skip_duplicates)
       pressToContinue("All screenshots have been converted!\nTheir copies have been moved into a directory named \"PNG\"!")
 
 def tui_sscrop() =
   def sscrop(dir: String, template: String) =
     val crop_params = ssTemplate(template)
     val imgs = listScreenshots(dir, true)
+    val skip_duplicates = thss_skip_duplicates(readConfig())
     for x <- imgs do
       println(s"Cropping image \"$x\"")
-      screenshot_crop(x, dir, crop_params(0), crop_params(1), crop_params(2), crop_params(3))
+      screenshot_crop(x, dir, crop_params(0), crop_params(1), crop_params(2), crop_params(3), skip_duplicates)
 
   val cfg = readConfig()
   val datas = getDatas(cfg)

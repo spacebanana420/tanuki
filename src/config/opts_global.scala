@@ -71,3 +71,7 @@ def get_screenshot_png_pred(cfg: Seq[String]): String =
     case "low" => "sub"
     case "medium" => "avg"
     case _ => "mixed"
+
+def thss_skip_duplicates(cfg: Seq[String]): Boolean =
+  val skip = getFirstValue(cfg, "thss_skip_duplicates=").toLowerCase()
+  skip == "yes" || skip == "true"

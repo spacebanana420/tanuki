@@ -45,6 +45,10 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Supported values: "low", "medium" and "high".
   * PNG is lossless, and so "quality" here means compression efficiency and not picture quality.
   * Default value is "high".
+
+### Touhou data settings
+*```thss_skip_duplicates``` - If set to "true" or "yes", Touhou screenshots that were already cropped or converted will be skipped during those respective tasks.
+  * By default it's disabled.
   
 ### WINE settings
 * ```wine``` - The path for the WINE build to launch games with
