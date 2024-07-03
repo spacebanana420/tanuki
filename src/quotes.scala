@@ -86,6 +86,9 @@ def getRandomQuote(): String =
     "\"Once you've become a corpse, you can't die any further than that.\" ~ Seiga Kaku, Touhou 13",
     "\"Dumping corpses isn't very admirable behavior, y'know.\" ~ Marisa Kirisame, Touhou 13",
     "\"Thou needest not play at humility.\" ~ Mononobe no Futo, Touhou 13",
+    "\"Heheheh. You mean to deny my purpose of existence?\" ~ Kyouko Kasodani, Touhou 13",
+    "\"You're too quiet!\" ~ Kyouko Kasodani, Touhou 13",
+    "\"That's kinda disturbing.\" ~ Sanae Kochiya, Touhou 13",
     
     // Touhou 14
     "\"What was that weird stuff you were saying before?\" ~ Marisa Kirisame, Touhou 14",
