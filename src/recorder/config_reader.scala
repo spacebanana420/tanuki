@@ -6,9 +6,12 @@ import java.io.File
 import java.io.FileOutputStream
 import scala.io.Source
 
-def rec_createConfig() = FileOutputStream("video_config.txt")
+val VIDEO_CONF_PATH = getConfigPath()
 
-def rec_configExists(): Boolean = File("video_config.txt").isFile()
+def rec_createConfig() =
+  FileOutputStream(VIDEO_CONF_PATH)
+
+def rec_configExists(): Boolean = File(VIDEO_CONF_PATH).isFile()
 
 def rec_readConfig(): Vector[String] =
   val settings =
@@ -18,15 +21,24 @@ def rec_readConfig(): Vector[String] =
     "crop=", "scale=", "loudnorm="
     )
 
-  if !File("video_config.txt").isFile() then Vector()
+  if !File(VIDEO_CONF_PATH).isFile() then Vector()
   else
-    val src = Source.fromFile("video_config.txt")
+    val src = Source.fromFile(VIDEO_CONF_PATH)
     val cfg = src
       .getLines()
       .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
       .toVector
     src.close()
     cfg
+
+
+private def getConfigPath(): String =
+  val home = System.getProperty("user.home")
+  if File(home+"/.config").isDirectory() then
+    File(home+"/.config/tanuki").mkdir()
+    home+"/.config/tanuki/video_config.txt"
+  else
+    "video_config.txt"
 
 private def find(cfg: Seq[String], setting: String, i: Int = 0): Int =
   def startsWith(line: String, tmp: String = "", i: Int = 0): Boolean =
@@ -112,7 +124,7 @@ crop: Seq[String] = List(), scale: Seq[String] = List(), norm: String = ""
     + "acapture=" + mkstring(acapture)
     + config_crop + config_scale + norm
 
-  FileOutputStream("video_config.txt").write(config.getBytes())
+  FileOutputStream(VIDEO_CONF_PATH).write(config.getBytes())
 
 // def rec_writeConfig_filters(fcrop: Seq[String], fscale: Seq[String]) =
 //   val config = "crop=" + mkstring(fcrop) + "scale=" + mkstring(fscale)

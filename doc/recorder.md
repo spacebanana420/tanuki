@@ -4,7 +4,7 @@ With Tanuki, you can record your Touhou gameplay in the background into a video.
 
 A recording must have a video and audio channel and does not support more than one yet.
 
-Once you configure your recording setup from within the launcher, you can play your game while you record your replay. A video named "tanuki-video.mov" will be saved in your ```output``` path. Tanuki saves its recorder configuration to ```video_config.txt```.
+Once you configure your recording setup from within the launcher, you can play your game while you record your replay. A video named "tanuki-video.mov" will be saved in your ```output``` path. Tanuki saves its recorder configuration to ```video_config.txt``` (located in `~/.config/tanuki` for Unix-like systems).
 
 As of now, it is only possible to record your whole screen and not a specific window.
 

@@ -36,7 +36,7 @@ Tanuki's OS support extends to all operating systems with WINE support + Windows
 
 [Full configuration information](doc/config.md)
 
-To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where Tanuki is.
+To play games and manage your data, you need to add game and data entries to your ```config.txt```. For Unix-like systems, this file is located in `~/.config/tanuki/config.txt`. In other systems such as Windows, it's located/created where Tanuki is.
 
 You can configure this file from within the launcher, or you can manually write your config text file.
 

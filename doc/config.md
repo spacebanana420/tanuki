@@ -1,6 +1,6 @@
 # Tanuki Configuration
 
-To play games and manage your data, you need to add game and data entries to your ```config.txt```, which is automatically created where the jar is.
+To play games and manage your data, you need to add game and data entries to your ```config.txt```. For Unix-like systems, this file is located in `~/.config/tanuki/config.txt`. In other systems such as Windows, it's located/created where Tanuki is.
 
 You can configure this file from within the launcher, or you can manually write your config text file.
 

@@ -125,8 +125,8 @@ def tui_ssconv() =
 def tui_sscrop() =
   def sscrop(dir: String, template: String) =
     val crop_params = ssTemplate(template)
-    val imgs = listScreenshots(dir, true)
     val skip_duplicates = thss_skip_duplicates(readConfig())
+      val imgs = listScreenshots(dir, true)
     for x <- imgs do
       println(s"Cropping image \"$x\"")
       screenshot_crop(x, dir, crop_params(0), crop_params(1), crop_params(2), crop_params(3), skip_duplicates)

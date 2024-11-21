@@ -21,7 +21,7 @@ def defaultTanukiConfig(enable_wine: Boolean): String =
   + wine_str
 
 def createConfig() =
-  val config = FileOutputStream("config.txt")
+  val config = FileOutputStream(CONFIG_PATH)
   val default_setup =
     if system_platform != Platform.Windows then defaultTanukiConfig(true)
     else defaultTanukiConfig(false)
@@ -38,4 +38,4 @@ def writeConfig(cfg: Seq[String], append: Boolean = true) =
 
   val cfgstr = createStr()
   if cfgstr != "" then
-    FileOutputStream("config.txt", append).write(cfgstr.getBytes())
+    FileOutputStream(CONFIG_PATH, append).write(cfgstr.getBytes())

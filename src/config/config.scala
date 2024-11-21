@@ -5,8 +5,9 @@ import java.io.File
 import java.io.FileOutputStream
 import scala.io.Source
 
+val CONFIG_PATH = getConfigPath()
 
-def configExists(): Boolean = File("config.txt").exists()
+def configExists(): Boolean = File(CONFIG_PATH).exists()
 
 def readConfig(): Vector[String] =
   val settings =
@@ -20,13 +21,21 @@ def readConfig(): Vector[String] =
     
     "thss_skip_duplicates="
     )
-  val src = Source.fromFile("config.txt")
+  val src = Source.fromFile(CONFIG_PATH)
   val cfg = src
     .getLines()
     .filter(x => x.length > 0 && similarInList(x, settings) && x(0) != '#')
     .toVector
   src.close()
   cfg
+
+private def getConfigPath(): String =
+  val home = System.getProperty("user.home")
+  if File(home+"/.config").isDirectory() then
+    File(home+"/.config/tanuki").mkdir()
+    home+"/.config/tanuki/config.txt"
+  else
+    "config.txt"
 
 private def getValue(l: String, setting: String, tmp: String = "", value: String = "", i: Int = 0): String =
   if i >= l.length || (i >= setting.length && setting != tmp) then
