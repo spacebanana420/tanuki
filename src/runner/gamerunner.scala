@@ -43,6 +43,7 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
 
   lazy val native_runner = getRunner(cfg)
   lazy val wine = getWinePath(cfg)
+  lazy val compat_layer = getCompatLayer(cfg)
 
   val cmd_start = getStartCmd(cfg)
   val cmd_close = getCloseCmd(cfg)
@@ -55,10 +56,12 @@ def launchGame(path: String, name: String, recordvideo: Boolean = false, reccfg:
   val is_program_native = isProgramNative(File(path).getName())
   val runner = if is_program_native then native_runner else wine
   val parentpath = File(path).getParent()
-
+  
   val cmdexec =
     if runner == "" then
       Seq(path)
+    else if compat_layer != "" then
+      Seq(compat_layer, runner, path)   
     else if steamRunEnabled(cfg) then
       Seq("steam-run", runner, path)
     else

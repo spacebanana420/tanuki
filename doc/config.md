@@ -20,7 +20,8 @@ Lines in the config file that start with "#" or don't start with an entry option
   * Only 1 command is supported and is used for all game entries.
 * ```sidecommand_start``` - Command that runs before launching a game.
 * ```sidecommand_close``` - Command that runs after returning to main menu in the game screen.
-* ```use_steam-run``` - Enables steam-run support. If you are not a NixOS user, ignore this option.
+* ```compat_layer``` - launches WINE with another program, usually useful as a compatibility layer (for example, steam-run) or other functionality (sudo/doas).
+* ```use_steam-run``` - Enables steam-run support (disabled if compat_layer is used). If you are not a NixOS user, ignore this option.
   * The package "steam-run" must be installed in your system.
 * ```return_closegame``` - If set to `yes` or `true`, then the game will close if you "press enter to return to the main menu"
   * Some games will refuse to close, such as the Touhou bullet hell games with Thcrap under WINE
@@ -99,6 +100,13 @@ You can also specify a custom WINE prefix with this setting:
 ```
 wine_prefix=/path/to/.wine_prefix
 ```
+
+## Running on Alpine Linux
+Alpine provides stable and staging packages of upstream WINE which can be used to play your games.
+
+If you desire to use a third party WINE build, such as wine-ge or lutris-wine, you need to provide a way for glibc binaries to work.
+
+The easiest way to do this is to install the `gcompat` package.
 
 ## Running on NixOS
 

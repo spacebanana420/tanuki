@@ -28,6 +28,8 @@ def steamRunEnabled(cfg: Seq[String]): Boolean =
   val steamrun = getFirstValue(cfg, "use_steam-run=").toLowerCase()
   steamrun == "true" || steamrun == "yes"
 
+def getCompatLayer(cfg: Seq[String]): String = getFirstvalue(cfg, "compat_layer=")
+
 def getStartCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_start="))
 def getCloseCmd(cfg: Seq[String]): List[String] = parseCommand(getFirstValue(cfg, "sidecommand_close="))
 
